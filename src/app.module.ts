@@ -8,6 +8,7 @@ import { ClipsModule } from './clips/clips.module';
 import { DatabaseModule } from './database/database.module';
 import { IngestionModule } from './ingestion/ingestion.module';
 import { NormalizersModule } from './normalizers/normalizers.module';
+import { RendersModule } from './renders/renders.module';
 import { TranscriptsModule } from './transcripts/transcripts.module';
 import { VideosModule } from './videos/videos.module';
 
@@ -24,6 +25,7 @@ import { VideosModule } from './videos/videos.module';
     TranscriptsModule,
     ChatsModule,
     ClipsModule,
+    RendersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
