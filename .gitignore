@@ -86,3 +86,8 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+
+# Local video sources and rendered clips
+storage/sources/
+storage/renders/
