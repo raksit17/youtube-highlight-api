@@ -5,6 +5,7 @@ import { ClipsController } from './clips.controller';
 import { ClipsRepository } from './clips.repository';
 
 import { ClipsService } from './clips.service';
+import { SubtitleExportService } from './subtitle-export.service';
 
 @Module({
   controllers: [
@@ -14,6 +15,7 @@ import { ClipsService } from './clips.service';
   providers: [
     ClipsService,
     ClipsRepository,
+    SubtitleExportService,
   ],
 
   exports: [
