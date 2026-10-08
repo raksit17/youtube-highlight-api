@@ -6,6 +6,10 @@ import { HighlightCandidateService } from './highlights/highlight-candidate.serv
 
 import { HighlightCandidatesRepository } from './highlights/highlight-candidates.repository';
 
+import { HighlightQueryService } from './highlights/highlight-query.service';
+
+import { HighlightsController } from './highlights/highlights.controller';
+
 import { WindowSummaryService } from './summaries/window-summary.service';
 
 import { WindowSummariesRepository } from './summaries/window-summaries.repository';
@@ -19,6 +23,8 @@ import { AnalysisWindowService } from './windows/analysis-window.service';
 import { AnalysisWindowsRepository } from './windows/analysis-windows.repository';
 
 @Module({
+  controllers: [HighlightsController],
+
   providers: [
     AnalysisOrchestratorService,
 
@@ -33,8 +39,13 @@ import { AnalysisWindowsRepository } from './windows/analysis-windows.repository
 
     HighlightCandidateService,
     HighlightCandidatesRepository,
+
+    HighlightQueryService,
   ],
 
-  exports: [AnalysisOrchestratorService],
+  exports: [
+    AnalysisOrchestratorService,
+    HighlightQueryService,
+  ],
 })
 export class AnalysisModule {}
