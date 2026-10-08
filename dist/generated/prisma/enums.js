@@ -1,9 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HighlightStatus = exports.AnalysisTermType = exports.AnalysisTermSource = exports.IngestionStatus = exports.IngestionType = void 0;
+exports.HighlightStatus = exports.AnalysisTermType = exports.AnalysisTermSource = exports.IngestionStatus = exports.ClipDraftStatus = exports.IngestionType = void 0;
 exports.IngestionType = {
     API: 'API',
     FILE: 'FILE'
+};
+exports.ClipDraftStatus = {
+    DRAFT: 'DRAFT',
+    READY: 'READY',
+    EXPORTED: 'EXPORTED'
 };
 exports.IngestionStatus = {
     PENDING: 'PENDING',

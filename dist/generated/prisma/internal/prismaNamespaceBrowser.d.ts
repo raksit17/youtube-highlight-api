@@ -20,6 +20,7 @@ export declare const ModelName: {
     readonly WindowSummary: "WindowSummary";
     readonly HighlightCandidate: "HighlightCandidate";
     readonly HighlightCandidateWindow: "HighlightCandidateWindow";
+    readonly ClipDraft: "ClipDraft";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -218,6 +219,22 @@ export declare const HighlightCandidateWindowScalarFieldEnum: {
     readonly position: "position";
 };
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum];
+export declare const ClipDraftScalarFieldEnum: {
+    readonly id: "id";
+    readonly videoId: "videoId";
+    readonly candidateId: "candidateId";
+    readonly startMs: "startMs";
+    readonly endMs: "endMs";
+    readonly peakMs: "peakMs";
+    readonly title: "title";
+    readonly note: "note";
+    readonly status: "status";
+    readonly candidateSnapshot: "candidateSnapshot";
+    readonly exportedAt: "exportedAt";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";

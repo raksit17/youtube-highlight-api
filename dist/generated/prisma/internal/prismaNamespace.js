@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defineExtension = exports.NullsOrder = exports.JsonNullValueFilter = exports.QueryMode = exports.NullableJsonNullValueInput = exports.SortOrder = exports.HighlightCandidateWindowScalarFieldEnum = exports.HighlightCandidateScalarFieldEnum = exports.WindowSummaryScalarFieldEnum = exports.AnalysisTermCountScalarFieldEnum = exports.AnalysisWindowScalarFieldEnum = exports.ChatMessageScalarFieldEnum = exports.TranscriptSegmentScalarFieldEnum = exports.VideoScalarFieldEnum = exports.IngestionRunScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.prismaVersion = exports.getExtensionContext = exports.Decimal = exports.Sql = exports.raw = exports.join = exports.empty = exports.sql = exports.PrismaClientValidationError = exports.PrismaClientInitializationError = exports.PrismaClientRustPanicError = exports.PrismaClientUnknownRequestError = exports.PrismaClientKnownRequestError = void 0;
+exports.defineExtension = exports.NullsOrder = exports.JsonNullValueFilter = exports.QueryMode = exports.NullableJsonNullValueInput = exports.SortOrder = exports.ClipDraftScalarFieldEnum = exports.HighlightCandidateWindowScalarFieldEnum = exports.HighlightCandidateScalarFieldEnum = exports.WindowSummaryScalarFieldEnum = exports.AnalysisTermCountScalarFieldEnum = exports.AnalysisWindowScalarFieldEnum = exports.ChatMessageScalarFieldEnum = exports.TranscriptSegmentScalarFieldEnum = exports.VideoScalarFieldEnum = exports.IngestionRunScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.prismaVersion = exports.getExtensionContext = exports.Decimal = exports.Sql = exports.raw = exports.join = exports.empty = exports.sql = exports.PrismaClientValidationError = exports.PrismaClientInitializationError = exports.PrismaClientRustPanicError = exports.PrismaClientUnknownRequestError = exports.PrismaClientKnownRequestError = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/client"));
 exports.PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError;
 exports.PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError;
@@ -68,7 +68,8 @@ exports.ModelName = {
     AnalysisTermCount: 'AnalysisTermCount',
     WindowSummary: 'WindowSummary',
     HighlightCandidate: 'HighlightCandidate',
-    HighlightCandidateWindow: 'HighlightCandidateWindow'
+    HighlightCandidateWindow: 'HighlightCandidateWindow',
+    ClipDraft: 'ClipDraft'
 };
 exports.TransactionIsolationLevel = runtime.makeStrictEnum({
     ReadUncommitted: 'ReadUncommitted',
@@ -255,6 +256,21 @@ exports.HighlightCandidateWindowScalarFieldEnum = {
     highlightCandidateId: 'highlightCandidateId',
     analysisWindowId: 'analysisWindowId',
     position: 'position'
+};
+exports.ClipDraftScalarFieldEnum = {
+    id: 'id',
+    videoId: 'videoId',
+    candidateId: 'candidateId',
+    startMs: 'startMs',
+    endMs: 'endMs',
+    peakMs: 'peakMs',
+    title: 'title',
+    note: 'note',
+    status: 'status',
+    candidateSnapshot: 'candidateSnapshot',
+    exportedAt: 'exportedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.SortOrder = {
     asc: 'asc',

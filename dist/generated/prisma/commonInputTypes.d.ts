@@ -361,6 +361,21 @@ export type EnumHighlightStatusWithAggregatesFilter<$PrismaModel = never> = {
     _min?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>;
     _max?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>;
 };
+export type EnumClipDraftStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    not?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel> | $Enums.ClipDraftStatus;
+};
+export type EnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    not?: Prisma.NestedEnumClipDraftStatusWithAggregatesFilter<$PrismaModel> | $Enums.ClipDraftStatus;
+    _count?: Prisma.NestedIntFilter<$PrismaModel>;
+    _min?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>;
+    _max?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>;
+};
 export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
     in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -692,4 +707,19 @@ export type NestedEnumHighlightStatusWithAggregatesFilter<$PrismaModel = never> 
     _count?: Prisma.NestedIntFilter<$PrismaModel>;
     _min?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>;
     _max?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>;
+};
+export type NestedEnumClipDraftStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    not?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel> | $Enums.ClipDraftStatus;
+};
+export type NestedEnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>;
+    not?: Prisma.NestedEnumClipDraftStatusWithAggregatesFilter<$PrismaModel> | $Enums.ClipDraftStatus;
+    _count?: Prisma.NestedIntFilter<$PrismaModel>;
+    _min?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>;
+    _max?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>;
 };

@@ -57,5 +57,8 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get highlightCandidateWindow(): Prisma.HighlightCandidateWindowDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    get clipDraft(): Prisma.ClipDraftDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
 }
 export declare function getPrismaClientClass(): PrismaClientConstructor;

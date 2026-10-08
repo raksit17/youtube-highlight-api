@@ -367,6 +367,7 @@ export type VideoWhereInput = {
     transcriptSegments?: Prisma.TranscriptSegmentListRelationFilter;
     chatMessages?: Prisma.ChatMessageListRelationFilter;
     ingestionRuns?: Prisma.IngestionRunListRelationFilter;
+    clipDrafts?: Prisma.ClipDraftListRelationFilter;
     analysisWindows?: Prisma.AnalysisWindowListRelationFilter;
     highlightCandidates?: Prisma.HighlightCandidateListRelationFilter;
 };
@@ -407,6 +408,7 @@ export type VideoOrderByWithRelationInput = {
     transcriptSegments?: Prisma.TranscriptSegmentOrderByRelationAggregateInput;
     chatMessages?: Prisma.ChatMessageOrderByRelationAggregateInput;
     ingestionRuns?: Prisma.IngestionRunOrderByRelationAggregateInput;
+    clipDrafts?: Prisma.ClipDraftOrderByRelationAggregateInput;
     analysisWindows?: Prisma.AnalysisWindowOrderByRelationAggregateInput;
     highlightCandidates?: Prisma.HighlightCandidateOrderByRelationAggregateInput;
 };
@@ -451,6 +453,7 @@ export type VideoWhereUniqueInput = Prisma.AtLeast<{
     transcriptSegments?: Prisma.TranscriptSegmentListRelationFilter;
     chatMessages?: Prisma.ChatMessageListRelationFilter;
     ingestionRuns?: Prisma.IngestionRunListRelationFilter;
+    clipDrafts?: Prisma.ClipDraftListRelationFilter;
     analysisWindows?: Prisma.AnalysisWindowListRelationFilter;
     highlightCandidates?: Prisma.HighlightCandidateListRelationFilter;
 }, "id" | "provider_externalId">;
@@ -569,6 +572,7 @@ export type VideoCreateInput = {
     transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
 };
@@ -609,6 +613,7 @@ export type VideoUncheckedCreateInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
 };
@@ -649,6 +654,7 @@ export type VideoUpdateInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
 };
@@ -689,6 +695,7 @@ export type VideoUncheckedUpdateInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
@@ -1032,6 +1039,18 @@ export type VideoUpdateOneRequiredWithoutHighlightCandidatesNestedInput = {
     connect?: Prisma.VideoWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutHighlightCandidatesInput, Prisma.VideoUpdateWithoutHighlightCandidatesInput>, Prisma.VideoUncheckedUpdateWithoutHighlightCandidatesInput>;
 };
+export type VideoCreateNestedOneWithoutClipDraftsInput = {
+    create?: Prisma.XOR<Prisma.VideoCreateWithoutClipDraftsInput, Prisma.VideoUncheckedCreateWithoutClipDraftsInput>;
+    connectOrCreate?: Prisma.VideoCreateOrConnectWithoutClipDraftsInput;
+    connect?: Prisma.VideoWhereUniqueInput;
+};
+export type VideoUpdateOneRequiredWithoutClipDraftsNestedInput = {
+    create?: Prisma.XOR<Prisma.VideoCreateWithoutClipDraftsInput, Prisma.VideoUncheckedCreateWithoutClipDraftsInput>;
+    connectOrCreate?: Prisma.VideoCreateOrConnectWithoutClipDraftsInput;
+    upsert?: Prisma.VideoUpsertWithoutClipDraftsInput;
+    connect?: Prisma.VideoWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.VideoUpdateToOneWithWhereWithoutClipDraftsInput, Prisma.VideoUpdateWithoutClipDraftsInput>, Prisma.VideoUncheckedUpdateWithoutClipDraftsInput>;
+};
 export type VideoCreateWithoutIngestionRunsInput = {
     id?: string;
     provider: string;
@@ -1068,6 +1087,7 @@ export type VideoCreateWithoutIngestionRunsInput = {
     updatedAt?: Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
 };
@@ -1107,6 +1127,7 @@ export type VideoUncheckedCreateWithoutIngestionRunsInput = {
     updatedAt?: Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
 };
@@ -1159,6 +1180,7 @@ export type VideoUpdateWithoutIngestionRunsInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
 };
@@ -1198,6 +1220,7 @@ export type VideoUncheckedUpdateWithoutIngestionRunsInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
@@ -1237,6 +1260,7 @@ export type VideoCreateWithoutTranscriptSegmentsInput = {
     updatedAt?: Date | string;
     chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
 };
@@ -1276,6 +1300,7 @@ export type VideoUncheckedCreateWithoutTranscriptSegmentsInput = {
     updatedAt?: Date | string;
     chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
 };
@@ -1328,6 +1353,7 @@ export type VideoUpdateWithoutTranscriptSegmentsInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
 };
@@ -1367,6 +1393,7 @@ export type VideoUncheckedUpdateWithoutTranscriptSegmentsInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
@@ -1406,6 +1433,7 @@ export type VideoCreateWithoutChatMessagesInput = {
     updatedAt?: Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
 };
@@ -1445,6 +1473,7 @@ export type VideoUncheckedCreateWithoutChatMessagesInput = {
     updatedAt?: Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
 };
@@ -1497,6 +1526,7 @@ export type VideoUpdateWithoutChatMessagesInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
 };
@@ -1536,6 +1566,7 @@ export type VideoUncheckedUpdateWithoutChatMessagesInput = {
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
@@ -1576,6 +1607,7 @@ export type VideoCreateWithoutAnalysisWindowsInput = {
     transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
 };
 export type VideoUncheckedCreateWithoutAnalysisWindowsInput = {
@@ -1615,6 +1647,7 @@ export type VideoUncheckedCreateWithoutAnalysisWindowsInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
 };
 export type VideoCreateOrConnectWithoutAnalysisWindowsInput = {
@@ -1667,6 +1700,7 @@ export type VideoUpdateWithoutAnalysisWindowsInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
 };
 export type VideoUncheckedUpdateWithoutAnalysisWindowsInput = {
@@ -1706,6 +1740,7 @@ export type VideoUncheckedUpdateWithoutAnalysisWindowsInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
 export type VideoCreateWithoutHighlightCandidatesInput = {
@@ -1745,6 +1780,7 @@ export type VideoCreateWithoutHighlightCandidatesInput = {
     transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
 };
 export type VideoUncheckedCreateWithoutHighlightCandidatesInput = {
@@ -1784,6 +1820,7 @@ export type VideoUncheckedCreateWithoutHighlightCandidatesInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
     chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutVideoInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
 };
 export type VideoCreateOrConnectWithoutHighlightCandidatesInput = {
@@ -1836,6 +1873,7 @@ export type VideoUpdateWithoutHighlightCandidatesInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
 };
 export type VideoUncheckedUpdateWithoutHighlightCandidatesInput = {
@@ -1875,12 +1913,187 @@ export type VideoUncheckedUpdateWithoutHighlightCandidatesInput = {
     transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
     chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
     ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutVideoNestedInput;
     analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
+};
+export type VideoCreateWithoutClipDraftsInput = {
+    id?: string;
+    provider: string;
+    externalId: string;
+    url: string;
+    title: string;
+    description?: string | null;
+    channelExternalId?: string | null;
+    channelName?: string | null;
+    channelUrl?: string | null;
+    channelFollowers?: bigint | number | null;
+    uploadDate?: Date | string | null;
+    publishedAt?: Date | string | null;
+    releaseAt?: Date | string | null;
+    viewCount?: bigint | number | null;
+    likeCount?: bigint | number | null;
+    commentCount?: bigint | number | null;
+    durationMs?: number | null;
+    thumbnailUrl?: string | null;
+    width?: number | null;
+    height?: number | null;
+    fps?: number | null;
+    liveStatus?: string | null;
+    isLive?: boolean;
+    wasLive?: boolean;
+    concurrentViewers?: number | null;
+    language?: string | null;
+    availability?: string | null;
+    ageLimit?: number;
+    tags?: Prisma.VideoCreatetagsInput | string[];
+    categories?: Prisma.VideoCreatecategoriesInput | string[];
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    transcriptSegments?: Prisma.TranscriptSegmentCreateNestedManyWithoutVideoInput;
+    chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutVideoInput;
+    ingestionRuns?: Prisma.IngestionRunCreateNestedManyWithoutVideoInput;
+    analysisWindows?: Prisma.AnalysisWindowCreateNestedManyWithoutVideoInput;
+    highlightCandidates?: Prisma.HighlightCandidateCreateNestedManyWithoutVideoInput;
+};
+export type VideoUncheckedCreateWithoutClipDraftsInput = {
+    id?: string;
+    provider: string;
+    externalId: string;
+    url: string;
+    title: string;
+    description?: string | null;
+    channelExternalId?: string | null;
+    channelName?: string | null;
+    channelUrl?: string | null;
+    channelFollowers?: bigint | number | null;
+    uploadDate?: Date | string | null;
+    publishedAt?: Date | string | null;
+    releaseAt?: Date | string | null;
+    viewCount?: bigint | number | null;
+    likeCount?: bigint | number | null;
+    commentCount?: bigint | number | null;
+    durationMs?: number | null;
+    thumbnailUrl?: string | null;
+    width?: number | null;
+    height?: number | null;
+    fps?: number | null;
+    liveStatus?: string | null;
+    isLive?: boolean;
+    wasLive?: boolean;
+    concurrentViewers?: number | null;
+    language?: string | null;
+    availability?: string | null;
+    ageLimit?: number;
+    tags?: Prisma.VideoCreatetagsInput | string[];
+    categories?: Prisma.VideoCreatecategoriesInput | string[];
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    transcriptSegments?: Prisma.TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput;
+    chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutVideoInput;
+    ingestionRuns?: Prisma.IngestionRunUncheckedCreateNestedManyWithoutVideoInput;
+    analysisWindows?: Prisma.AnalysisWindowUncheckedCreateNestedManyWithoutVideoInput;
+    highlightCandidates?: Prisma.HighlightCandidateUncheckedCreateNestedManyWithoutVideoInput;
+};
+export type VideoCreateOrConnectWithoutClipDraftsInput = {
+    where: Prisma.VideoWhereUniqueInput;
+    create: Prisma.XOR<Prisma.VideoCreateWithoutClipDraftsInput, Prisma.VideoUncheckedCreateWithoutClipDraftsInput>;
+};
+export type VideoUpsertWithoutClipDraftsInput = {
+    update: Prisma.XOR<Prisma.VideoUpdateWithoutClipDraftsInput, Prisma.VideoUncheckedUpdateWithoutClipDraftsInput>;
+    create: Prisma.XOR<Prisma.VideoCreateWithoutClipDraftsInput, Prisma.VideoUncheckedCreateWithoutClipDraftsInput>;
+    where?: Prisma.VideoWhereInput;
+};
+export type VideoUpdateToOneWithWhereWithoutClipDraftsInput = {
+    where?: Prisma.VideoWhereInput;
+    data: Prisma.XOR<Prisma.VideoUpdateWithoutClipDraftsInput, Prisma.VideoUncheckedUpdateWithoutClipDraftsInput>;
+};
+export type VideoUpdateWithoutClipDraftsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    provider?: Prisma.StringFieldUpdateOperationsInput | string;
+    externalId?: Prisma.StringFieldUpdateOperationsInput | string;
+    url?: Prisma.StringFieldUpdateOperationsInput | string;
+    title?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelFollowers?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    uploadDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    releaseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    viewCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    likeCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    commentCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    fps?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    liveStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isLive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    wasLive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    concurrentViewers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    ageLimit?: Prisma.IntFieldUpdateOperationsInput | number;
+    tags?: Prisma.VideoUpdatetagsInput | string[];
+    categories?: Prisma.VideoUpdatecategoriesInput | string[];
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    transcriptSegments?: Prisma.TranscriptSegmentUpdateManyWithoutVideoNestedInput;
+    chatMessages?: Prisma.ChatMessageUpdateManyWithoutVideoNestedInput;
+    ingestionRuns?: Prisma.IngestionRunUpdateManyWithoutVideoNestedInput;
+    analysisWindows?: Prisma.AnalysisWindowUpdateManyWithoutVideoNestedInput;
+    highlightCandidates?: Prisma.HighlightCandidateUpdateManyWithoutVideoNestedInput;
+};
+export type VideoUncheckedUpdateWithoutClipDraftsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    provider?: Prisma.StringFieldUpdateOperationsInput | string;
+    externalId?: Prisma.StringFieldUpdateOperationsInput | string;
+    url?: Prisma.StringFieldUpdateOperationsInput | string;
+    title?: Prisma.StringFieldUpdateOperationsInput | string;
+    description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    channelFollowers?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    uploadDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    releaseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
+    viewCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    likeCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    commentCount?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null;
+    durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    fps?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null;
+    liveStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    isLive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    wasLive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    concurrentViewers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    availability?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    ageLimit?: Prisma.IntFieldUpdateOperationsInput | number;
+    tags?: Prisma.VideoUpdatetagsInput | string[];
+    categories?: Prisma.VideoUpdatecategoriesInput | string[];
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    transcriptSegments?: Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput;
+    chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutVideoNestedInput;
+    ingestionRuns?: Prisma.IngestionRunUncheckedUpdateManyWithoutVideoNestedInput;
+    analysisWindows?: Prisma.AnalysisWindowUncheckedUpdateManyWithoutVideoNestedInput;
+    highlightCandidates?: Prisma.HighlightCandidateUncheckedUpdateManyWithoutVideoNestedInput;
 };
 export type VideoCountOutputType = {
     transcriptSegments: number;
     chatMessages: number;
     ingestionRuns: number;
+    clipDrafts: number;
     analysisWindows: number;
     highlightCandidates: number;
 };
@@ -1888,6 +2101,7 @@ export type VideoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
     transcriptSegments?: boolean | VideoCountOutputTypeCountTranscriptSegmentsArgs;
     chatMessages?: boolean | VideoCountOutputTypeCountChatMessagesArgs;
     ingestionRuns?: boolean | VideoCountOutputTypeCountIngestionRunsArgs;
+    clipDrafts?: boolean | VideoCountOutputTypeCountClipDraftsArgs;
     analysisWindows?: boolean | VideoCountOutputTypeCountAnalysisWindowsArgs;
     highlightCandidates?: boolean | VideoCountOutputTypeCountHighlightCandidatesArgs;
 };
@@ -1902,6 +2116,9 @@ export type VideoCountOutputTypeCountChatMessagesArgs<ExtArgs extends runtime.Ty
 };
 export type VideoCountOutputTypeCountIngestionRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.IngestionRunWhereInput;
+};
+export type VideoCountOutputTypeCountClipDraftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ClipDraftWhereInput;
 };
 export type VideoCountOutputTypeCountAnalysisWindowsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.AnalysisWindowWhereInput;
@@ -1946,6 +2163,7 @@ export type VideoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     transcriptSegments?: boolean | Prisma.Video$transcriptSegmentsArgs<ExtArgs>;
     chatMessages?: boolean | Prisma.Video$chatMessagesArgs<ExtArgs>;
     ingestionRuns?: boolean | Prisma.Video$ingestionRunsArgs<ExtArgs>;
+    clipDrafts?: boolean | Prisma.Video$clipDraftsArgs<ExtArgs>;
     analysisWindows?: boolean | Prisma.Video$analysisWindowsArgs<ExtArgs>;
     highlightCandidates?: boolean | Prisma.Video$highlightCandidatesArgs<ExtArgs>;
     _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>;
@@ -2060,6 +2278,7 @@ export type VideoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     transcriptSegments?: boolean | Prisma.Video$transcriptSegmentsArgs<ExtArgs>;
     chatMessages?: boolean | Prisma.Video$chatMessagesArgs<ExtArgs>;
     ingestionRuns?: boolean | Prisma.Video$ingestionRunsArgs<ExtArgs>;
+    clipDrafts?: boolean | Prisma.Video$clipDraftsArgs<ExtArgs>;
     analysisWindows?: boolean | Prisma.Video$analysisWindowsArgs<ExtArgs>;
     highlightCandidates?: boolean | Prisma.Video$highlightCandidatesArgs<ExtArgs>;
     _count?: boolean | Prisma.VideoCountOutputTypeDefaultArgs<ExtArgs>;
@@ -2072,6 +2291,7 @@ export type $VideoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
         transcriptSegments: Prisma.$TranscriptSegmentPayload<ExtArgs>[];
         chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[];
         ingestionRuns: Prisma.$IngestionRunPayload<ExtArgs>[];
+        clipDrafts: Prisma.$ClipDraftPayload<ExtArgs>[];
         analysisWindows: Prisma.$AnalysisWindowPayload<ExtArgs>[];
         highlightCandidates: Prisma.$HighlightCandidatePayload<ExtArgs>[];
     };
@@ -2164,6 +2384,7 @@ export interface Prisma__VideoClient<T, Null = never, ExtArgs extends runtime.Ty
     transcriptSegments<T extends Prisma.Video$transcriptSegmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$transcriptSegmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     chatMessages<T extends Prisma.Video$chatMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     ingestionRuns<T extends Prisma.Video$ingestionRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$ingestionRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IngestionRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    clipDrafts<T extends Prisma.Video$clipDraftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$clipDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClipDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     analysisWindows<T extends Prisma.Video$analysisWindowsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$analysisWindowsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     highlightCandidates<T extends Prisma.Video$highlightCandidatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Video$highlightCandidatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HighlightCandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
@@ -2335,6 +2556,17 @@ export type Video$ingestionRunsArgs<ExtArgs extends runtime.Types.Extensions.Int
     take?: number;
     skip?: number;
     distinct?: Prisma.IngestionRunScalarFieldEnum | Prisma.IngestionRunScalarFieldEnum[];
+};
+export type Video$clipDraftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.ClipDraftSelect<ExtArgs> | null;
+    omit?: Prisma.ClipDraftOmit<ExtArgs> | null;
+    include?: Prisma.ClipDraftInclude<ExtArgs> | null;
+    where?: Prisma.ClipDraftWhereInput;
+    orderBy?: Prisma.ClipDraftOrderByWithRelationInput | Prisma.ClipDraftOrderByWithRelationInput[];
+    cursor?: Prisma.ClipDraftWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.ClipDraftScalarFieldEnum | Prisma.ClipDraftScalarFieldEnum[];
 };
 export type Video$analysisWindowsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     select?: Prisma.AnalysisWindowSelect<ExtArgs> | null;

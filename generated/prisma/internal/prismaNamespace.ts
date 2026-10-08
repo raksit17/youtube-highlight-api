@@ -405,7 +405,8 @@ export const ModelName = {
   AnalysisTermCount: 'AnalysisTermCount',
   WindowSummary: 'WindowSummary',
   HighlightCandidate: 'HighlightCandidate',
-  HighlightCandidateWindow: 'HighlightCandidateWindow'
+  HighlightCandidateWindow: 'HighlightCandidateWindow',
+  ClipDraft: 'ClipDraft'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow"
+    modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow" | "clipDraft"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1091,6 +1092,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ClipDraft: {
+      payload: Prisma.$ClipDraftPayload<ExtArgs>
+      fields: Prisma.ClipDraftFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClipDraftFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClipDraftFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        findFirst: {
+          args: Prisma.ClipDraftFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClipDraftFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        findMany: {
+          args: Prisma.ClipDraftFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[]
+        }
+        create: {
+          args: Prisma.ClipDraftCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        createMany: {
+          args: Prisma.ClipDraftCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClipDraftCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[]
+        }
+        delete: {
+          args: Prisma.ClipDraftDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        update: {
+          args: Prisma.ClipDraftUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClipDraftDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClipDraftUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClipDraftUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClipDraftUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>
+        }
+        aggregate: {
+          args: Prisma.ClipDraftAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClipDraft>
+        }
+        groupBy: {
+          args: Prisma.ClipDraftGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClipDraftGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClipDraftCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClipDraftCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1346,6 +1421,25 @@ export const HighlightCandidateWindowScalarFieldEnum = {
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum]
 
 
+export const ClipDraftScalarFieldEnum = {
+  id: 'id',
+  videoId: 'videoId',
+  candidateId: 'candidateId',
+  startMs: 'startMs',
+  endMs: 'endMs',
+  peakMs: 'peakMs',
+  title: 'title',
+  note: 'note',
+  status: 'status',
+  candidateSnapshot: 'candidateSnapshot',
+  exportedAt: 'exportedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1553,6 +1647,20 @@ export type EnumHighlightStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
 export type ListEnumHighlightStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HighlightStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'ClipDraftStatus'
+ */
+export type EnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ClipDraftStatus[]'
+ */
+export type ListEnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1713,6 +1821,7 @@ export type GlobalOmitConfig = {
   windowSummary?: Prisma.WindowSummaryOmit
   highlightCandidate?: Prisma.HighlightCandidateOmit
   highlightCandidateWindow?: Prisma.HighlightCandidateWindowOmit
+  clipDraft?: Prisma.ClipDraftOmit
 }
 
 /* Types for Logging */

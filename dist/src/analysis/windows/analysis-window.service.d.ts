@@ -5,12 +5,12 @@ export declare class AnalysisWindowService {
     private readonly repository;
     constructor(prisma: PrismaService, repository: AnalysisWindowsRepository);
     rebuild(videoId: string): Promise<{
-        videoId: string;
+        startMs: number;
+        endMs: number;
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        startMs: number;
-        endMs: number;
+        videoId: string;
         spikeScore: number;
         reactionScore: number;
         diversityScore: number;

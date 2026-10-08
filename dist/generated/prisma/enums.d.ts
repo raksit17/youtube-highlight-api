@@ -3,6 +3,12 @@ export declare const IngestionType: {
     readonly FILE: "FILE";
 };
 export type IngestionType = (typeof IngestionType)[keyof typeof IngestionType];
+export declare const ClipDraftStatus: {
+    readonly DRAFT: "DRAFT";
+    readonly READY: "READY";
+    readonly EXPORTED: "EXPORTED";
+};
+export type ClipDraftStatus = (typeof ClipDraftStatus)[keyof typeof ClipDraftStatus];
 export declare const IngestionStatus: {
     readonly PENDING: "PENDING";
     readonly PROCESSING: "PROCESSING";

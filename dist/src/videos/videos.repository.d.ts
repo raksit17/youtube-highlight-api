@@ -6,14 +6,10 @@ export declare class VideosRepository {
     constructor(prisma: PrismaService);
     upsert(video: NormalizedVideo): Prisma.Prisma__VideoClient<{
         url: string;
-        width: number | null;
-        height: number | null;
-        language: string | null;
-        availability: string | null;
+        title: string;
         id: string;
         provider: string;
         externalId: string;
-        title: string;
         description: string | null;
         channelExternalId: string | null;
         channelName: string | null;
@@ -27,11 +23,15 @@ export declare class VideosRepository {
         commentCount: bigint | null;
         durationMs: number | null;
         thumbnailUrl: string | null;
+        width: number | null;
+        height: number | null;
         fps: number | null;
         liveStatus: string | null;
         isLive: boolean;
         wasLive: boolean;
         concurrentViewers: number | null;
+        language: string | null;
+        availability: string | null;
         ageLimit: number;
         tags: string[];
         categories: string[];

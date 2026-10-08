@@ -59,7 +59,8 @@ export const ModelName = {
   AnalysisTermCount: 'AnalysisTermCount',
   WindowSummary: 'WindowSummary',
   HighlightCandidate: 'HighlightCandidate',
-  HighlightCandidateWindow: 'HighlightCandidateWindow'
+  HighlightCandidateWindow: 'HighlightCandidateWindow',
+  ClipDraft: 'ClipDraft'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -292,6 +293,25 @@ export const HighlightCandidateWindowScalarFieldEnum = {
 } as const
 
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum]
+
+
+export const ClipDraftScalarFieldEnum = {
+  id: 'id',
+  videoId: 'videoId',
+  candidateId: 'candidateId',
+  startMs: 'startMs',
+  endMs: 'endMs',
+  peakMs: 'peakMs',
+  title: 'title',
+  note: 'note',
+  status: 'status',
+  candidateSnapshot: 'candidateSnapshot',
+  exportedAt: 'exportedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum]
 
 
 export const SortOrder = {

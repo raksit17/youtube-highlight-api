@@ -16,6 +16,12 @@ enum IngestionType {
   FILE
 }
 
+enum ClipDraftStatus {
+  DRAFT
+  READY
+  EXPORTED
+}
+
 enum IngestionStatus {
   PENDING
   PROCESSING
@@ -170,10 +176,10 @@ model Video {
   // Relations
   // ------------------------------------------------------
 
-  transcriptSegments TranscriptSegment[]
-  chatMessages       ChatMessage[]
-  ingestionRuns      IngestionRun[]
-
+  transcriptSegments  TranscriptSegment[]
+  chatMessages        ChatMessage[]
+  ingestionRuns       IngestionRun[]
+  clipDrafts          ClipDraft[]
   analysisWindows     AnalysisWindow[]
   highlightCandidates HighlightCandidate[]
 
@@ -469,9 +475,9 @@ model HighlightCandidate {
   // เหตุผลว่าทำไมเลือกช่วงนี้
   reason Json?
 
-  status HighlightStatus @default(NEW)
-
-  windows HighlightCandidateWindow[]
+  status     HighlightStatus            @default(NEW)
+  clipDrafts ClipDraft[]
+  windows    HighlightCandidateWindow[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -497,4 +503,44 @@ model HighlightCandidateWindow {
   @@id([highlightCandidateId, analysisWindowId])
   @@index([analysisWindowId])
   @@map("highlight_candidate_windows")
+}
+
+model ClipDraft {
+  id String @id @default(cuid())
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  // Candidate ที่เป็นต้นทาง
+  // optional เพื่อให้ Draft ยังอยู่หลัง Candidate ถูกลบ/re-analyze
+  candidateId String?
+  candidate   HighlightCandidate? @relation(fields: [candidateId], references: [id], onDelete: SetNull)
+
+  // ช่วงที่ผู้ใช้เลือกจริง
+  startMs Int
+  endMs   Int
+
+  // จุด peak จาก Candidate
+  // manual clip อาจไม่มี
+  peakMs Int?
+
+  title String?
+
+  note String? @db.Text
+
+  status ClipDraftStatus @default(DRAFT)
+
+  // snapshot ข้อมูล Candidate ตอนสร้าง Draft
+  // ป้องกันข้อมูลต้นทางหายหลัง Re-analysis
+  candidateSnapshot Json?
+
+  exportedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([videoId, createdAt])
+  @@index([candidateId])
+  @@index([videoId, status])
+  @@map("clip_drafts")
 }

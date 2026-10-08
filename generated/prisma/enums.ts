@@ -17,6 +17,15 @@ export const IngestionType = {
 export type IngestionType = (typeof IngestionType)[keyof typeof IngestionType]
 
 
+export const ClipDraftStatus = {
+  DRAFT: 'DRAFT',
+  READY: 'READY',
+  EXPORTED: 'EXPORTED'
+} as const
+
+export type ClipDraftStatus = (typeof ClipDraftStatus)[keyof typeof ClipDraftStatus]
+
+
 export const IngestionStatus = {
   PENDING: 'PENDING',
   PROCESSING: 'PROCESSING',

@@ -1,3 +1,4 @@
+import { ClipsModule } from './clips/clips.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,6 +11,7 @@ import { ChatsModule } from './chats/chats.module';
 import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ClipsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -20,6 +22,7 @@ import { ConfigModule } from '@nestjs/config';
     VideosModule,
     TranscriptsModule,
     ChatsModule,
+    ClipsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

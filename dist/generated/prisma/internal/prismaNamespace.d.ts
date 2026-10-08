@@ -169,6 +169,7 @@ export declare const ModelName: {
     readonly WindowSummary: "WindowSummary";
     readonly HighlightCandidate: "HighlightCandidate";
     readonly HighlightCandidateWindow: "HighlightCandidateWindow";
+    readonly ClipDraft: "ClipDraft";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export interface TypeMapCb<GlobalOmitOptions = {}> extends runtime.Types.Utils.Fn<{
@@ -181,7 +182,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow";
+        modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow" | "clipDraft";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -851,6 +852,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        ClipDraft: {
+            payload: Prisma.$ClipDraftPayload<ExtArgs>;
+            fields: Prisma.ClipDraftFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.ClipDraftFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.ClipDraftFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                findFirst: {
+                    args: Prisma.ClipDraftFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.ClipDraftFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                findMany: {
+                    args: Prisma.ClipDraftFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[];
+                };
+                create: {
+                    args: Prisma.ClipDraftCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                createMany: {
+                    args: Prisma.ClipDraftCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.ClipDraftCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[];
+                };
+                delete: {
+                    args: Prisma.ClipDraftDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                update: {
+                    args: Prisma.ClipDraftUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.ClipDraftDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.ClipDraftUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.ClipDraftUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>[];
+                };
+                upsert: {
+                    args: Prisma.ClipDraftUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$ClipDraftPayload>;
+                };
+                aggregate: {
+                    args: Prisma.ClipDraftAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateClipDraft>;
+                };
+                groupBy: {
+                    args: Prisma.ClipDraftGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.ClipDraftGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.ClipDraftCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.ClipDraftCountAggregateOutputType> | number;
+                };
+            };
+        };
     };
 } & {
     other: {
@@ -1071,6 +1146,22 @@ export declare const HighlightCandidateWindowScalarFieldEnum: {
     readonly position: "position";
 };
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum];
+export declare const ClipDraftScalarFieldEnum: {
+    readonly id: "id";
+    readonly videoId: "videoId";
+    readonly candidateId: "candidateId";
+    readonly startMs: "startMs";
+    readonly endMs: "endMs";
+    readonly peakMs: "peakMs";
+    readonly title: "title";
+    readonly note: "note";
+    readonly status: "status";
+    readonly candidateSnapshot: "candidateSnapshot";
+    readonly exportedAt: "exportedAt";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";
@@ -1120,6 +1211,8 @@ export type EnumAnalysisTermTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumAnalysisTermTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnalysisTermType[]'>;
 export type EnumHighlightStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HighlightStatus'>;
 export type ListEnumHighlightStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HighlightStatus[]'>;
+export type EnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus'>;
+export type ListEnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus[]'>;
 export type BatchPayload = {
     count: number;
 };
@@ -1157,6 +1250,7 @@ export type GlobalOmitConfig = {
     windowSummary?: Prisma.WindowSummaryOmit;
     highlightCandidate?: Prisma.HighlightCandidateOmit;
     highlightCandidateWindow?: Prisma.HighlightCandidateWindowOmit;
+    clipDraft?: Prisma.ClipDraftOmit;
 };
 export type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export type LogDefinition = {
