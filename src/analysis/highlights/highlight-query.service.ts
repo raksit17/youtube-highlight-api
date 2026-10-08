@@ -9,7 +9,27 @@ import { HighlightStatus } from '../../../generated/prisma/enums';
 
 import { PrismaService } from '../../database/prisma.service';
 
+import {
+  CLIP_PRESETS,
+  ClipPresetName,
+} from '../analysis.constants';
+
+import { buildClipPresetRange } from './clip-preset.util';
+
 const candidateInclude = {
+  video: {
+    select: {
+      durationMs: true,
+    },
+  },
+  clipVariants: {
+    select: {
+      preset: true,
+      startMs: true,
+      endMs: true,
+      durationMs: true,
+    },
+  },
   windows: {
     orderBy: {
       position: 'asc',
@@ -457,6 +477,7 @@ export class HighlightQueryService {
       status: candidate.status,
       summary: candidate.summary,
       rejectionReason: reviewReason,
+      clipPresets: this.buildClipPresets(candidate),
       insights: {
         reasonLabel,
         chatIncreasePercent:
@@ -478,6 +499,40 @@ export class HighlightQueryService {
         ),
       },
     };
+  }
+
+  private buildClipPresets(candidate: CandidateRow) {
+    const videoDurationMs =
+      candidate.video.durationMs ??
+      Math.max(candidate.endMs, candidate.peakMs, 1);
+
+    const presets = Object.keys(CLIP_PRESETS) as ClipPresetName[];
+
+    return Object.fromEntries(
+      presets.map((preset) => {
+        const stored = candidate.clipVariants.find(
+          (variant) => String(variant.preset) === preset,
+        );
+
+        const range =
+          stored ??
+          buildClipPresetRange(
+            preset,
+            candidate.peakMs,
+            videoDurationMs,
+          );
+
+        return [
+          preset,
+          {
+            label: CLIP_PRESETS[preset].label,
+            startMs: range.startMs,
+            endMs: range.endMs,
+            durationMs: range.durationMs,
+          },
+        ];
+      }),
+    );
   }
 
   private reasonLabel(input: {
