@@ -22,6 +22,13 @@ enum ClipDraftStatus {
   EXPORTED
 }
 
+enum HighlightLengthPreset {
+  QUICK
+  CONTEXT
+  STANDARD
+  LONG
+}
+
 enum IngestionStatus {
   PENDING
   PROCESSING
@@ -475,9 +482,10 @@ model HighlightCandidate {
   // เหตุผลว่าทำไมเลือกช่วงนี้
   reason Json?
 
-  status     HighlightStatus            @default(NEW)
-  clipDrafts ClipDraft[]
-  windows    HighlightCandidateWindow[]
+  status       HighlightStatus             @default(NEW)
+  clipDrafts   ClipDraft[]
+  clipVariants HighlightClipVariant[]
+  windows      HighlightCandidateWindow[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -505,6 +513,26 @@ model HighlightCandidateWindow {
   @@map("highlight_candidate_windows")
 }
 
+model HighlightClipVariant {
+  id String @id @default(cuid())
+
+  candidateId String
+  candidate   HighlightCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  preset HighlightLengthPreset
+
+  startMs    Int
+  endMs      Int
+  durationMs Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([candidateId, preset])
+  @@index([candidateId])
+  @@map("highlight_clip_variants")
+}
+
 model ClipDraft {
   id String @id @default(cuid())
 
@@ -529,6 +557,9 @@ model ClipDraft {
   note String? @db.Text
 
   status ClipDraftStatus @default(DRAFT)
+
+  sourcePreset HighlightLengthPreset?
+  isCustomized Boolean @default(false)
 
   // snapshot ข้อมูล Candidate ตอนสร้าง Draft
   // ป้องกันข้อมูลต้นทางหายหลัง Re-analysis
