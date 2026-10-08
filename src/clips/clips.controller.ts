@@ -14,7 +14,7 @@ import { CreateClipDraftDto } from './dto/create-clip-draft.dto';
 
 import { UpdateClipDraftDto } from './dto/update-clip-draft.dto';
 
-@Controller('api/v1')
+@Controller()
 export class ClipsController {
   constructor(private readonly clipsService: ClipsService) {}
 
