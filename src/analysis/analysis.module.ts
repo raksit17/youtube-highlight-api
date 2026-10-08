@@ -6,6 +6,8 @@ import { HighlightCandidateService } from './highlights/highlight-candidate.serv
 
 import { HighlightCandidatesRepository } from './highlights/highlight-candidates.repository';
 
+import { HighlightClipVariantService } from './highlights/highlight-clip-variant.service';
+
 import { HighlightQueryService } from './highlights/highlight-query.service';
 
 import { HighlightsController } from './highlights/highlights.controller';
@@ -37,6 +39,7 @@ import { AnalysisWindowsRepository } from './windows/analysis-windows.repository
     WindowSummaryService,
     WindowSummariesRepository,
 
+    HighlightClipVariantService,
     HighlightCandidateService,
     HighlightCandidatesRepository,
 
@@ -45,6 +48,7 @@ import { AnalysisWindowsRepository } from './windows/analysis-windows.repository
 
   exports: [
     AnalysisOrchestratorService,
+    HighlightClipVariantService,
     HighlightQueryService,
   ],
 })
