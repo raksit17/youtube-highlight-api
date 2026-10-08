@@ -1,17 +1,18 @@
-import { ClipsModule } from './clips/clips.module';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ChatsModule } from './chats/chats.module';
+import { ClipsModule } from './clips/clips.module';
 import { DatabaseModule } from './database/database.module';
 import { IngestionModule } from './ingestion/ingestion.module';
 import { NormalizersModule } from './normalizers/normalizers.module';
-import { VideosModule } from './videos/videos.module';
 import { TranscriptsModule } from './transcripts/transcripts.module';
-import { ChatsModule } from './chats/chats.module';
-import { ConfigModule } from '@nestjs/config';
+import { VideosModule } from './videos/videos.module';
+
 @Module({
   imports: [
-    ClipsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
