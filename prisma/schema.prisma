@@ -57,6 +57,13 @@ enum HighlightStatus {
   CLIPPED
 }
 
+enum RenderJobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
 // ======================================================
 // INGESTION RUN
 // ======================================================
@@ -565,6 +572,8 @@ model ClipDraft {
   // ป้องกันข้อมูลต้นทางหายหลัง Re-analysis
   candidateSnapshot Json?
 
+  renderJobs RenderJob[]
+
   exportedAt DateTime?
 
   createdAt DateTime @default(now())
@@ -574,4 +583,36 @@ model ClipDraft {
   @@index([candidateId])
   @@index([videoId, status])
   @@map("clip_drafts")
+}
+
+
+model RenderJob {
+  id String @id @default(cuid())
+
+  clipId String
+  clip   ClipDraft @relation(fields: [clipId], references: [id], onDelete: Cascade)
+
+  status   RenderJobStatus @default(QUEUED)
+  progress Int             @default(0)
+  stage    String          @default("QUEUED")
+
+  format           String
+  resolution       String
+  mode             String
+  includeSubtitles Boolean @default(false)
+
+  outputPath     String?
+  outputFilename String?
+
+  errorMessage String? @db.Text
+
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clipId, createdAt])
+  @@index([status, createdAt])
+  @@map("render_jobs")
 }
