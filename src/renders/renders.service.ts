@@ -11,6 +11,8 @@ import {
 
 import {
   CreateRenderJobDto,
+  RenderMode,
+  RenderResolution,
 } from './dto/create-render-job.dto';
 
 import { RenderJobsRepository } from './render-jobs.repository';
@@ -36,6 +38,15 @@ export class RendersService {
     if (!clip) {
       throw new NotFoundException(
         'Clip draft not found',
+      );
+    }
+
+    if (
+      dto.mode === RenderMode.FAST &&
+      dto.resolution !== RenderResolution.ORIGINAL
+    ) {
+      throw new BadRequestException(
+        'FAST render mode requires ORIGINAL resolution because stream copy does not resize video',
       );
     }
 
