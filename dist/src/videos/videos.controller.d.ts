@@ -1,11 +1,8 @@
-import { VideosRepository } from './videos.repository';
-export declare class VideosService {
-    private readonly videosRepository;
-    constructor(videosRepository: VideosRepository);
-    list(input: {
-        limit?: number;
-        cursor?: string;
-    }): Promise<{
+import { VideosService } from './videos.service';
+export declare class VideosController {
+    private readonly videosService;
+    constructor(videosService: VideosService);
+    list(limit?: string, cursor?: string): Promise<{
         items: {
             id: string;
             provider: string;
@@ -60,5 +57,4 @@ export declare class VideosService {
             clipped: number;
         };
     }>;
-    private toResponse;
 }

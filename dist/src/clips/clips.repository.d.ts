@@ -15,11 +15,11 @@ export declare class ClipsRepository {
         omit: Prisma.GlobalOmitConfig | undefined;
     }>;
     findCandidateForVideo(videoId: string, candidateId: string): Prisma.Prisma__HighlightCandidateClient<{
+        videoId: string;
         startMs: number;
         endMs: number;
         status: import("../../generated/prisma/enums").HighlightStatus;
         id: string;
-        videoId: string;
         rank: number | null;
         peakMs: number;
         summary: string | null;
@@ -40,13 +40,13 @@ export declare class ClipsRepository {
         candidateSnapshot?: Prisma.InputJsonValue;
     }): Prisma.Prisma__ClipDraftClient<{
         candidate: {
+            videoId: string;
             startMs: number;
             endMs: number;
             status: import("../../generated/prisma/enums").HighlightStatus;
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            videoId: string;
             rank: number | null;
             peakMs: number;
             summary: string | null;
@@ -62,6 +62,7 @@ export declare class ClipsRepository {
             reason: import("@prisma/client/runtime/client").JsonValue | null;
         } | null;
     } & {
+        videoId: string;
         candidateId: string | null;
         startMs: number;
         endMs: number;
@@ -71,7 +72,6 @@ export declare class ClipsRepository {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         peakMs: number | null;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
@@ -88,6 +88,7 @@ export declare class ClipsRepository {
             finalScore: number;
         } | null;
     } & {
+        videoId: string;
         candidateId: string | null;
         startMs: number;
         endMs: number;
@@ -97,7 +98,6 @@ export declare class ClipsRepository {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         peakMs: number | null;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
@@ -123,6 +123,7 @@ export declare class ClipsRepository {
             finalScore: number;
         } | null;
     } & {
+        videoId: string;
         candidateId: string | null;
         startMs: number;
         endMs: number;
@@ -132,7 +133,6 @@ export declare class ClipsRepository {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         peakMs: number | null;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
@@ -147,13 +147,13 @@ export declare class ClipsRepository {
         status?: ClipDraftStatus;
     }): Prisma.Prisma__ClipDraftClient<{
         candidate: {
+            videoId: string;
             startMs: number;
             endMs: number;
             status: import("../../generated/prisma/enums").HighlightStatus;
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            videoId: string;
             rank: number | null;
             peakMs: number;
             summary: string | null;
@@ -169,6 +169,7 @@ export declare class ClipsRepository {
             reason: import("@prisma/client/runtime/client").JsonValue | null;
         } | null;
     } & {
+        videoId: string;
         candidateId: string | null;
         startMs: number;
         endMs: number;
@@ -178,7 +179,6 @@ export declare class ClipsRepository {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         peakMs: number | null;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
@@ -186,6 +186,7 @@ export declare class ClipsRepository {
         omit: Prisma.GlobalOmitConfig | undefined;
     }>;
     delete(id: string): Prisma.Prisma__ClipDraftClient<{
+        videoId: string;
         candidateId: string | null;
         startMs: number;
         endMs: number;
@@ -195,7 +196,6 @@ export declare class ClipsRepository {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         peakMs: number | null;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;

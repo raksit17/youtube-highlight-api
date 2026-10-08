@@ -29,12 +29,12 @@ export declare class AnalysisWindowsRepository {
         termScore: number;
     }[]): import("../../../generated/prisma/internal/prismaNamespace").PrismaPromise<import("../../../generated/prisma/internal/prismaNamespace").BatchPayload>;
     findForVideo(videoId: string): import("../../../generated/prisma/internal/prismaNamespace").PrismaPromise<{
+        videoId: string;
         startMs: number;
         endMs: number;
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string;
         spikeScore: number;
         reactionScore: number;
         diversityScore: number;

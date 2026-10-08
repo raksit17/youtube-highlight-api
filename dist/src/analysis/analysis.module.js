@@ -11,6 +11,8 @@ const common_1 = require("@nestjs/common");
 const analysis_orchestrator_service_1 = require("./analysis-orchestrator.service");
 const highlight_candidate_service_1 = require("./highlights/highlight-candidate.service");
 const highlight_candidates_repository_1 = require("./highlights/highlight-candidates.repository");
+const highlight_query_service_1 = require("./highlights/highlight-query.service");
+const highlights_controller_1 = require("./highlights/highlights.controller");
 const window_summary_service_1 = require("./summaries/window-summary.service");
 const window_summaries_repository_1 = require("./summaries/window-summaries.repository");
 const term_extractor_service_1 = require("./terms/term-extractor.service");
@@ -22,6 +24,7 @@ let AnalysisModule = class AnalysisModule {
 exports.AnalysisModule = AnalysisModule;
 exports.AnalysisModule = AnalysisModule = __decorate([
     (0, common_1.Module)({
+        controllers: [highlights_controller_1.HighlightsController],
         providers: [
             analysis_orchestrator_service_1.AnalysisOrchestratorService,
             analysis_window_service_1.AnalysisWindowService,
@@ -32,8 +35,12 @@ exports.AnalysisModule = AnalysisModule = __decorate([
             window_summaries_repository_1.WindowSummariesRepository,
             highlight_candidate_service_1.HighlightCandidateService,
             highlight_candidates_repository_1.HighlightCandidatesRepository,
+            highlight_query_service_1.HighlightQueryService,
         ],
-        exports: [analysis_orchestrator_service_1.AnalysisOrchestratorService],
+        exports: [
+            analysis_orchestrator_service_1.AnalysisOrchestratorService,
+            highlight_query_service_1.HighlightQueryService,
+        ],
     })
 ], AnalysisModule);
 //# sourceMappingURL=analysis.module.js.map

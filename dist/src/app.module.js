@@ -7,24 +7,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const clips_module_1 = require("./clips/clips.module");
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const chats_module_1 = require("./chats/chats.module");
+const clips_module_1 = require("./clips/clips.module");
 const database_module_1 = require("./database/database.module");
 const ingestion_module_1 = require("./ingestion/ingestion.module");
 const normalizers_module_1 = require("./normalizers/normalizers.module");
-const videos_module_1 = require("./videos/videos.module");
 const transcripts_module_1 = require("./transcripts/transcripts.module");
-const chats_module_1 = require("./chats/chats.module");
-const config_1 = require("@nestjs/config");
+const videos_module_1 = require("./videos/videos.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            clips_module_1.ClipsModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 envFilePath: '.env',

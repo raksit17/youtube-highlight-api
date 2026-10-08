@@ -12,13 +12,13 @@ export declare class IngestionRepository {
         mimeType?: string;
         sizeBytes?: bigint;
     }): import("../../generated/prisma/models").Prisma__IngestionRunClient<{
+        videoId: string | null;
         status: IngestionStatus;
         id: string;
         provider: string | null;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string | null;
         type: IngestionType;
         collector: string | null;
         dataType: string | null;
@@ -41,13 +41,13 @@ export declare class IngestionRepository {
         transcriptCount: number;
         chatCount: number;
     }): import("../../generated/prisma/models").Prisma__IngestionRunClient<{
+        videoId: string | null;
         status: IngestionStatus;
         id: string;
         provider: string | null;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string | null;
         type: IngestionType;
         collector: string | null;
         dataType: string | null;
@@ -66,13 +66,13 @@ export declare class IngestionRepository {
         omit: import("../../generated/prisma/internal/prismaNamespace").GlobalOmitConfig | undefined;
     }>;
     fail(id: string, error: unknown): import("../../generated/prisma/models").Prisma__IngestionRunClient<{
+        videoId: string | null;
         status: IngestionStatus;
         id: string;
         provider: string | null;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
         createdAt: Date;
         updatedAt: Date;
-        videoId: string | null;
         type: IngestionType;
         collector: string | null;
         dataType: string | null;

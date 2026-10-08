@@ -9,9 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VideosRepository = void 0;
+exports.VideosRepository = exports.videoReviewInclude = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../database/prisma.service");
+exports.videoReviewInclude = {
+    _count: {
+        select: {
+            chatMessages: true,
+            transcriptSegments: true,
+            analysisWindows: true,
+        },
+    },
+    highlightCandidates: {
+        select: {
+            status: true,
+            finalScore: true,
+            updatedAt: true,
+        },
+        orderBy: {
+            finalScore: 'desc',
+        },
+    },
+    analysisWindows: {
+        select: {
+            updatedAt: true,
+        },
+        orderBy: {
+            updatedAt: 'desc',
+        },
+        take: 1,
+    },
+};
 let VideosRepository = class VideosRepository {
     prisma;
     constructor(prisma) {
@@ -86,6 +114,46 @@ let VideosRepository = class VideosRepository {
                 tags: video.tags,
                 categories: video.categories,
                 metadata: video.metadata,
+            },
+        });
+    }
+    findPage(limit, cursor) {
+        return this.prisma.video.findMany({
+            take: limit + 1,
+            ...(cursor
+                ? {
+                    cursor: {
+                        id: cursor,
+                    },
+                    skip: 1,
+                }
+                : {}),
+            orderBy: [
+                {
+                    createdAt: 'desc',
+                },
+                {
+                    id: 'desc',
+                },
+            ],
+            include: exports.videoReviewInclude,
+        });
+    }
+    findByIdWithReviewData(id) {
+        return this.prisma.video.findUnique({
+            where: {
+                id,
+            },
+            include: exports.videoReviewInclude,
+        });
+    }
+    findBySource(provider, externalId) {
+        return this.prisma.video.findUnique({
+            where: {
+                provider_externalId: {
+                    provider,
+                    externalId,
+                },
             },
         });
     }

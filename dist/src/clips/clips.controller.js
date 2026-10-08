@@ -87,7 +87,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClipsController.prototype, "remove", null);
 exports.ClipsController = ClipsController = __decorate([
-    (0, common_1.Controller)('api/v1'),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [clips_service_1.ClipsService])
 ], ClipsController);
 //# sourceMappingURL=clips.controller.js.map
