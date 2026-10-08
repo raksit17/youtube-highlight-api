@@ -1,0 +1,500 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ======================================================
+// ENUMS
+// ======================================================
+
+enum IngestionType {
+  API
+  FILE
+}
+
+enum IngestionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  PARTIAL
+  FAILED
+}
+
+enum AnalysisTermSource {
+  CHAT
+  TRANSCRIPT
+}
+
+enum AnalysisTermType {
+  WORD
+  PHRASE
+  EMOTE
+  REACTION
+}
+
+enum HighlightStatus {
+  NEW
+  REVIEWING
+  APPROVED
+  REJECTED
+  CLIPPED
+}
+
+// ======================================================
+// INGESTION RUN
+// ======================================================
+
+model IngestionRun {
+  id String @id @default(cuid())
+
+  type   IngestionType
+  status IngestionStatus @default(PENDING)
+
+  provider  String?
+  collector String?
+  dataType  String?
+
+  filename  String?
+  mimeType  String?
+  sizeBytes BigInt?
+
+  checksum    String?
+  rawFilePath String?
+
+  videoId String?
+  video   Video?  @relation(fields: [videoId], references: [id], onDelete: SetNull)
+
+  transcriptCount Int @default(0)
+  chatCount       Int @default(0)
+
+  errorCode    String?
+  errorMessage String? @db.Text
+
+  metadata Json?
+
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@index([provider])
+  @@index([videoId])
+  @@index([createdAt])
+  @@map("ingestion_runs")
+}
+
+// ======================================================
+// VIDEO
+// ======================================================
+
+model Video {
+  id String @id @default(cuid())
+
+  provider   String
+  externalId String
+
+  url         String
+  title       String
+  description String? @db.Text
+
+  // ------------------------------------------------------
+  // Channel
+  // ------------------------------------------------------
+
+  channelExternalId String?
+  channelName       String?
+  channelUrl        String?
+  channelFollowers  BigInt?
+
+  // ------------------------------------------------------
+  // Published
+  // ------------------------------------------------------
+
+  uploadDate  DateTime? @db.Date
+  publishedAt DateTime?
+  releaseAt   DateTime?
+
+  // ------------------------------------------------------
+  // Statistics
+  // ------------------------------------------------------
+
+  viewCount    BigInt?
+  likeCount    BigInt?
+  commentCount BigInt?
+
+  // ------------------------------------------------------
+  // Media
+  // ------------------------------------------------------
+
+  durationMs Int?
+
+  thumbnailUrl String?
+
+  width  Int?
+  height Int?
+  fps    Float?
+
+  // ------------------------------------------------------
+  // Live
+  // ------------------------------------------------------
+
+  liveStatus String?
+
+  isLive  Boolean @default(false)
+  wasLive Boolean @default(false)
+
+  concurrentViewers Int?
+
+  // ------------------------------------------------------
+  // Metadata
+  // ------------------------------------------------------
+
+  language     String?
+  availability String?
+
+  ageLimit Int @default(0)
+
+  tags       String[] @default([])
+  categories String[] @default([])
+
+  metadata Json?
+
+  // ------------------------------------------------------
+  // Relations
+  // ------------------------------------------------------
+
+  transcriptSegments TranscriptSegment[]
+  chatMessages       ChatMessage[]
+  ingestionRuns      IngestionRun[]
+
+  analysisWindows     AnalysisWindow[]
+  highlightCandidates HighlightCandidate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, externalId])
+  @@index([provider])
+  @@index([channelExternalId])
+  @@index([uploadDate])
+  @@index([publishedAt])
+  @@index([createdAt])
+  @@map("videos")
+}
+
+// ======================================================
+// TRANSCRIPT
+// ======================================================
+
+model TranscriptSegment {
+  id String @id @default(cuid())
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  sequence Int
+
+  startMs    Int
+  endMs      Int
+  durationMs Int
+
+  text String @db.Text
+
+  language String?
+  source   String?
+  format   String?
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([videoId, sequence, source])
+  @@index([videoId, startMs])
+  @@index([videoId, endMs])
+  @@index([videoId, startMs, endMs])
+  @@map("transcript_segments")
+}
+
+// ======================================================
+// CHAT MESSAGE
+// ======================================================
+
+model ChatMessage {
+  id String @id @default(cuid())
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  externalId String?
+  dedupeKey  String
+
+  sequence Int?
+
+  timestampMs   Int
+  timestampUsec BigInt?
+
+  authorId   String?
+  authorName String?
+
+  message String @db.Text
+
+  messageType String?
+  amountRaw   String?
+
+  isMember    Boolean @default(false)
+  isModerator Boolean @default(false)
+  isOwner     Boolean @default(false)
+
+  metadata Json?
+
+  createdAt DateTime @default(now())
+
+  @@unique([videoId, dedupeKey])
+  @@index([videoId, timestampMs])
+  @@index([videoId, timestampUsec])
+  @@index([authorId])
+  @@index([videoId, authorId])
+  @@index([messageType])
+  @@map("chat_messages")
+}
+
+model AnalysisWindow {
+  id String @id @default(cuid())
+
+  videoId     String
+  video       Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  // ลำดับ window
+  // เช่น window 0 = 0-15 sec
+  // window 1 = 15-30 sec
+  windowIndex Int
+
+  startMs Int
+  endMs   Int
+
+  // เช่น 15000 = 15 วินาที
+  windowSizeMs Int
+
+  // =========================
+  // CHAT STATS
+  // =========================
+
+  chatMessageCount Int @default(0)
+
+  uniqueAuthorCount Int @default(0)
+
+  chatWordCount       Int @default(0)
+  transcriptWordCount Int @default(0)
+
+  emojiCount       Int @default(0)
+  laughCount       Int @default(0)
+  questionCount    Int @default(0)
+  exclamationCount Int @default(0)
+  capsCount        Int @default(0)
+
+  authorDiversity Float @default(0)
+
+  // =========================
+  // SPIKE
+  // =========================
+
+  baselineMessageCount Float?
+
+  // current / baseline
+  messageRatio Float?
+
+  zScore Float?
+
+  // =========================
+  // SCORE
+  // =========================
+
+  spikeScore      Float @default(0)
+  reactionScore   Float @default(0)
+  diversityScore  Float @default(0)
+  transcriptScore Float @default(0)
+  termScore       Float @default(0)
+
+  // เผื่อ feature ทดลองในอนาคต
+  features Json?
+
+  terms          AnalysisTermCount[]
+  summary        WindowSummary?
+  highlightLinks HighlightCandidateWindow[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([videoId, windowSizeMs, windowIndex])
+  @@index([videoId, startMs])
+  @@index([videoId, spikeScore])
+  @@index([videoId, windowIndex])
+  @@map("analysis_windows")
+}
+
+model AnalysisTermCount {
+  id String @id @default(cuid())
+
+  analysisWindowId String
+
+  analysisWindow AnalysisWindow @relation(fields: [analysisWindowId], references: [id], onDelete: Cascade)
+
+  source AnalysisTermSource
+  type   AnalysisTermType   @default(WORD)
+
+  // คำที่เอาไว้แสดง
+  // เช่น LOL
+  term String
+
+  // normalized
+  // LOL -> lol
+  normalizedTerm String
+
+  count Int
+
+  // importance ของ term
+  score Float @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@unique([analysisWindowId, source, type, normalizedTerm])
+  @@index([analysisWindowId])
+  @@index([normalizedTerm])
+  @@index([analysisWindowId, count])
+  @@map("analysis_term_counts")
+}
+
+model WindowSummary {
+  id String @id @default(cuid())
+
+  analysisWindowId String @unique
+
+  analysisWindow AnalysisWindow @relation(fields: [analysisWindowId], references: [id], onDelete: Cascade)
+
+  // =========================
+  // EXTRACTED SUMMARY
+  // =========================
+
+  summary String @db.Text
+
+  topic String?
+
+  // FUNNY / SURPRISE / FAIL /
+  // REACTION / STORY / CHAT_INTERACTION
+  category String?
+
+  keywords Json?
+
+  reactions Json?
+
+  events Json?
+
+  // transcript ที่สำคัญ
+  keyTranscript Json?
+
+  // chat ที่สำคัญ
+  keyChat Json?
+
+  // =========================
+  // SUMMARY SCORE
+  // =========================
+
+  importanceScore Float @default(0)
+
+  intensityScore Float @default(0)
+
+  noveltyScore Float @default(0)
+
+  contextScore Float @default(0)
+
+  confidence Float @default(0)
+
+  // คะแนนรวมของ summary
+  summaryScore Float @default(0)
+
+  // เช่น rule-v1 / llm-v1
+  extractorVersion String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([summaryScore])
+  @@index([category])
+  @@map("window_summaries")
+}
+
+model HighlightCandidate {
+  id String @id @default(cuid())
+
+  videoId String
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  // Top 5
+  // 1,2,3,4,5
+  rank Int?
+
+  // หลัง merge หลาย window
+  startMs Int
+  peakMs  Int
+  endMs   Int
+
+  summary String? @db.Text
+
+  category String?
+
+  // =========================
+  // COMPONENT SCORE
+  // =========================
+
+  summaryScore    Float @default(0)
+  spikeScore      Float @default(0)
+  reactionScore   Float @default(0)
+  diversityScore  Float @default(0)
+  transcriptScore Float @default(0)
+  termScore       Float @default(0)
+
+  // คะแนนสุดท้ายที่ใช้จัดอันดับ
+  finalScore Float @default(0)
+
+  confidence Float?
+
+  // เหตุผลว่าทำไมเลือกช่วงนี้
+  reason Json?
+
+  status HighlightStatus @default(NEW)
+
+  windows HighlightCandidateWindow[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([videoId, rank])
+  @@index([videoId, finalScore])
+  @@index([videoId, status])
+  @@index([videoId, startMs])
+  @@map("highlight_candidates")
+}
+
+model HighlightCandidateWindow {
+  highlightCandidateId String
+  analysisWindowId     String
+
+  // ลำดับ window ใน candidate
+  position Int
+
+  highlightCandidate HighlightCandidate @relation(fields: [highlightCandidateId], references: [id], onDelete: Cascade)
+
+  analysisWindow AnalysisWindow @relation(fields: [analysisWindowId], references: [id], onDelete: Cascade)
+
+  @@id([highlightCandidateId, analysisWindowId])
+  @@index([analysisWindowId])
+  @@map("highlight_candidate_windows")
+}

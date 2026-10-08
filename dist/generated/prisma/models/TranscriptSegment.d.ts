@@ -1,0 +1,868 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as Prisma from "../internal/prismaNamespace.js";
+export type TranscriptSegmentModel = runtime.Types.Result.DefaultSelection<Prisma.$TranscriptSegmentPayload>;
+export type AggregateTranscriptSegment = {
+    _count: TranscriptSegmentCountAggregateOutputType | null;
+    _avg: TranscriptSegmentAvgAggregateOutputType | null;
+    _sum: TranscriptSegmentSumAggregateOutputType | null;
+    _min: TranscriptSegmentMinAggregateOutputType | null;
+    _max: TranscriptSegmentMaxAggregateOutputType | null;
+};
+export type TranscriptSegmentAvgAggregateOutputType = {
+    sequence: number | null;
+    startMs: number | null;
+    endMs: number | null;
+    durationMs: number | null;
+};
+export type TranscriptSegmentSumAggregateOutputType = {
+    sequence: number | null;
+    startMs: number | null;
+    endMs: number | null;
+    durationMs: number | null;
+};
+export type TranscriptSegmentMinAggregateOutputType = {
+    id: string | null;
+    videoId: string | null;
+    sequence: number | null;
+    startMs: number | null;
+    endMs: number | null;
+    durationMs: number | null;
+    text: string | null;
+    language: string | null;
+    source: string | null;
+    format: string | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+};
+export type TranscriptSegmentMaxAggregateOutputType = {
+    id: string | null;
+    videoId: string | null;
+    sequence: number | null;
+    startMs: number | null;
+    endMs: number | null;
+    durationMs: number | null;
+    text: string | null;
+    language: string | null;
+    source: string | null;
+    format: string | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+};
+export type TranscriptSegmentCountAggregateOutputType = {
+    id: number;
+    videoId: number;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: number;
+    language: number;
+    source: number;
+    format: number;
+    metadata: number;
+    createdAt: number;
+    updatedAt: number;
+    _all: number;
+};
+export type TranscriptSegmentAvgAggregateInputType = {
+    sequence?: true;
+    startMs?: true;
+    endMs?: true;
+    durationMs?: true;
+};
+export type TranscriptSegmentSumAggregateInputType = {
+    sequence?: true;
+    startMs?: true;
+    endMs?: true;
+    durationMs?: true;
+};
+export type TranscriptSegmentMinAggregateInputType = {
+    id?: true;
+    videoId?: true;
+    sequence?: true;
+    startMs?: true;
+    endMs?: true;
+    durationMs?: true;
+    text?: true;
+    language?: true;
+    source?: true;
+    format?: true;
+    createdAt?: true;
+    updatedAt?: true;
+};
+export type TranscriptSegmentMaxAggregateInputType = {
+    id?: true;
+    videoId?: true;
+    sequence?: true;
+    startMs?: true;
+    endMs?: true;
+    durationMs?: true;
+    text?: true;
+    language?: true;
+    source?: true;
+    format?: true;
+    createdAt?: true;
+    updatedAt?: true;
+};
+export type TranscriptSegmentCountAggregateInputType = {
+    id?: true;
+    videoId?: true;
+    sequence?: true;
+    startMs?: true;
+    endMs?: true;
+    durationMs?: true;
+    text?: true;
+    language?: true;
+    source?: true;
+    format?: true;
+    metadata?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    _all?: true;
+};
+export type TranscriptSegmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TranscriptSegmentWhereInput;
+    orderBy?: Prisma.TranscriptSegmentOrderByWithRelationInput | Prisma.TranscriptSegmentOrderByWithRelationInput[];
+    cursor?: Prisma.TranscriptSegmentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    _count?: true | TranscriptSegmentCountAggregateInputType;
+    _avg?: TranscriptSegmentAvgAggregateInputType;
+    _sum?: TranscriptSegmentSumAggregateInputType;
+    _min?: TranscriptSegmentMinAggregateInputType;
+    _max?: TranscriptSegmentMaxAggregateInputType;
+};
+export type GetTranscriptSegmentAggregateType<T extends TranscriptSegmentAggregateArgs> = {
+    [P in keyof T & keyof AggregateTranscriptSegment]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateTranscriptSegment[P]> : Prisma.GetScalarType<T[P], AggregateTranscriptSegment[P]>;
+};
+export type TranscriptSegmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TranscriptSegmentWhereInput;
+    orderBy?: Prisma.TranscriptSegmentOrderByWithAggregationInput | Prisma.TranscriptSegmentOrderByWithAggregationInput[];
+    by: Prisma.TranscriptSegmentScalarFieldEnum[] | Prisma.TranscriptSegmentScalarFieldEnum;
+    having?: Prisma.TranscriptSegmentScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: TranscriptSegmentCountAggregateInputType | true;
+    _avg?: TranscriptSegmentAvgAggregateInputType;
+    _sum?: TranscriptSegmentSumAggregateInputType;
+    _min?: TranscriptSegmentMinAggregateInputType;
+    _max?: TranscriptSegmentMaxAggregateInputType;
+};
+export type TranscriptSegmentGroupByOutputType = {
+    id: string;
+    videoId: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language: string | null;
+    source: string | null;
+    format: string | null;
+    metadata: runtime.JsonValue | null;
+    createdAt: Date;
+    updatedAt: Date;
+    _count: TranscriptSegmentCountAggregateOutputType | null;
+    _avg: TranscriptSegmentAvgAggregateOutputType | null;
+    _sum: TranscriptSegmentSumAggregateOutputType | null;
+    _min: TranscriptSegmentMinAggregateOutputType | null;
+    _max: TranscriptSegmentMaxAggregateOutputType | null;
+};
+export type GetTranscriptSegmentGroupByPayload<T extends TranscriptSegmentGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<TranscriptSegmentGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof TranscriptSegmentGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], TranscriptSegmentGroupByOutputType[P]> : Prisma.GetScalarType<T[P], TranscriptSegmentGroupByOutputType[P]>;
+}>>;
+export type TranscriptSegmentWhereInput = {
+    AND?: Prisma.TranscriptSegmentWhereInput | Prisma.TranscriptSegmentWhereInput[];
+    OR?: Prisma.TranscriptSegmentWhereInput[];
+    NOT?: Prisma.TranscriptSegmentWhereInput | Prisma.TranscriptSegmentWhereInput[];
+    id?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    videoId?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    sequence?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    startMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    endMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    durationMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    text?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    language?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    source?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    format?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"TranscriptSegment">;
+    createdAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+    video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>;
+};
+export type TranscriptSegmentOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    videoId?: Prisma.SortOrder;
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+    text?: Prisma.SortOrder;
+    language?: Prisma.SortOrderInput | Prisma.SortOrder;
+    source?: Prisma.SortOrderInput | Prisma.SortOrder;
+    format?: Prisma.SortOrderInput | Prisma.SortOrder;
+    metadata?: Prisma.SortOrderInput | Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+    video?: Prisma.VideoOrderByWithRelationInput;
+};
+export type TranscriptSegmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    videoId_sequence_source?: Prisma.TranscriptSegmentVideoIdSequenceSourceCompoundUniqueInput;
+    AND?: Prisma.TranscriptSegmentWhereInput | Prisma.TranscriptSegmentWhereInput[];
+    OR?: Prisma.TranscriptSegmentWhereInput[];
+    NOT?: Prisma.TranscriptSegmentWhereInput | Prisma.TranscriptSegmentWhereInput[];
+    videoId?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    sequence?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    startMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    endMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    durationMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    text?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    language?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    source?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    format?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"TranscriptSegment">;
+    createdAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+    video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>;
+}, "id" | "videoId_sequence_source">;
+export type TranscriptSegmentOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    videoId?: Prisma.SortOrder;
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+    text?: Prisma.SortOrder;
+    language?: Prisma.SortOrderInput | Prisma.SortOrder;
+    source?: Prisma.SortOrderInput | Prisma.SortOrder;
+    format?: Prisma.SortOrderInput | Prisma.SortOrder;
+    metadata?: Prisma.SortOrderInput | Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+    _count?: Prisma.TranscriptSegmentCountOrderByAggregateInput;
+    _avg?: Prisma.TranscriptSegmentAvgOrderByAggregateInput;
+    _max?: Prisma.TranscriptSegmentMaxOrderByAggregateInput;
+    _min?: Prisma.TranscriptSegmentMinOrderByAggregateInput;
+    _sum?: Prisma.TranscriptSegmentSumOrderByAggregateInput;
+};
+export type TranscriptSegmentScalarWhereWithAggregatesInput = {
+    AND?: Prisma.TranscriptSegmentScalarWhereWithAggregatesInput | Prisma.TranscriptSegmentScalarWhereWithAggregatesInput[];
+    OR?: Prisma.TranscriptSegmentScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.TranscriptSegmentScalarWhereWithAggregatesInput | Prisma.TranscriptSegmentScalarWhereWithAggregatesInput[];
+    id?: Prisma.StringWithAggregatesFilter<"TranscriptSegment"> | string;
+    videoId?: Prisma.StringWithAggregatesFilter<"TranscriptSegment"> | string;
+    sequence?: Prisma.IntWithAggregatesFilter<"TranscriptSegment"> | number;
+    startMs?: Prisma.IntWithAggregatesFilter<"TranscriptSegment"> | number;
+    endMs?: Prisma.IntWithAggregatesFilter<"TranscriptSegment"> | number;
+    durationMs?: Prisma.IntWithAggregatesFilter<"TranscriptSegment"> | number;
+    text?: Prisma.StringWithAggregatesFilter<"TranscriptSegment"> | string;
+    language?: Prisma.StringNullableWithAggregatesFilter<"TranscriptSegment"> | string | null;
+    source?: Prisma.StringNullableWithAggregatesFilter<"TranscriptSegment"> | string | null;
+    format?: Prisma.StringNullableWithAggregatesFilter<"TranscriptSegment"> | string | null;
+    metadata?: Prisma.JsonNullableWithAggregatesFilter<"TranscriptSegment">;
+    createdAt?: Prisma.DateTimeWithAggregatesFilter<"TranscriptSegment"> | Date | string;
+    updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TranscriptSegment"> | Date | string;
+};
+export type TranscriptSegmentCreateInput = {
+    id?: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    video: Prisma.VideoCreateNestedOneWithoutTranscriptSegmentsInput;
+};
+export type TranscriptSegmentUncheckedCreateInput = {
+    id?: string;
+    videoId: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type TranscriptSegmentUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    video?: Prisma.VideoUpdateOneRequiredWithoutTranscriptSegmentsNestedInput;
+};
+export type TranscriptSegmentUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    videoId?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentCreateManyInput = {
+    id?: string;
+    videoId: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type TranscriptSegmentUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    videoId?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentListRelationFilter = {
+    every?: Prisma.TranscriptSegmentWhereInput;
+    some?: Prisma.TranscriptSegmentWhereInput;
+    none?: Prisma.TranscriptSegmentWhereInput;
+};
+export type TranscriptSegmentOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
+};
+export type TranscriptSegmentVideoIdSequenceSourceCompoundUniqueInput = {
+    videoId: string;
+    sequence: number;
+    source: string;
+};
+export type TranscriptSegmentCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    videoId?: Prisma.SortOrder;
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+    text?: Prisma.SortOrder;
+    language?: Prisma.SortOrder;
+    source?: Prisma.SortOrder;
+    format?: Prisma.SortOrder;
+    metadata?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type TranscriptSegmentAvgOrderByAggregateInput = {
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+};
+export type TranscriptSegmentMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    videoId?: Prisma.SortOrder;
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+    text?: Prisma.SortOrder;
+    language?: Prisma.SortOrder;
+    source?: Prisma.SortOrder;
+    format?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type TranscriptSegmentMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    videoId?: Prisma.SortOrder;
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+    text?: Prisma.SortOrder;
+    language?: Prisma.SortOrder;
+    source?: Prisma.SortOrder;
+    format?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type TranscriptSegmentSumOrderByAggregateInput = {
+    sequence?: Prisma.SortOrder;
+    startMs?: Prisma.SortOrder;
+    endMs?: Prisma.SortOrder;
+    durationMs?: Prisma.SortOrder;
+};
+export type TranscriptSegmentCreateNestedManyWithoutVideoInput = {
+    create?: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput> | Prisma.TranscriptSegmentCreateWithoutVideoInput[] | Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput[];
+    connectOrCreate?: Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput | Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput[];
+    createMany?: Prisma.TranscriptSegmentCreateManyVideoInputEnvelope;
+    connect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+};
+export type TranscriptSegmentUncheckedCreateNestedManyWithoutVideoInput = {
+    create?: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput> | Prisma.TranscriptSegmentCreateWithoutVideoInput[] | Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput[];
+    connectOrCreate?: Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput | Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput[];
+    createMany?: Prisma.TranscriptSegmentCreateManyVideoInputEnvelope;
+    connect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+};
+export type TranscriptSegmentUpdateManyWithoutVideoNestedInput = {
+    create?: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput> | Prisma.TranscriptSegmentCreateWithoutVideoInput[] | Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput[];
+    connectOrCreate?: Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput | Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput[];
+    upsert?: Prisma.TranscriptSegmentUpsertWithWhereUniqueWithoutVideoInput | Prisma.TranscriptSegmentUpsertWithWhereUniqueWithoutVideoInput[];
+    createMany?: Prisma.TranscriptSegmentCreateManyVideoInputEnvelope;
+    set?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    disconnect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    delete?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    connect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    update?: Prisma.TranscriptSegmentUpdateWithWhereUniqueWithoutVideoInput | Prisma.TranscriptSegmentUpdateWithWhereUniqueWithoutVideoInput[];
+    updateMany?: Prisma.TranscriptSegmentUpdateManyWithWhereWithoutVideoInput | Prisma.TranscriptSegmentUpdateManyWithWhereWithoutVideoInput[];
+    deleteMany?: Prisma.TranscriptSegmentScalarWhereInput | Prisma.TranscriptSegmentScalarWhereInput[];
+};
+export type TranscriptSegmentUncheckedUpdateManyWithoutVideoNestedInput = {
+    create?: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput> | Prisma.TranscriptSegmentCreateWithoutVideoInput[] | Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput[];
+    connectOrCreate?: Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput | Prisma.TranscriptSegmentCreateOrConnectWithoutVideoInput[];
+    upsert?: Prisma.TranscriptSegmentUpsertWithWhereUniqueWithoutVideoInput | Prisma.TranscriptSegmentUpsertWithWhereUniqueWithoutVideoInput[];
+    createMany?: Prisma.TranscriptSegmentCreateManyVideoInputEnvelope;
+    set?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    disconnect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    delete?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    connect?: Prisma.TranscriptSegmentWhereUniqueInput | Prisma.TranscriptSegmentWhereUniqueInput[];
+    update?: Prisma.TranscriptSegmentUpdateWithWhereUniqueWithoutVideoInput | Prisma.TranscriptSegmentUpdateWithWhereUniqueWithoutVideoInput[];
+    updateMany?: Prisma.TranscriptSegmentUpdateManyWithWhereWithoutVideoInput | Prisma.TranscriptSegmentUpdateManyWithWhereWithoutVideoInput[];
+    deleteMany?: Prisma.TranscriptSegmentScalarWhereInput | Prisma.TranscriptSegmentScalarWhereInput[];
+};
+export type TranscriptSegmentCreateWithoutVideoInput = {
+    id?: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type TranscriptSegmentUncheckedCreateWithoutVideoInput = {
+    id?: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type TranscriptSegmentCreateOrConnectWithoutVideoInput = {
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+    create: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput>;
+};
+export type TranscriptSegmentCreateManyVideoInputEnvelope = {
+    data: Prisma.TranscriptSegmentCreateManyVideoInput | Prisma.TranscriptSegmentCreateManyVideoInput[];
+    skipDuplicates?: boolean;
+};
+export type TranscriptSegmentUpsertWithWhereUniqueWithoutVideoInput = {
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+    update: Prisma.XOR<Prisma.TranscriptSegmentUpdateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedUpdateWithoutVideoInput>;
+    create: Prisma.XOR<Prisma.TranscriptSegmentCreateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedCreateWithoutVideoInput>;
+};
+export type TranscriptSegmentUpdateWithWhereUniqueWithoutVideoInput = {
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+    data: Prisma.XOR<Prisma.TranscriptSegmentUpdateWithoutVideoInput, Prisma.TranscriptSegmentUncheckedUpdateWithoutVideoInput>;
+};
+export type TranscriptSegmentUpdateManyWithWhereWithoutVideoInput = {
+    where: Prisma.TranscriptSegmentScalarWhereInput;
+    data: Prisma.XOR<Prisma.TranscriptSegmentUpdateManyMutationInput, Prisma.TranscriptSegmentUncheckedUpdateManyWithoutVideoInput>;
+};
+export type TranscriptSegmentScalarWhereInput = {
+    AND?: Prisma.TranscriptSegmentScalarWhereInput | Prisma.TranscriptSegmentScalarWhereInput[];
+    OR?: Prisma.TranscriptSegmentScalarWhereInput[];
+    NOT?: Prisma.TranscriptSegmentScalarWhereInput | Prisma.TranscriptSegmentScalarWhereInput[];
+    id?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    videoId?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    sequence?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    startMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    endMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    durationMs?: Prisma.IntFilter<"TranscriptSegment"> | number;
+    text?: Prisma.StringFilter<"TranscriptSegment"> | string;
+    language?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    source?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    format?: Prisma.StringNullableFilter<"TranscriptSegment"> | string | null;
+    metadata?: Prisma.JsonNullableFilter<"TranscriptSegment">;
+    createdAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"TranscriptSegment"> | Date | string;
+};
+export type TranscriptSegmentCreateManyVideoInput = {
+    id?: string;
+    sequence: number;
+    startMs: number;
+    endMs: number;
+    durationMs: number;
+    text: string;
+    language?: string | null;
+    source?: string | null;
+    format?: string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type TranscriptSegmentUpdateWithoutVideoInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentUncheckedUpdateWithoutVideoInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentUncheckedUpdateManyWithoutVideoInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    sequence?: Prisma.IntFieldUpdateOperationsInput | number;
+    startMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    endMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    durationMs?: Prisma.IntFieldUpdateOperationsInput | number;
+    text?: Prisma.StringFieldUpdateOperationsInput | string;
+    language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    format?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type TranscriptSegmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    videoId?: boolean;
+    sequence?: boolean;
+    startMs?: boolean;
+    endMs?: boolean;
+    durationMs?: boolean;
+    text?: boolean;
+    language?: boolean;
+    source?: boolean;
+    format?: boolean;
+    metadata?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["transcriptSegment"]>;
+export type TranscriptSegmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    videoId?: boolean;
+    sequence?: boolean;
+    startMs?: boolean;
+    endMs?: boolean;
+    durationMs?: boolean;
+    text?: boolean;
+    language?: boolean;
+    source?: boolean;
+    format?: boolean;
+    metadata?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["transcriptSegment"]>;
+export type TranscriptSegmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    videoId?: boolean;
+    sequence?: boolean;
+    startMs?: boolean;
+    endMs?: boolean;
+    durationMs?: boolean;
+    text?: boolean;
+    language?: boolean;
+    source?: boolean;
+    format?: boolean;
+    metadata?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["transcriptSegment"]>;
+export type TranscriptSegmentSelectScalar = {
+    id?: boolean;
+    videoId?: boolean;
+    sequence?: boolean;
+    startMs?: boolean;
+    endMs?: boolean;
+    durationMs?: boolean;
+    text?: boolean;
+    language?: boolean;
+    source?: boolean;
+    format?: boolean;
+    metadata?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+};
+export type TranscriptSegmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "videoId" | "sequence" | "startMs" | "endMs" | "durationMs" | "text" | "language" | "source" | "format" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["transcriptSegment"]>;
+export type TranscriptSegmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+};
+export type TranscriptSegmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+};
+export type TranscriptSegmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>;
+};
+export type $TranscriptSegmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "TranscriptSegment";
+    objects: {
+        video: Prisma.$VideoPayload<ExtArgs>;
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        videoId: string;
+        sequence: number;
+        startMs: number;
+        endMs: number;
+        durationMs: number;
+        text: string;
+        language: string | null;
+        source: string | null;
+        format: string | null;
+        metadata: runtime.JsonValue | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }, ExtArgs["result"]["transcriptSegment"]>;
+    composites: {};
+};
+export type TranscriptSegmentGetPayload<S extends boolean | null | undefined | TranscriptSegmentDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload, S>;
+export type TranscriptSegmentCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<TranscriptSegmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: TranscriptSegmentCountAggregateInputType | true;
+};
+export interface TranscriptSegmentDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['TranscriptSegment'];
+        meta: {
+            name: 'TranscriptSegment';
+        };
+    };
+    findUnique<T extends TranscriptSegmentFindUniqueArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentFindUniqueArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    findUniqueOrThrow<T extends TranscriptSegmentFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    findFirst<T extends TranscriptSegmentFindFirstArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentFindFirstArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    findFirstOrThrow<T extends TranscriptSegmentFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    findMany<T extends TranscriptSegmentFindManyArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    create<T extends TranscriptSegmentCreateArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentCreateArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    createMany<T extends TranscriptSegmentCreateManyArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    createManyAndReturn<T extends TranscriptSegmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    delete<T extends TranscriptSegmentDeleteArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentDeleteArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    update<T extends TranscriptSegmentUpdateArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentUpdateArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    deleteMany<T extends TranscriptSegmentDeleteManyArgs>(args?: Prisma.SelectSubset<T, TranscriptSegmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    updateMany<T extends TranscriptSegmentUpdateManyArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    updateManyAndReturn<T extends TranscriptSegmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    upsert<T extends TranscriptSegmentUpsertArgs>(args: Prisma.SelectSubset<T, TranscriptSegmentUpsertArgs<ExtArgs>>): Prisma.Prisma__TranscriptSegmentClient<runtime.Types.Result.GetResult<Prisma.$TranscriptSegmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    count<T extends TranscriptSegmentCountArgs>(args?: Prisma.Subset<T, TranscriptSegmentCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], TranscriptSegmentCountAggregateOutputType> : number>;
+    aggregate<T extends TranscriptSegmentAggregateArgs>(args: Prisma.Subset<T, TranscriptSegmentAggregateArgs>): Prisma.PrismaPromise<GetTranscriptSegmentAggregateType<T>>;
+    groupBy<T extends TranscriptSegmentGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: TranscriptSegmentGroupByArgs['orderBy'];
+    } : {
+        orderBy?: TranscriptSegmentGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, TranscriptSegmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTranscriptSegmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    readonly fields: TranscriptSegmentFieldRefs;
+}
+export interface Prisma__TranscriptSegmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    video<T extends Prisma.VideoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoDefaultArgs<ExtArgs>>): Prisma.Prisma__VideoClient<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+export interface TranscriptSegmentFieldRefs {
+    readonly id: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly videoId: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly sequence: Prisma.FieldRef<"TranscriptSegment", 'Int'>;
+    readonly startMs: Prisma.FieldRef<"TranscriptSegment", 'Int'>;
+    readonly endMs: Prisma.FieldRef<"TranscriptSegment", 'Int'>;
+    readonly durationMs: Prisma.FieldRef<"TranscriptSegment", 'Int'>;
+    readonly text: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly language: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly source: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly format: Prisma.FieldRef<"TranscriptSegment", 'String'>;
+    readonly metadata: Prisma.FieldRef<"TranscriptSegment", 'Json'>;
+    readonly createdAt: Prisma.FieldRef<"TranscriptSegment", 'DateTime'>;
+    readonly updatedAt: Prisma.FieldRef<"TranscriptSegment", 'DateTime'>;
+}
+export type TranscriptSegmentFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+};
+export type TranscriptSegmentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+};
+export type TranscriptSegmentFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where?: Prisma.TranscriptSegmentWhereInput;
+    orderBy?: Prisma.TranscriptSegmentOrderByWithRelationInput | Prisma.TranscriptSegmentOrderByWithRelationInput[];
+    cursor?: Prisma.TranscriptSegmentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TranscriptSegmentScalarFieldEnum | Prisma.TranscriptSegmentScalarFieldEnum[];
+};
+export type TranscriptSegmentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where?: Prisma.TranscriptSegmentWhereInput;
+    orderBy?: Prisma.TranscriptSegmentOrderByWithRelationInput | Prisma.TranscriptSegmentOrderByWithRelationInput[];
+    cursor?: Prisma.TranscriptSegmentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TranscriptSegmentScalarFieldEnum | Prisma.TranscriptSegmentScalarFieldEnum[];
+};
+export type TranscriptSegmentFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where?: Prisma.TranscriptSegmentWhereInput;
+    orderBy?: Prisma.TranscriptSegmentOrderByWithRelationInput | Prisma.TranscriptSegmentOrderByWithRelationInput[];
+    cursor?: Prisma.TranscriptSegmentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TranscriptSegmentScalarFieldEnum | Prisma.TranscriptSegmentScalarFieldEnum[];
+};
+export type TranscriptSegmentCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.TranscriptSegmentCreateInput, Prisma.TranscriptSegmentUncheckedCreateInput>;
+};
+export type TranscriptSegmentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    data: Prisma.TranscriptSegmentCreateManyInput | Prisma.TranscriptSegmentCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+export type TranscriptSegmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelectCreateManyAndReturn<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    data: Prisma.TranscriptSegmentCreateManyInput | Prisma.TranscriptSegmentCreateManyInput[];
+    skipDuplicates?: boolean;
+    include?: Prisma.TranscriptSegmentIncludeCreateManyAndReturn<ExtArgs> | null;
+};
+export type TranscriptSegmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.TranscriptSegmentUpdateInput, Prisma.TranscriptSegmentUncheckedUpdateInput>;
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+};
+export type TranscriptSegmentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    data: Prisma.XOR<Prisma.TranscriptSegmentUpdateManyMutationInput, Prisma.TranscriptSegmentUncheckedUpdateManyInput>;
+    where?: Prisma.TranscriptSegmentWhereInput;
+    limit?: number;
+};
+export type TranscriptSegmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelectUpdateManyAndReturn<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    data: Prisma.XOR<Prisma.TranscriptSegmentUpdateManyMutationInput, Prisma.TranscriptSegmentUncheckedUpdateManyInput>;
+    where?: Prisma.TranscriptSegmentWhereInput;
+    limit?: number;
+    include?: Prisma.TranscriptSegmentIncludeUpdateManyAndReturn<ExtArgs> | null;
+};
+export type TranscriptSegmentUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+    create: Prisma.XOR<Prisma.TranscriptSegmentCreateInput, Prisma.TranscriptSegmentUncheckedCreateInput>;
+    update: Prisma.XOR<Prisma.TranscriptSegmentUpdateInput, Prisma.TranscriptSegmentUncheckedUpdateInput>;
+};
+export type TranscriptSegmentDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+    where: Prisma.TranscriptSegmentWhereUniqueInput;
+};
+export type TranscriptSegmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TranscriptSegmentWhereInput;
+    limit?: number;
+};
+export type TranscriptSegmentDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    select?: Prisma.TranscriptSegmentSelect<ExtArgs> | null;
+    omit?: Prisma.TranscriptSegmentOmit<ExtArgs> | null;
+    include?: Prisma.TranscriptSegmentInclude<ExtArgs> | null;
+};

@@ -1,0 +1,42 @@
+import { PrismaService } from '../../database/prisma.service';
+import { AnalysisWindowsRepository } from './analysis-windows.repository';
+export declare class AnalysisWindowService {
+    private readonly prisma;
+    private readonly repository;
+    constructor(prisma: PrismaService, repository: AnalysisWindowsRepository);
+    rebuild(videoId: string): Promise<{
+        videoId: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        startMs: number;
+        endMs: number;
+        spikeScore: number;
+        reactionScore: number;
+        diversityScore: number;
+        transcriptScore: number;
+        termScore: number;
+        windowIndex: number;
+        windowSizeMs: number;
+        chatMessageCount: number;
+        uniqueAuthorCount: number;
+        chatWordCount: number;
+        transcriptWordCount: number;
+        emojiCount: number;
+        laughCount: number;
+        questionCount: number;
+        exclamationCount: number;
+        capsCount: number;
+        authorDiversity: number;
+        baselineMessageCount: number | null;
+        messageRatio: number | null;
+        zScore: number | null;
+        features: import("@prisma/client/runtime/client").JsonValue | null;
+    }[]>;
+    private getBaseline;
+    private countWords;
+    private isLaugh;
+    private isCaps;
+    private countEmoji;
+    private clamp;
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"chats.module.js","sourceRoot":"","sources":["../../../src/chats/chats.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AAExC,yDAAqD;AAO9C,IAAM,WAAW,GAAjB,MAAM,WAAW;CAAG,CAAA;AAAd,kCAAW;sBAAX,WAAW;IALvB,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,kCAAe,CAAC;QAE5B,OAAO,EAAE,CAAC,kCAAe,CAAC;KAC3B,CAAC;GACW,WAAW,CAAG"}
