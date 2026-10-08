@@ -11,12 +11,16 @@ import {
 
 import { HighlightCandidatesRepository } from './highlight-candidates.repository';
 
+import { HighlightClipVariantService } from './highlight-clip-variant.service';
+
 @Injectable()
 export class HighlightCandidateService {
   constructor(
     private readonly prisma: PrismaService,
 
     private readonly repository: HighlightCandidatesRepository,
+
+    private readonly clipVariantService: HighlightClipVariantService,
   ) {}
 
   async rebuild(videoId: string) {
@@ -179,6 +183,8 @@ export class HighlightCandidateService {
       }));
 
     await this.repository.replaceTop(videoId, top5);
+
+    await this.clipVariantService.rebuildForVideo(videoId);
 
     return top5;
   }
