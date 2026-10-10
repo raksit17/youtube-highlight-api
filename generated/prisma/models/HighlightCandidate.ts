@@ -378,6 +378,7 @@ export type HighlightCandidateWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"HighlightCandidate"> | Date | string
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
   clipDrafts?: Prisma.ClipDraftListRelationFilter
+  clipVariants?: Prisma.HighlightClipVariantListRelationFilter
   windows?: Prisma.HighlightCandidateWindowListRelationFilter
 }
 
@@ -404,6 +405,7 @@ export type HighlightCandidateOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   video?: Prisma.VideoOrderByWithRelationInput
   clipDrafts?: Prisma.ClipDraftOrderByRelationAggregateInput
+  clipVariants?: Prisma.HighlightClipVariantOrderByRelationAggregateInput
   windows?: Prisma.HighlightCandidateWindowOrderByRelationAggregateInput
 }
 
@@ -434,6 +436,7 @@ export type HighlightCandidateWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"HighlightCandidate"> | Date | string
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
   clipDrafts?: Prisma.ClipDraftListRelationFilter
+  clipVariants?: Prisma.HighlightClipVariantListRelationFilter
   windows?: Prisma.HighlightCandidateWindowListRelationFilter
 }, "id" | "videoId_rank">
 
@@ -513,6 +516,7 @@ export type HighlightCandidateCreateInput = {
   updatedAt?: Date | string
   video: Prisma.VideoCreateNestedOneWithoutHighlightCandidatesInput
   clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -538,6 +542,7 @@ export type HighlightCandidateUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowUncheckedCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -563,6 +568,7 @@ export type HighlightCandidateUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   video?: Prisma.VideoUpdateOneRequiredWithoutHighlightCandidatesNestedInput
   clipDrafts?: Prisma.ClipDraftUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -588,6 +594,7 @@ export type HighlightCandidateUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUncheckedUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -841,6 +848,20 @@ export type HighlightCandidateUpdateOneRequiredWithoutWindowsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.HighlightCandidateUpdateToOneWithWhereWithoutWindowsInput, Prisma.HighlightCandidateUpdateWithoutWindowsInput>, Prisma.HighlightCandidateUncheckedUpdateWithoutWindowsInput>
 }
 
+export type HighlightCandidateCreateNestedOneWithoutClipVariantsInput = {
+  create?: Prisma.XOR<Prisma.HighlightCandidateCreateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedCreateWithoutClipVariantsInput>
+  connectOrCreate?: Prisma.HighlightCandidateCreateOrConnectWithoutClipVariantsInput
+  connect?: Prisma.HighlightCandidateWhereUniqueInput
+}
+
+export type HighlightCandidateUpdateOneRequiredWithoutClipVariantsNestedInput = {
+  create?: Prisma.XOR<Prisma.HighlightCandidateCreateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedCreateWithoutClipVariantsInput>
+  connectOrCreate?: Prisma.HighlightCandidateCreateOrConnectWithoutClipVariantsInput
+  upsert?: Prisma.HighlightCandidateUpsertWithoutClipVariantsInput
+  connect?: Prisma.HighlightCandidateWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.HighlightCandidateUpdateToOneWithWhereWithoutClipVariantsInput, Prisma.HighlightCandidateUpdateWithoutClipVariantsInput>, Prisma.HighlightCandidateUncheckedUpdateWithoutClipVariantsInput>
+}
+
 export type HighlightCandidateCreateNestedOneWithoutClipDraftsInput = {
   create?: Prisma.XOR<Prisma.HighlightCandidateCreateWithoutClipDraftsInput, Prisma.HighlightCandidateUncheckedCreateWithoutClipDraftsInput>
   connectOrCreate?: Prisma.HighlightCandidateCreateOrConnectWithoutClipDraftsInput
@@ -878,6 +899,7 @@ export type HighlightCandidateCreateWithoutVideoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -902,6 +924,7 @@ export type HighlightCandidateUncheckedCreateWithoutVideoInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowUncheckedCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -979,6 +1002,7 @@ export type HighlightCandidateCreateWithoutWindowsInput = {
   updatedAt?: Date | string
   video: Prisma.VideoCreateNestedOneWithoutHighlightCandidatesInput
   clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantCreateNestedManyWithoutCandidateInput
 }
 
 export type HighlightCandidateUncheckedCreateWithoutWindowsInput = {
@@ -1003,6 +1027,7 @@ export type HighlightCandidateUncheckedCreateWithoutWindowsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutCandidateInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedCreateNestedManyWithoutCandidateInput
 }
 
 export type HighlightCandidateCreateOrConnectWithoutWindowsInput = {
@@ -1043,6 +1068,7 @@ export type HighlightCandidateUpdateWithoutWindowsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   video?: Prisma.VideoUpdateOneRequiredWithoutHighlightCandidatesNestedInput
   clipDrafts?: Prisma.ClipDraftUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUpdateManyWithoutCandidateNestedInput
 }
 
 export type HighlightCandidateUncheckedUpdateWithoutWindowsInput = {
@@ -1067,6 +1093,123 @@ export type HighlightCandidateUncheckedUpdateWithoutWindowsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedUpdateManyWithoutCandidateNestedInput
+}
+
+export type HighlightCandidateCreateWithoutClipVariantsInput = {
+  id?: string
+  rank?: number | null
+  startMs: number
+  peakMs: number
+  endMs: number
+  summary?: string | null
+  category?: string | null
+  summaryScore?: number
+  spikeScore?: number
+  reactionScore?: number
+  diversityScore?: number
+  transcriptScore?: number
+  termScore?: number
+  finalScore?: number
+  confidence?: number | null
+  reason?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.HighlightStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  video: Prisma.VideoCreateNestedOneWithoutHighlightCandidatesInput
+  clipDrafts?: Prisma.ClipDraftCreateNestedManyWithoutCandidateInput
+  windows?: Prisma.HighlightCandidateWindowCreateNestedManyWithoutHighlightCandidateInput
+}
+
+export type HighlightCandidateUncheckedCreateWithoutClipVariantsInput = {
+  id?: string
+  videoId: string
+  rank?: number | null
+  startMs: number
+  peakMs: number
+  endMs: number
+  summary?: string | null
+  category?: string | null
+  summaryScore?: number
+  spikeScore?: number
+  reactionScore?: number
+  diversityScore?: number
+  transcriptScore?: number
+  termScore?: number
+  finalScore?: number
+  confidence?: number | null
+  reason?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.HighlightStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clipDrafts?: Prisma.ClipDraftUncheckedCreateNestedManyWithoutCandidateInput
+  windows?: Prisma.HighlightCandidateWindowUncheckedCreateNestedManyWithoutHighlightCandidateInput
+}
+
+export type HighlightCandidateCreateOrConnectWithoutClipVariantsInput = {
+  where: Prisma.HighlightCandidateWhereUniqueInput
+  create: Prisma.XOR<Prisma.HighlightCandidateCreateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedCreateWithoutClipVariantsInput>
+}
+
+export type HighlightCandidateUpsertWithoutClipVariantsInput = {
+  update: Prisma.XOR<Prisma.HighlightCandidateUpdateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedUpdateWithoutClipVariantsInput>
+  create: Prisma.XOR<Prisma.HighlightCandidateCreateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedCreateWithoutClipVariantsInput>
+  where?: Prisma.HighlightCandidateWhereInput
+}
+
+export type HighlightCandidateUpdateToOneWithWhereWithoutClipVariantsInput = {
+  where?: Prisma.HighlightCandidateWhereInput
+  data: Prisma.XOR<Prisma.HighlightCandidateUpdateWithoutClipVariantsInput, Prisma.HighlightCandidateUncheckedUpdateWithoutClipVariantsInput>
+}
+
+export type HighlightCandidateUpdateWithoutClipVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  rank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startMs?: Prisma.IntFieldUpdateOperationsInput | number
+  peakMs?: Prisma.IntFieldUpdateOperationsInput | number
+  endMs?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summaryScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  spikeScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  reactionScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  diversityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  transcriptScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  termScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reason?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumHighlightStatusFieldUpdateOperationsInput | $Enums.HighlightStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  video?: Prisma.VideoUpdateOneRequiredWithoutHighlightCandidatesNestedInput
+  clipDrafts?: Prisma.ClipDraftUpdateManyWithoutCandidateNestedInput
+  windows?: Prisma.HighlightCandidateWindowUpdateManyWithoutHighlightCandidateNestedInput
+}
+
+export type HighlightCandidateUncheckedUpdateWithoutClipVariantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  rank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  startMs?: Prisma.IntFieldUpdateOperationsInput | number
+  peakMs?: Prisma.IntFieldUpdateOperationsInput | number
+  endMs?: Prisma.IntFieldUpdateOperationsInput | number
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summaryScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  spikeScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  reactionScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  diversityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  transcriptScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  termScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  confidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reason?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumHighlightStatusFieldUpdateOperationsInput | $Enums.HighlightStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutCandidateNestedInput
+  windows?: Prisma.HighlightCandidateWindowUncheckedUpdateManyWithoutHighlightCandidateNestedInput
 }
 
 export type HighlightCandidateCreateWithoutClipDraftsInput = {
@@ -1090,6 +1233,7 @@ export type HighlightCandidateCreateWithoutClipDraftsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   video: Prisma.VideoCreateNestedOneWithoutHighlightCandidatesInput
+  clipVariants?: Prisma.HighlightClipVariantCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -1114,6 +1258,7 @@ export type HighlightCandidateUncheckedCreateWithoutClipDraftsInput = {
   status?: $Enums.HighlightStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  clipVariants?: Prisma.HighlightClipVariantUncheckedCreateNestedManyWithoutCandidateInput
   windows?: Prisma.HighlightCandidateWindowUncheckedCreateNestedManyWithoutHighlightCandidateInput
 }
 
@@ -1154,6 +1299,7 @@ export type HighlightCandidateUpdateWithoutClipDraftsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   video?: Prisma.VideoUpdateOneRequiredWithoutHighlightCandidatesNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -1178,6 +1324,7 @@ export type HighlightCandidateUncheckedUpdateWithoutClipDraftsInput = {
   status?: Prisma.EnumHighlightStatusFieldUpdateOperationsInput | $Enums.HighlightStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clipVariants?: Prisma.HighlightClipVariantUncheckedUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUncheckedUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -1224,6 +1371,7 @@ export type HighlightCandidateUpdateWithoutVideoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clipDrafts?: Prisma.ClipDraftUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -1248,6 +1396,7 @@ export type HighlightCandidateUncheckedUpdateWithoutVideoInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clipDrafts?: Prisma.ClipDraftUncheckedUpdateManyWithoutCandidateNestedInput
+  clipVariants?: Prisma.HighlightClipVariantUncheckedUpdateManyWithoutCandidateNestedInput
   windows?: Prisma.HighlightCandidateWindowUncheckedUpdateManyWithoutHighlightCandidateNestedInput
 }
 
@@ -1280,11 +1429,13 @@ export type HighlightCandidateUncheckedUpdateManyWithoutVideoInput = {
 
 export type HighlightCandidateCountOutputType = {
   clipDrafts: number
+  clipVariants: number
   windows: number
 }
 
 export type HighlightCandidateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   clipDrafts?: boolean | HighlightCandidateCountOutputTypeCountClipDraftsArgs
+  clipVariants?: boolean | HighlightCandidateCountOutputTypeCountClipVariantsArgs
   windows?: boolean | HighlightCandidateCountOutputTypeCountWindowsArgs
 }
 
@@ -1303,6 +1454,13 @@ export type HighlightCandidateCountOutputTypeDefaultArgs<ExtArgs extends runtime
  */
 export type HighlightCandidateCountOutputTypeCountClipDraftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ClipDraftWhereInput
+}
+
+/**
+ * HighlightCandidateCountOutputType without action
+ */
+export type HighlightCandidateCountOutputTypeCountClipVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HighlightClipVariantWhereInput
 }
 
 /**
@@ -1336,6 +1494,7 @@ export type HighlightCandidateSelect<ExtArgs extends runtime.Types.Extensions.In
   updatedAt?: boolean
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
   clipDrafts?: boolean | Prisma.HighlightCandidate$clipDraftsArgs<ExtArgs>
+  clipVariants?: boolean | Prisma.HighlightCandidate$clipVariantsArgs<ExtArgs>
   windows?: boolean | Prisma.HighlightCandidate$windowsArgs<ExtArgs>
   _count?: boolean | Prisma.HighlightCandidateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["highlightCandidate"]>
@@ -1415,6 +1574,7 @@ export type HighlightCandidateOmit<ExtArgs extends runtime.Types.Extensions.Inte
 export type HighlightCandidateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
   clipDrafts?: boolean | Prisma.HighlightCandidate$clipDraftsArgs<ExtArgs>
+  clipVariants?: boolean | Prisma.HighlightCandidate$clipVariantsArgs<ExtArgs>
   windows?: boolean | Prisma.HighlightCandidate$windowsArgs<ExtArgs>
   _count?: boolean | Prisma.HighlightCandidateCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1430,6 +1590,7 @@ export type $HighlightCandidatePayload<ExtArgs extends runtime.Types.Extensions.
   objects: {
     video: Prisma.$VideoPayload<ExtArgs>
     clipDrafts: Prisma.$ClipDraftPayload<ExtArgs>[]
+    clipVariants: Prisma.$HighlightClipVariantPayload<ExtArgs>[]
     windows: Prisma.$HighlightCandidateWindowPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1849,6 +2010,7 @@ export interface Prisma__HighlightCandidateClient<T, Null = never, ExtArgs exten
   readonly [Symbol.toStringTag]: "PrismaPromise"
   video<T extends Prisma.VideoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoDefaultArgs<ExtArgs>>): Prisma.Prisma__VideoClient<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   clipDrafts<T extends Prisma.HighlightCandidate$clipDraftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HighlightCandidate$clipDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClipDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  clipVariants<T extends Prisma.HighlightCandidate$clipVariantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HighlightCandidate$clipVariantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HighlightClipVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   windows<T extends Prisma.HighlightCandidate$windowsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HighlightCandidate$windowsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HighlightCandidateWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2321,6 +2483,30 @@ export type HighlightCandidate$clipDraftsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.ClipDraftScalarFieldEnum | Prisma.ClipDraftScalarFieldEnum[]
+}
+
+/**
+ * HighlightCandidate.clipVariants
+ */
+export type HighlightCandidate$clipVariantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HighlightClipVariant
+   */
+  select?: Prisma.HighlightClipVariantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HighlightClipVariant
+   */
+  omit?: Prisma.HighlightClipVariantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HighlightClipVariantInclude<ExtArgs> | null
+  where?: Prisma.HighlightClipVariantWhereInput
+  orderBy?: Prisma.HighlightClipVariantOrderByWithRelationInput | Prisma.HighlightClipVariantOrderByWithRelationInput[]
+  cursor?: Prisma.HighlightClipVariantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HighlightClipVariantScalarFieldEnum | Prisma.HighlightClipVariantScalarFieldEnum[]
 }
 
 /**

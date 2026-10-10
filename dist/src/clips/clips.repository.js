@@ -50,6 +50,14 @@ let ClipsRepository = class ClipsRepository {
                 category: true,
                 summary: true,
                 status: true,
+                clipVariants: {
+                    select: {
+                        preset: true,
+                        startMs: true,
+                        endMs: true,
+                        durationMs: true,
+                    },
+                },
             },
         });
     }
@@ -63,6 +71,8 @@ let ClipsRepository = class ClipsRepository {
                 peakMs: input.peakMs,
                 title: input.title,
                 note: input.note,
+                sourcePreset: input.sourcePreset,
+                isCustomized: input.isCustomized ?? false,
                 candidateSnapshot: input.candidateSnapshot,
             },
             include: {
@@ -135,6 +145,7 @@ let ClipsRepository = class ClipsRepository {
                 title: input.title,
                 note: input.note,
                 status: input.status,
+                isCustomized: input.isCustomized,
             },
             include: {
                 candidate: true,

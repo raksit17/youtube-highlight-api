@@ -26,6 +26,16 @@ export const ClipDraftStatus = {
 export type ClipDraftStatus = (typeof ClipDraftStatus)[keyof typeof ClipDraftStatus]
 
 
+export const HighlightLengthPreset = {
+  QUICK: 'QUICK',
+  CONTEXT: 'CONTEXT',
+  STANDARD: 'STANDARD',
+  LONG: 'LONG'
+} as const
+
+export type HighlightLengthPreset = (typeof HighlightLengthPreset)[keyof typeof HighlightLengthPreset]
+
+
 export const IngestionStatus = {
   PENDING: 'PENDING',
   PROCESSING: 'PROCESSING',
@@ -64,3 +74,13 @@ export const HighlightStatus = {
 } as const
 
 export type HighlightStatus = (typeof HighlightStatus)[keyof typeof HighlightStatus]
+
+
+export const RenderJobStatus = {
+  QUEUED: 'QUEUED',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type RenderJobStatus = (typeof RenderJobStatus)[keyof typeof RenderJobStatus]

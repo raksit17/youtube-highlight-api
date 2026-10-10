@@ -1,9 +1,13 @@
+import { StreamableFile } from '@nestjs/common';
 import { ClipsService } from './clips.service';
+import { SubtitleExportService } from './subtitle-export.service';
+import type { Response } from 'express';
 import { CreateClipDraftDto } from './dto/create-clip-draft.dto';
 import { UpdateClipDraftDto } from './dto/update-clip-draft.dto';
 export declare class ClipsController {
     private readonly clipsService;
-    constructor(clipsService: ClipsService);
+    private readonly subtitleExportService;
+    constructor(clipsService: ClipsService, subtitleExportService: SubtitleExportService);
     create(videoId: string, dto: CreateClipDraftDto): Promise<{
         id: string;
         videoId: string;
@@ -15,6 +19,8 @@ export declare class ClipsController {
         title: string | null;
         note: string | null;
         status: string;
+        sourcePreset: string | null;
+        isCustomized: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -31,6 +37,8 @@ export declare class ClipsController {
             title: string | null;
             note: string | null;
             status: import("../../generated/prisma/enums").ClipDraftStatus;
+            sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+            isCustomized: boolean;
             candidate: {
                 status: import("../../generated/prisma/enums").HighlightStatus;
                 id: string;
@@ -54,6 +62,8 @@ export declare class ClipsController {
         title: string | null;
         note: string | null;
         status: import("../../generated/prisma/enums").ClipDraftStatus;
+        sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue;
         candidate: {
             startMs: number;
@@ -88,9 +98,12 @@ export declare class ClipsController {
         title: string | null;
         note: string | null;
         status: string;
+        sourcePreset: string | null;
+        isCustomized: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
+    downloadSubtitles(id: string, format: string | undefined, language: string | undefined, response: Response): Promise<StreamableFile>;
     export(id: string): Promise<{
         version: number;
         video: {
@@ -112,6 +125,8 @@ export declare class ClipsController {
             peakSeconds: number | null;
             endSeconds: number;
             status: import("../../generated/prisma/enums").ClipDraftStatus;
+            sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+            isCustomized: boolean;
         };
         sourceCandidate: import("@prisma/client/runtime/client").JsonValue;
         exportedAt: string;

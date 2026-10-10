@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const clips_controller_1 = require("./clips.controller");
 const clips_repository_1 = require("./clips.repository");
 const clips_service_1 = require("./clips.service");
+const subtitle_export_service_1 = require("./subtitle-export.service");
 let ClipsModule = class ClipsModule {
 };
 exports.ClipsModule = ClipsModule;
@@ -22,6 +23,7 @@ exports.ClipsModule = ClipsModule = __decorate([
         providers: [
             clips_service_1.ClipsService,
             clips_repository_1.ClipsRepository,
+            subtitle_export_service_1.SubtitleExportService,
         ],
         exports: [
             clips_service_1.ClipsService,

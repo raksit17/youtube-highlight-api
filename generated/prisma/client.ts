@@ -85,7 +85,17 @@ export type HighlightCandidate = Prisma.HighlightCandidateModel
  */
 export type HighlightCandidateWindow = Prisma.HighlightCandidateWindowModel
 /**
+ * Model HighlightClipVariant
+ * 
+ */
+export type HighlightClipVariant = Prisma.HighlightClipVariantModel
+/**
  * Model ClipDraft
  * 
  */
 export type ClipDraft = Prisma.ClipDraftModel
+/**
+ * Model RenderJob
+ * 
+ */
+export type RenderJob = Prisma.RenderJobModel

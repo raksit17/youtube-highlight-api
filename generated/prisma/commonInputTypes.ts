@@ -419,11 +419,35 @@ export type EnumHighlightStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>
 }
 
+export type EnumHighlightLengthPresetFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel> | $Enums.HighlightLengthPreset
+}
+
+export type EnumHighlightLengthPresetWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumHighlightLengthPresetWithAggregatesFilter<$PrismaModel> | $Enums.HighlightLengthPreset
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel>
+}
+
 export type EnumClipDraftStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel> | $Enums.ClipDraftStatus
+}
+
+export type EnumHighlightLengthPresetNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel> | $Enums.HighlightLengthPreset | null
 }
 
 export type EnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -434,6 +458,33 @@ export type EnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>
+}
+
+export type EnumHighlightLengthPresetNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHighlightLengthPresetNullableWithAggregatesFilter<$PrismaModel> | $Enums.HighlightLengthPreset | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel>
+}
+
+export type EnumRenderJobStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RenderJobStatus | Prisma.EnumRenderJobStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel> | $Enums.RenderJobStatus
+}
+
+export type EnumRenderJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RenderJobStatus | Prisma.EnumRenderJobStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRenderJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.RenderJobStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel>
 }
 
 export type NestedStringFilter<$PrismaModel = never> = {
@@ -805,11 +856,35 @@ export type NestedEnumHighlightStatusWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumHighlightStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumHighlightLengthPresetFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel> | $Enums.HighlightLengthPreset
+}
+
+export type NestedEnumHighlightLengthPresetWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumHighlightLengthPresetWithAggregatesFilter<$PrismaModel> | $Enums.HighlightLengthPreset
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHighlightLengthPresetFilter<$PrismaModel>
+}
+
 export type NestedEnumClipDraftStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ClipDraftStatus | Prisma.EnumClipDraftStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.ClipDraftStatus[] | Prisma.ListEnumClipDraftStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel> | $Enums.ClipDraftStatus
+}
+
+export type NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel> | $Enums.HighlightLengthPreset | null
 }
 
 export type NestedEnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -820,6 +895,33 @@ export type NestedEnumClipDraftStatusWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumClipDraftStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumHighlightLengthPresetNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.HighlightLengthPreset | Prisma.EnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  in?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.HighlightLengthPreset[] | Prisma.ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumHighlightLengthPresetNullableWithAggregatesFilter<$PrismaModel> | $Enums.HighlightLengthPreset | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumHighlightLengthPresetNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumRenderJobStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.RenderJobStatus | Prisma.EnumRenderJobStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel> | $Enums.RenderJobStatus
+}
+
+export type NestedEnumRenderJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RenderJobStatus | Prisma.EnumRenderJobStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RenderJobStatus[] | Prisma.ListEnumRenderJobStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRenderJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.RenderJobStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRenderJobStatusFilter<$PrismaModel>
 }
 
 

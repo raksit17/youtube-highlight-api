@@ -45,12 +45,15 @@ let IngestionService = IngestionService_1 = class IngestionService {
     }
     async ingestJson(input) {
         const payload = await this.validator.validate(input);
+        console.log('Validated Payload:', payload);
         const res = await this.process(payload, {
             type: enums_1.IngestionType.API,
         });
+        console.log('Ingestion Result:', res);
         let analysis = null;
         if (res) {
             try {
+                console.log('Starting analysis for video:', res.video.id);
                 return await this.analysisOrchestrator.rebuildForVideo(res.video.id);
             }
             catch (error) {

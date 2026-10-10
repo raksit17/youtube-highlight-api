@@ -15,6 +15,8 @@ export declare class ClipsService {
         title: string | null;
         note: string | null;
         status: string;
+        sourcePreset: string | null;
+        isCustomized: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -31,6 +33,8 @@ export declare class ClipsService {
             title: string | null;
             note: string | null;
             status: import("../../generated/prisma/enums").ClipDraftStatus;
+            sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+            isCustomized: boolean;
             candidate: {
                 status: import("../../generated/prisma/enums").HighlightStatus;
                 id: string;
@@ -54,6 +58,8 @@ export declare class ClipsService {
         title: string | null;
         note: string | null;
         status: import("../../generated/prisma/enums").ClipDraftStatus;
+        sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue;
         candidate: {
             startMs: number;
@@ -88,6 +94,8 @@ export declare class ClipsService {
         title: string | null;
         note: string | null;
         status: string;
+        sourcePreset: string | null;
+        isCustomized: boolean;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -116,6 +124,8 @@ export declare class ClipsService {
             peakSeconds: number | null;
             endSeconds: number;
             status: import("../../generated/prisma/enums").ClipDraftStatus;
+            sourcePreset: import("../../generated/prisma/enums").HighlightLengthPreset | null;
+            isCustomized: boolean;
         };
         sourceCandidate: import("@prisma/client/runtime/client").JsonValue;
         exportedAt: string;

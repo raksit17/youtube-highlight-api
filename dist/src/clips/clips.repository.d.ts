@@ -1,5 +1,5 @@
-import { ClipDraftStatus } from '../../generated/prisma/enums';
 import { Prisma } from '../../generated/prisma/client';
+import { ClipDraftStatus, HighlightLengthPreset } from '../../generated/prisma/enums';
 import { PrismaService } from '../database/prisma.service';
 export declare class ClipsRepository {
     private readonly prisma;
@@ -26,6 +26,12 @@ export declare class ClipsRepository {
         category: string | null;
         summaryScore: number;
         finalScore: number;
+        clipVariants: {
+            preset: HighlightLengthPreset;
+            startMs: number;
+            endMs: number;
+            durationMs: number;
+        }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, {
         omit: Prisma.GlobalOmitConfig | undefined;
     }>;
@@ -37,6 +43,8 @@ export declare class ClipsRepository {
         peakMs?: number;
         title?: string;
         note?: string;
+        sourcePreset?: HighlightLengthPreset;
+        isCustomized?: boolean;
         candidateSnapshot?: Prisma.InputJsonValue;
     }): Prisma.Prisma__ClipDraftClient<{
         candidate: {
@@ -73,6 +81,8 @@ export declare class ClipsRepository {
         createdAt: Date;
         updatedAt: Date;
         peakMs: number | null;
+        sourcePreset: HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, {
@@ -99,6 +109,8 @@ export declare class ClipsRepository {
         createdAt: Date;
         updatedAt: Date;
         peakMs: number | null;
+        sourcePreset: HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
     })[]>;
@@ -134,6 +146,8 @@ export declare class ClipsRepository {
         createdAt: Date;
         updatedAt: Date;
         peakMs: number | null;
+        sourcePreset: HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
     }) | null, null, import("@prisma/client/runtime/client").DefaultArgs, {
@@ -145,6 +159,7 @@ export declare class ClipsRepository {
         title?: string;
         note?: string;
         status?: ClipDraftStatus;
+        isCustomized?: boolean;
     }): Prisma.Prisma__ClipDraftClient<{
         candidate: {
             videoId: string;
@@ -180,6 +195,8 @@ export declare class ClipsRepository {
         createdAt: Date;
         updatedAt: Date;
         peakMs: number | null;
+        sourcePreset: HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, {
@@ -197,6 +214,8 @@ export declare class ClipsRepository {
         createdAt: Date;
         updatedAt: Date;
         peakMs: number | null;
+        sourcePreset: HighlightLengthPreset | null;
+        isCustomized: boolean;
         candidateSnapshot: import("@prisma/client/runtime/client").JsonValue | null;
         exportedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, {

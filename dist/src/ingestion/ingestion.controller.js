@@ -25,8 +25,8 @@ let IngestionController = class IngestionController {
     constructor(ingestionService) {
         this.ingestionService = ingestionService;
     }
-    ingestJson(body) {
-        return this.ingestionService.ingestJson(body);
+    async ingestJson(body) {
+        return await this.ingestionService.ingestJson(body);
     }
     ingestFile(file) {
         if (!file) {
@@ -41,7 +41,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], IngestionController.prototype, "ingestJson", null);
 __decorate([
     (0, common_1.Post)('file'),

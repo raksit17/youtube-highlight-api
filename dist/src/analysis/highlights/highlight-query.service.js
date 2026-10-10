@@ -13,7 +13,22 @@ exports.HighlightQueryService = void 0;
 const common_1 = require("@nestjs/common");
 const enums_1 = require("../../../generated/prisma/enums");
 const prisma_service_1 = require("../../database/prisma.service");
+const analysis_constants_1 = require("../analysis.constants");
+const clip_preset_util_1 = require("./clip-preset.util");
 const candidateInclude = {
+    video: {
+        select: {
+            durationMs: true,
+        },
+    },
+    clipVariants: {
+        select: {
+            preset: true,
+            startMs: true,
+            endMs: true,
+            durationMs: true,
+        },
+    },
     windows: {
         orderBy: {
             position: 'asc',
@@ -359,6 +374,7 @@ let HighlightQueryService = class HighlightQueryService {
             status: candidate.status,
             summary: candidate.summary,
             rejectionReason: reviewReason,
+            clipPresets: this.buildClipPresets(candidate),
             insights: {
                 reasonLabel,
                 chatIncreasePercent: maxMessageRatio === null
@@ -375,6 +391,25 @@ let HighlightQueryService = class HighlightQueryService {
                     : 0),
             },
         };
+    }
+    buildClipPresets(candidate) {
+        const videoDurationMs = candidate.video.durationMs ??
+            Math.max(candidate.endMs, candidate.peakMs, 1);
+        const presets = Object.keys(analysis_constants_1.CLIP_PRESETS);
+        return Object.fromEntries(presets.map((preset) => {
+            const stored = candidate.clipVariants.find((variant) => String(variant.preset) === preset);
+            const range = stored ??
+                (0, clip_preset_util_1.buildClipPresetRange)(preset, candidate.peakMs, videoDurationMs);
+            return [
+                preset,
+                {
+                    label: analysis_constants_1.CLIP_PRESETS[preset].label,
+                    startMs: range.startMs,
+                    endMs: range.endMs,
+                    durationMs: range.durationMs,
+                },
+            ];
+        }));
     }
     reasonLabel(input) {
         if (input.isPotentialSpam) {

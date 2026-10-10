@@ -45,17 +45,18 @@ private readonly logger = new Logger(IngestionService.name);
 
   async ingestJson(input: unknown) {
     const payload = await this.validator.validate(input);
-
+    console.log('Validated Payload:', payload);
     const res = await this.process(payload, {
       type: IngestionType.API,
     });
-
+    console.log('Ingestion Result:', res);
     let analysis: Awaited<
       ReturnType<AnalysisOrchestratorService['rebuildForVideo']>
     > | null = null;
 
     if (res) {
       try {
+        console.log('Starting analysis for video:', res.video.id);
        return await this.analysisOrchestrator.rebuildForVideo(res.video.id);
       } catch (error) {
         this.logger.error(

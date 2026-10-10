@@ -20,7 +20,9 @@ export declare const ModelName: {
     readonly WindowSummary: "WindowSummary";
     readonly HighlightCandidate: "HighlightCandidate";
     readonly HighlightCandidateWindow: "HighlightCandidateWindow";
+    readonly HighlightClipVariant: "HighlightClipVariant";
     readonly ClipDraft: "ClipDraft";
+    readonly RenderJob: "RenderJob";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -219,6 +221,17 @@ export declare const HighlightCandidateWindowScalarFieldEnum: {
     readonly position: "position";
 };
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum];
+export declare const HighlightClipVariantScalarFieldEnum: {
+    readonly id: "id";
+    readonly candidateId: "candidateId";
+    readonly preset: "preset";
+    readonly startMs: "startMs";
+    readonly endMs: "endMs";
+    readonly durationMs: "durationMs";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type HighlightClipVariantScalarFieldEnum = (typeof HighlightClipVariantScalarFieldEnum)[keyof typeof HighlightClipVariantScalarFieldEnum];
 export declare const ClipDraftScalarFieldEnum: {
     readonly id: "id";
     readonly videoId: "videoId";
@@ -229,12 +242,33 @@ export declare const ClipDraftScalarFieldEnum: {
     readonly title: "title";
     readonly note: "note";
     readonly status: "status";
+    readonly sourcePreset: "sourcePreset";
+    readonly isCustomized: "isCustomized";
     readonly candidateSnapshot: "candidateSnapshot";
     readonly exportedAt: "exportedAt";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };
 export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum];
+export declare const RenderJobScalarFieldEnum: {
+    readonly id: "id";
+    readonly clipId: "clipId";
+    readonly status: "status";
+    readonly progress: "progress";
+    readonly stage: "stage";
+    readonly format: "format";
+    readonly resolution: "resolution";
+    readonly mode: "mode";
+    readonly includeSubtitles: "includeSubtitles";
+    readonly outputPath: "outputPath";
+    readonly outputFilename: "outputFilename";
+    readonly errorMessage: "errorMessage";
+    readonly startedAt: "startedAt";
+    readonly completedAt: "completedAt";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type RenderJobScalarFieldEnum = (typeof RenderJobScalarFieldEnum)[keyof typeof RenderJobScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";

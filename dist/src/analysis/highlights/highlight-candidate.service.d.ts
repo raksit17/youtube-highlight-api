@@ -1,9 +1,11 @@
 import { PrismaService } from '../../database/prisma.service';
 import { HighlightCandidatesRepository } from './highlight-candidates.repository';
+import { HighlightClipVariantService } from './highlight-clip-variant.service';
 export declare class HighlightCandidateService {
     private readonly prisma;
     private readonly repository;
-    constructor(prisma: PrismaService, repository: HighlightCandidatesRepository);
+    private readonly clipVariantService;
+    constructor(prisma: PrismaService, repository: HighlightCandidatesRepository, clipVariantService: HighlightClipVariantService);
     rebuild(videoId: string): Promise<{
         rank: number;
         startMs: number;

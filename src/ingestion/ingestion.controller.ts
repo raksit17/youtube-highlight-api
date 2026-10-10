@@ -24,8 +24,8 @@ export class IngestionController {
   constructor(private readonly ingestionService: IngestionService) {}
 
   @Post('json')
-  ingestJson(@Body() body: unknown) {
-    return this.ingestionService.ingestJson(body);
+  async ingestJson(@Body() body: unknown) {
+    return await this.ingestionService.ingestJson(body);
   }
 
   @Post('file')

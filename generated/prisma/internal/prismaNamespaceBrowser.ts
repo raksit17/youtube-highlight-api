@@ -60,7 +60,9 @@ export const ModelName = {
   WindowSummary: 'WindowSummary',
   HighlightCandidate: 'HighlightCandidate',
   HighlightCandidateWindow: 'HighlightCandidateWindow',
-  ClipDraft: 'ClipDraft'
+  HighlightClipVariant: 'HighlightClipVariant',
+  ClipDraft: 'ClipDraft',
+  RenderJob: 'RenderJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -295,6 +297,20 @@ export const HighlightCandidateWindowScalarFieldEnum = {
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum]
 
 
+export const HighlightClipVariantScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  preset: 'preset',
+  startMs: 'startMs',
+  endMs: 'endMs',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HighlightClipVariantScalarFieldEnum = (typeof HighlightClipVariantScalarFieldEnum)[keyof typeof HighlightClipVariantScalarFieldEnum]
+
+
 export const ClipDraftScalarFieldEnum = {
   id: 'id',
   videoId: 'videoId',
@@ -305,6 +321,8 @@ export const ClipDraftScalarFieldEnum = {
   title: 'title',
   note: 'note',
   status: 'status',
+  sourcePreset: 'sourcePreset',
+  isCustomized: 'isCustomized',
   candidateSnapshot: 'candidateSnapshot',
   exportedAt: 'exportedAt',
   createdAt: 'createdAt',
@@ -312,6 +330,28 @@ export const ClipDraftScalarFieldEnum = {
 } as const
 
 export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum]
+
+
+export const RenderJobScalarFieldEnum = {
+  id: 'id',
+  clipId: 'clipId',
+  status: 'status',
+  progress: 'progress',
+  stage: 'stage',
+  format: 'format',
+  resolution: 'resolution',
+  mode: 'mode',
+  includeSubtitles: 'includeSubtitles',
+  outputPath: 'outputPath',
+  outputFilename: 'outputFilename',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RenderJobScalarFieldEnum = (typeof RenderJobScalarFieldEnum)[keyof typeof RenderJobScalarFieldEnum]
 
 
 export const SortOrder = {

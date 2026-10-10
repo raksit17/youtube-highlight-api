@@ -57,7 +57,13 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get highlightCandidateWindow(): Prisma.HighlightCandidateWindowDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    get highlightClipVariant(): Prisma.HighlightClipVariantDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
     get clipDraft(): Prisma.ClipDraftDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get renderJob(): Prisma.RenderJobDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
 }

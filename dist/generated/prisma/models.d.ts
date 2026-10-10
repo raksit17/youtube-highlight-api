@@ -7,5 +7,7 @@ export type * from './models/AnalysisTermCount.js';
 export type * from './models/WindowSummary.js';
 export type * from './models/HighlightCandidate.js';
 export type * from './models/HighlightCandidateWindow.js';
+export type * from './models/HighlightClipVariant.js';
 export type * from './models/ClipDraft.js';
+export type * from './models/RenderJob.js';
 export type * from './commonInputTypes.js';

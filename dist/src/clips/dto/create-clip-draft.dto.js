@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateClipDraftDto = void 0;
 const class_validator_1 = require("class-validator");
+const enums_1 = require("../../../generated/prisma/enums");
 class CreateClipDraftDto {
     candidateId;
+    preset;
     startMs;
     endMs;
     title;
@@ -24,6 +26,11 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateClipDraftDto.prototype, "candidateId", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(enums_1.HighlightLengthPreset),
+    __metadata("design:type", String)
+], CreateClipDraftDto.prototype, "preset", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),

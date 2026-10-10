@@ -48,6 +48,8 @@ export type ClipDraftMinAggregateOutputType = {
   title: string | null
   note: string | null
   status: $Enums.ClipDraftStatus | null
+  sourcePreset: $Enums.HighlightLengthPreset | null
+  isCustomized: boolean | null
   exportedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,6 +65,8 @@ export type ClipDraftMaxAggregateOutputType = {
   title: string | null
   note: string | null
   status: $Enums.ClipDraftStatus | null
+  sourcePreset: $Enums.HighlightLengthPreset | null
+  isCustomized: boolean | null
   exportedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -78,6 +82,8 @@ export type ClipDraftCountAggregateOutputType = {
   title: number
   note: number
   status: number
+  sourcePreset: number
+  isCustomized: number
   candidateSnapshot: number
   exportedAt: number
   createdAt: number
@@ -108,6 +114,8 @@ export type ClipDraftMinAggregateInputType = {
   title?: true
   note?: true
   status?: true
+  sourcePreset?: true
+  isCustomized?: true
   exportedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -123,6 +131,8 @@ export type ClipDraftMaxAggregateInputType = {
   title?: true
   note?: true
   status?: true
+  sourcePreset?: true
+  isCustomized?: true
   exportedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -138,6 +148,8 @@ export type ClipDraftCountAggregateInputType = {
   title?: true
   note?: true
   status?: true
+  sourcePreset?: true
+  isCustomized?: true
   candidateSnapshot?: true
   exportedAt?: true
   createdAt?: true
@@ -241,6 +253,8 @@ export type ClipDraftGroupByOutputType = {
   title: string | null
   note: string | null
   status: $Enums.ClipDraftStatus
+  sourcePreset: $Enums.HighlightLengthPreset | null
+  isCustomized: boolean
   candidateSnapshot: runtime.JsonValue | null
   exportedAt: Date | null
   createdAt: Date
@@ -280,12 +294,15 @@ export type ClipDraftWhereInput = {
   title?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   note?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   status?: Prisma.EnumClipDraftStatusFilter<"ClipDraft"> | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.EnumHighlightLengthPresetNullableFilter<"ClipDraft"> | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFilter<"ClipDraft"> | boolean
   candidateSnapshot?: Prisma.JsonNullableFilter<"ClipDraft">
   exportedAt?: Prisma.DateTimeNullableFilter<"ClipDraft"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ClipDraft"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClipDraft"> | Date | string
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
   candidate?: Prisma.XOR<Prisma.HighlightCandidateNullableScalarRelationFilter, Prisma.HighlightCandidateWhereInput> | null
+  renderJobs?: Prisma.RenderJobListRelationFilter
 }
 
 export type ClipDraftOrderByWithRelationInput = {
@@ -298,12 +315,15 @@ export type ClipDraftOrderByWithRelationInput = {
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  sourcePreset?: Prisma.SortOrderInput | Prisma.SortOrder
+  isCustomized?: Prisma.SortOrder
   candidateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   exportedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   video?: Prisma.VideoOrderByWithRelationInput
   candidate?: Prisma.HighlightCandidateOrderByWithRelationInput
+  renderJobs?: Prisma.RenderJobOrderByRelationAggregateInput
 }
 
 export type ClipDraftWhereUniqueInput = Prisma.AtLeast<{
@@ -319,12 +339,15 @@ export type ClipDraftWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   note?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   status?: Prisma.EnumClipDraftStatusFilter<"ClipDraft"> | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.EnumHighlightLengthPresetNullableFilter<"ClipDraft"> | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFilter<"ClipDraft"> | boolean
   candidateSnapshot?: Prisma.JsonNullableFilter<"ClipDraft">
   exportedAt?: Prisma.DateTimeNullableFilter<"ClipDraft"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ClipDraft"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClipDraft"> | Date | string
   video?: Prisma.XOR<Prisma.VideoScalarRelationFilter, Prisma.VideoWhereInput>
   candidate?: Prisma.XOR<Prisma.HighlightCandidateNullableScalarRelationFilter, Prisma.HighlightCandidateWhereInput> | null
+  renderJobs?: Prisma.RenderJobListRelationFilter
 }, "id">
 
 export type ClipDraftOrderByWithAggregationInput = {
@@ -337,6 +360,8 @@ export type ClipDraftOrderByWithAggregationInput = {
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  sourcePreset?: Prisma.SortOrderInput | Prisma.SortOrder
+  isCustomized?: Prisma.SortOrder
   candidateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   exportedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -361,6 +386,8 @@ export type ClipDraftScalarWhereWithAggregatesInput = {
   title?: Prisma.StringNullableWithAggregatesFilter<"ClipDraft"> | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"ClipDraft"> | string | null
   status?: Prisma.EnumClipDraftStatusWithAggregatesFilter<"ClipDraft"> | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.EnumHighlightLengthPresetNullableWithAggregatesFilter<"ClipDraft"> | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolWithAggregatesFilter<"ClipDraft"> | boolean
   candidateSnapshot?: Prisma.JsonNullableWithAggregatesFilter<"ClipDraft">
   exportedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ClipDraft"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ClipDraft"> | Date | string
@@ -375,12 +402,15 @@ export type ClipDraftCreateInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   video: Prisma.VideoCreateNestedOneWithoutClipDraftsInput
   candidate?: Prisma.HighlightCandidateCreateNestedOneWithoutClipDraftsInput
+  renderJobs?: Prisma.RenderJobCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftUncheckedCreateInput = {
@@ -393,10 +423,13 @@ export type ClipDraftUncheckedCreateInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  renderJobs?: Prisma.RenderJobUncheckedCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftUpdateInput = {
@@ -407,12 +440,15 @@ export type ClipDraftUpdateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   video?: Prisma.VideoUpdateOneRequiredWithoutClipDraftsNestedInput
   candidate?: Prisma.HighlightCandidateUpdateOneWithoutClipDraftsNestedInput
+  renderJobs?: Prisma.RenderJobUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftUncheckedUpdateInput = {
@@ -425,10 +461,13 @@ export type ClipDraftUncheckedUpdateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renderJobs?: Prisma.RenderJobUncheckedUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftCreateManyInput = {
@@ -441,6 +480,8 @@ export type ClipDraftCreateManyInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
@@ -455,6 +496,8 @@ export type ClipDraftUpdateManyMutationInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -471,6 +514,8 @@ export type ClipDraftUncheckedUpdateManyInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -497,6 +542,8 @@ export type ClipDraftCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sourcePreset?: Prisma.SortOrder
+  isCustomized?: Prisma.SortOrder
   candidateSnapshot?: Prisma.SortOrder
   exportedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -519,6 +566,8 @@ export type ClipDraftMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sourcePreset?: Prisma.SortOrder
+  isCustomized?: Prisma.SortOrder
   exportedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -534,6 +583,8 @@ export type ClipDraftMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  sourcePreset?: Prisma.SortOrder
+  isCustomized?: Prisma.SortOrder
   exportedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -543,6 +594,11 @@ export type ClipDraftSumOrderByAggregateInput = {
   startMs?: Prisma.SortOrder
   endMs?: Prisma.SortOrder
   peakMs?: Prisma.SortOrder
+}
+
+export type ClipDraftScalarRelationFilter = {
+  is?: Prisma.ClipDraftWhereInput
+  isNot?: Prisma.ClipDraftWhereInput
 }
 
 export type ClipDraftCreateNestedManyWithoutVideoInput = {
@@ -633,6 +689,24 @@ export type EnumClipDraftStatusFieldUpdateOperationsInput = {
   set?: $Enums.ClipDraftStatus
 }
 
+export type NullableEnumHighlightLengthPresetFieldUpdateOperationsInput = {
+  set?: $Enums.HighlightLengthPreset | null
+}
+
+export type ClipDraftCreateNestedOneWithoutRenderJobsInput = {
+  create?: Prisma.XOR<Prisma.ClipDraftCreateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedCreateWithoutRenderJobsInput>
+  connectOrCreate?: Prisma.ClipDraftCreateOrConnectWithoutRenderJobsInput
+  connect?: Prisma.ClipDraftWhereUniqueInput
+}
+
+export type ClipDraftUpdateOneRequiredWithoutRenderJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClipDraftCreateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedCreateWithoutRenderJobsInput>
+  connectOrCreate?: Prisma.ClipDraftCreateOrConnectWithoutRenderJobsInput
+  upsert?: Prisma.ClipDraftUpsertWithoutRenderJobsInput
+  connect?: Prisma.ClipDraftWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClipDraftUpdateToOneWithWhereWithoutRenderJobsInput, Prisma.ClipDraftUpdateWithoutRenderJobsInput>, Prisma.ClipDraftUncheckedUpdateWithoutRenderJobsInput>
+}
+
 export type ClipDraftCreateWithoutVideoInput = {
   id?: string
   startMs: number
@@ -641,11 +715,14 @@ export type ClipDraftCreateWithoutVideoInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   candidate?: Prisma.HighlightCandidateCreateNestedOneWithoutClipDraftsInput
+  renderJobs?: Prisma.RenderJobCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftUncheckedCreateWithoutVideoInput = {
@@ -657,10 +734,13 @@ export type ClipDraftUncheckedCreateWithoutVideoInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  renderJobs?: Prisma.RenderJobUncheckedCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftCreateOrConnectWithoutVideoInput = {
@@ -702,6 +782,8 @@ export type ClipDraftScalarWhereInput = {
   title?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   note?: Prisma.StringNullableFilter<"ClipDraft"> | string | null
   status?: Prisma.EnumClipDraftStatusFilter<"ClipDraft"> | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.EnumHighlightLengthPresetNullableFilter<"ClipDraft"> | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFilter<"ClipDraft"> | boolean
   candidateSnapshot?: Prisma.JsonNullableFilter<"ClipDraft">
   exportedAt?: Prisma.DateTimeNullableFilter<"ClipDraft"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ClipDraft"> | Date | string
@@ -716,11 +798,14 @@ export type ClipDraftCreateWithoutCandidateInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   video: Prisma.VideoCreateNestedOneWithoutClipDraftsInput
+  renderJobs?: Prisma.RenderJobCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftUncheckedCreateWithoutCandidateInput = {
@@ -732,10 +817,13 @@ export type ClipDraftUncheckedCreateWithoutCandidateInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  renderJobs?: Prisma.RenderJobUncheckedCreateNestedManyWithoutClipInput
 }
 
 export type ClipDraftCreateOrConnectWithoutCandidateInput = {
@@ -764,6 +852,94 @@ export type ClipDraftUpdateManyWithWhereWithoutCandidateInput = {
   data: Prisma.XOR<Prisma.ClipDraftUpdateManyMutationInput, Prisma.ClipDraftUncheckedUpdateManyWithoutCandidateInput>
 }
 
+export type ClipDraftCreateWithoutRenderJobsInput = {
+  id?: string
+  startMs: number
+  endMs: number
+  peakMs?: number | null
+  title?: string | null
+  note?: string | null
+  status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
+  candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  exportedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  video: Prisma.VideoCreateNestedOneWithoutClipDraftsInput
+  candidate?: Prisma.HighlightCandidateCreateNestedOneWithoutClipDraftsInput
+}
+
+export type ClipDraftUncheckedCreateWithoutRenderJobsInput = {
+  id?: string
+  videoId: string
+  candidateId?: string | null
+  startMs: number
+  endMs: number
+  peakMs?: number | null
+  title?: string | null
+  note?: string | null
+  status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
+  candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  exportedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClipDraftCreateOrConnectWithoutRenderJobsInput = {
+  where: Prisma.ClipDraftWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClipDraftCreateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedCreateWithoutRenderJobsInput>
+}
+
+export type ClipDraftUpsertWithoutRenderJobsInput = {
+  update: Prisma.XOR<Prisma.ClipDraftUpdateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedUpdateWithoutRenderJobsInput>
+  create: Prisma.XOR<Prisma.ClipDraftCreateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedCreateWithoutRenderJobsInput>
+  where?: Prisma.ClipDraftWhereInput
+}
+
+export type ClipDraftUpdateToOneWithWhereWithoutRenderJobsInput = {
+  where?: Prisma.ClipDraftWhereInput
+  data: Prisma.XOR<Prisma.ClipDraftUpdateWithoutRenderJobsInput, Prisma.ClipDraftUncheckedUpdateWithoutRenderJobsInput>
+}
+
+export type ClipDraftUpdateWithoutRenderJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  startMs?: Prisma.IntFieldUpdateOperationsInput | number
+  endMs?: Prisma.IntFieldUpdateOperationsInput | number
+  peakMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  video?: Prisma.VideoUpdateOneRequiredWithoutClipDraftsNestedInput
+  candidate?: Prisma.HighlightCandidateUpdateOneWithoutClipDraftsNestedInput
+}
+
+export type ClipDraftUncheckedUpdateWithoutRenderJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  videoId?: Prisma.StringFieldUpdateOperationsInput | string
+  candidateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startMs?: Prisma.IntFieldUpdateOperationsInput | number
+  endMs?: Prisma.IntFieldUpdateOperationsInput | number
+  peakMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ClipDraftCreateManyVideoInput = {
   id?: string
   candidateId?: string | null
@@ -773,6 +949,8 @@ export type ClipDraftCreateManyVideoInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
@@ -787,11 +965,14 @@ export type ClipDraftUpdateWithoutVideoInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   candidate?: Prisma.HighlightCandidateUpdateOneWithoutClipDraftsNestedInput
+  renderJobs?: Prisma.RenderJobUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftUncheckedUpdateWithoutVideoInput = {
@@ -803,10 +984,13 @@ export type ClipDraftUncheckedUpdateWithoutVideoInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renderJobs?: Prisma.RenderJobUncheckedUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftUncheckedUpdateManyWithoutVideoInput = {
@@ -818,6 +1002,8 @@ export type ClipDraftUncheckedUpdateManyWithoutVideoInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -833,6 +1019,8 @@ export type ClipDraftCreateManyCandidateInput = {
   title?: string | null
   note?: string | null
   status?: $Enums.ClipDraftStatus
+  sourcePreset?: $Enums.HighlightLengthPreset | null
+  isCustomized?: boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Date | string | null
   createdAt?: Date | string
@@ -847,11 +1035,14 @@ export type ClipDraftUpdateWithoutCandidateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   video?: Prisma.VideoUpdateOneRequiredWithoutClipDraftsNestedInput
+  renderJobs?: Prisma.RenderJobUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftUncheckedUpdateWithoutCandidateInput = {
@@ -863,10 +1054,13 @@ export type ClipDraftUncheckedUpdateWithoutCandidateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  renderJobs?: Prisma.RenderJobUncheckedUpdateManyWithoutClipNestedInput
 }
 
 export type ClipDraftUncheckedUpdateManyWithoutCandidateInput = {
@@ -878,12 +1072,43 @@ export type ClipDraftUncheckedUpdateManyWithoutCandidateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumClipDraftStatusFieldUpdateOperationsInput | $Enums.ClipDraftStatus
+  sourcePreset?: Prisma.NullableEnumHighlightLengthPresetFieldUpdateOperationsInput | $Enums.HighlightLengthPreset | null
+  isCustomized?: Prisma.BoolFieldUpdateOperationsInput | boolean
   candidateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   exportedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ClipDraftCountOutputType
+ */
+
+export type ClipDraftCountOutputType = {
+  renderJobs: number
+}
+
+export type ClipDraftCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  renderJobs?: boolean | ClipDraftCountOutputTypeCountRenderJobsArgs
+}
+
+/**
+ * ClipDraftCountOutputType without action
+ */
+export type ClipDraftCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClipDraftCountOutputType
+   */
+  select?: Prisma.ClipDraftCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ClipDraftCountOutputType without action
+ */
+export type ClipDraftCountOutputTypeCountRenderJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RenderJobWhereInput
+}
 
 
 export type ClipDraftSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -896,12 +1121,16 @@ export type ClipDraftSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   title?: boolean
   note?: boolean
   status?: boolean
+  sourcePreset?: boolean
+  isCustomized?: boolean
   candidateSnapshot?: boolean
   exportedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
   candidate?: boolean | Prisma.ClipDraft$candidateArgs<ExtArgs>
+  renderJobs?: boolean | Prisma.ClipDraft$renderJobsArgs<ExtArgs>
+  _count?: boolean | Prisma.ClipDraftCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["clipDraft"]>
 
 export type ClipDraftSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -914,6 +1143,8 @@ export type ClipDraftSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   title?: boolean
   note?: boolean
   status?: boolean
+  sourcePreset?: boolean
+  isCustomized?: boolean
   candidateSnapshot?: boolean
   exportedAt?: boolean
   createdAt?: boolean
@@ -932,6 +1163,8 @@ export type ClipDraftSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   title?: boolean
   note?: boolean
   status?: boolean
+  sourcePreset?: boolean
+  isCustomized?: boolean
   candidateSnapshot?: boolean
   exportedAt?: boolean
   createdAt?: boolean
@@ -950,16 +1183,20 @@ export type ClipDraftSelectScalar = {
   title?: boolean
   note?: boolean
   status?: boolean
+  sourcePreset?: boolean
+  isCustomized?: boolean
   candidateSnapshot?: boolean
   exportedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClipDraftOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "videoId" | "candidateId" | "startMs" | "endMs" | "peakMs" | "title" | "note" | "status" | "candidateSnapshot" | "exportedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["clipDraft"]>
+export type ClipDraftOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "videoId" | "candidateId" | "startMs" | "endMs" | "peakMs" | "title" | "note" | "status" | "sourcePreset" | "isCustomized" | "candidateSnapshot" | "exportedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["clipDraft"]>
 export type ClipDraftInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
   candidate?: boolean | Prisma.ClipDraft$candidateArgs<ExtArgs>
+  renderJobs?: boolean | Prisma.ClipDraft$renderJobsArgs<ExtArgs>
+  _count?: boolean | Prisma.ClipDraftCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClipDraftIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   video?: boolean | Prisma.VideoDefaultArgs<ExtArgs>
@@ -975,6 +1212,7 @@ export type $ClipDraftPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     video: Prisma.$VideoPayload<ExtArgs>
     candidate: Prisma.$HighlightCandidatePayload<ExtArgs> | null
+    renderJobs: Prisma.$RenderJobPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -986,6 +1224,8 @@ export type $ClipDraftPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     title: string | null
     note: string | null
     status: $Enums.ClipDraftStatus
+    sourcePreset: $Enums.HighlightLengthPreset | null
+    isCustomized: boolean
     candidateSnapshot: runtime.JsonValue | null
     exportedAt: Date | null
     createdAt: Date
@@ -1386,6 +1626,7 @@ export interface Prisma__ClipDraftClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   video<T extends Prisma.VideoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VideoDefaultArgs<ExtArgs>>): Prisma.Prisma__VideoClient<runtime.Types.Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   candidate<T extends Prisma.ClipDraft$candidateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClipDraft$candidateArgs<ExtArgs>>): Prisma.Prisma__HighlightCandidateClient<runtime.Types.Result.GetResult<Prisma.$HighlightCandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  renderJobs<T extends Prisma.ClipDraft$renderJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClipDraft$renderJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RenderJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1424,6 +1665,8 @@ export interface ClipDraftFieldRefs {
   readonly title: Prisma.FieldRef<"ClipDraft", 'String'>
   readonly note: Prisma.FieldRef<"ClipDraft", 'String'>
   readonly status: Prisma.FieldRef<"ClipDraft", 'ClipDraftStatus'>
+  readonly sourcePreset: Prisma.FieldRef<"ClipDraft", 'HighlightLengthPreset'>
+  readonly isCustomized: Prisma.FieldRef<"ClipDraft", 'Boolean'>
   readonly candidateSnapshot: Prisma.FieldRef<"ClipDraft", 'Json'>
   readonly exportedAt: Prisma.FieldRef<"ClipDraft", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"ClipDraft", 'DateTime'>
@@ -1845,6 +2088,30 @@ export type ClipDraft$candidateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.HighlightCandidateInclude<ExtArgs> | null
   where?: Prisma.HighlightCandidateWhereInput
+}
+
+/**
+ * ClipDraft.renderJobs
+ */
+export type ClipDraft$renderJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RenderJob
+   */
+  select?: Prisma.RenderJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RenderJob
+   */
+  omit?: Prisma.RenderJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RenderJobInclude<ExtArgs> | null
+  where?: Prisma.RenderJobWhereInput
+  orderBy?: Prisma.RenderJobOrderByWithRelationInput | Prisma.RenderJobOrderByWithRelationInput[]
+  cursor?: Prisma.RenderJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RenderJobScalarFieldEnum | Prisma.RenderJobScalarFieldEnum[]
 }
 
 /**

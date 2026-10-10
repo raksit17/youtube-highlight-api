@@ -406,7 +406,9 @@ export const ModelName = {
   WindowSummary: 'WindowSummary',
   HighlightCandidate: 'HighlightCandidate',
   HighlightCandidateWindow: 'HighlightCandidateWindow',
-  ClipDraft: 'ClipDraft'
+  HighlightClipVariant: 'HighlightClipVariant',
+  ClipDraft: 'ClipDraft',
+  RenderJob: 'RenderJob'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -422,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow" | "clipDraft"
+    modelProps: "ingestionRun" | "video" | "transcriptSegment" | "chatMessage" | "analysisWindow" | "analysisTermCount" | "windowSummary" | "highlightCandidate" | "highlightCandidateWindow" | "highlightClipVariant" | "clipDraft" | "renderJob"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1092,6 +1094,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HighlightClipVariant: {
+      payload: Prisma.$HighlightClipVariantPayload<ExtArgs>
+      fields: Prisma.HighlightClipVariantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HighlightClipVariantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HighlightClipVariantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        findFirst: {
+          args: Prisma.HighlightClipVariantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HighlightClipVariantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        findMany: {
+          args: Prisma.HighlightClipVariantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>[]
+        }
+        create: {
+          args: Prisma.HighlightClipVariantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        createMany: {
+          args: Prisma.HighlightClipVariantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HighlightClipVariantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>[]
+        }
+        delete: {
+          args: Prisma.HighlightClipVariantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        update: {
+          args: Prisma.HighlightClipVariantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        deleteMany: {
+          args: Prisma.HighlightClipVariantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HighlightClipVariantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HighlightClipVariantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>[]
+        }
+        upsert: {
+          args: Prisma.HighlightClipVariantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HighlightClipVariantPayload>
+        }
+        aggregate: {
+          args: Prisma.HighlightClipVariantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHighlightClipVariant>
+        }
+        groupBy: {
+          args: Prisma.HighlightClipVariantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightClipVariantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HighlightClipVariantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HighlightClipVariantCountAggregateOutputType> | number
+        }
+      }
+    }
     ClipDraft: {
       payload: Prisma.$ClipDraftPayload<ExtArgs>
       fields: Prisma.ClipDraftFieldRefs
@@ -1163,6 +1239,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ClipDraftCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ClipDraftCountAggregateOutputType> | number
+        }
+      }
+    }
+    RenderJob: {
+      payload: Prisma.$RenderJobPayload<ExtArgs>
+      fields: Prisma.RenderJobFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RenderJobFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RenderJobFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        findFirst: {
+          args: Prisma.RenderJobFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RenderJobFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        findMany: {
+          args: Prisma.RenderJobFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>[]
+        }
+        create: {
+          args: Prisma.RenderJobCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        createMany: {
+          args: Prisma.RenderJobCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RenderJobCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>[]
+        }
+        delete: {
+          args: Prisma.RenderJobDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        update: {
+          args: Prisma.RenderJobUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        deleteMany: {
+          args: Prisma.RenderJobDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RenderJobUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RenderJobUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>[]
+        }
+        upsert: {
+          args: Prisma.RenderJobUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RenderJobPayload>
+        }
+        aggregate: {
+          args: Prisma.RenderJobAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRenderJob>
+        }
+        groupBy: {
+          args: Prisma.RenderJobGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RenderJobGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RenderJobCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RenderJobCountAggregateOutputType> | number
         }
       }
     }
@@ -1421,6 +1571,20 @@ export const HighlightCandidateWindowScalarFieldEnum = {
 export type HighlightCandidateWindowScalarFieldEnum = (typeof HighlightCandidateWindowScalarFieldEnum)[keyof typeof HighlightCandidateWindowScalarFieldEnum]
 
 
+export const HighlightClipVariantScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  preset: 'preset',
+  startMs: 'startMs',
+  endMs: 'endMs',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HighlightClipVariantScalarFieldEnum = (typeof HighlightClipVariantScalarFieldEnum)[keyof typeof HighlightClipVariantScalarFieldEnum]
+
+
 export const ClipDraftScalarFieldEnum = {
   id: 'id',
   videoId: 'videoId',
@@ -1431,6 +1595,8 @@ export const ClipDraftScalarFieldEnum = {
   title: 'title',
   note: 'note',
   status: 'status',
+  sourcePreset: 'sourcePreset',
+  isCustomized: 'isCustomized',
   candidateSnapshot: 'candidateSnapshot',
   exportedAt: 'exportedAt',
   createdAt: 'createdAt',
@@ -1438,6 +1604,28 @@ export const ClipDraftScalarFieldEnum = {
 } as const
 
 export type ClipDraftScalarFieldEnum = (typeof ClipDraftScalarFieldEnum)[keyof typeof ClipDraftScalarFieldEnum]
+
+
+export const RenderJobScalarFieldEnum = {
+  id: 'id',
+  clipId: 'clipId',
+  status: 'status',
+  progress: 'progress',
+  stage: 'stage',
+  format: 'format',
+  resolution: 'resolution',
+  mode: 'mode',
+  includeSubtitles: 'includeSubtitles',
+  outputPath: 'outputPath',
+  outputFilename: 'outputFilename',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RenderJobScalarFieldEnum = (typeof RenderJobScalarFieldEnum)[keyof typeof RenderJobScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1649,6 +1837,20 @@ export type ListEnumHighlightStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'HighlightLengthPreset'
+ */
+export type EnumHighlightLengthPresetFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HighlightLengthPreset'>
+    
+
+
+/**
+ * Reference to a field of type 'HighlightLengthPreset[]'
+ */
+export type ListEnumHighlightLengthPresetFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HighlightLengthPreset[]'>
+    
+
+
+/**
  * Reference to a field of type 'ClipDraftStatus'
  */
 export type EnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus'>
@@ -1659,6 +1861,20 @@ export type EnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'ClipDraftStatus[]'
  */
 export type ListEnumClipDraftStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClipDraftStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RenderJobStatus'
+ */
+export type EnumRenderJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RenderJobStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RenderJobStatus[]'
+ */
+export type ListEnumRenderJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RenderJobStatus[]'>
     
 
 /**
@@ -1821,7 +2037,9 @@ export type GlobalOmitConfig = {
   windowSummary?: Prisma.WindowSummaryOmit
   highlightCandidate?: Prisma.HighlightCandidateOmit
   highlightCandidateWindow?: Prisma.HighlightCandidateWindowOmit
+  highlightClipVariant?: Prisma.HighlightClipVariantOmit
   clipDraft?: Prisma.ClipDraftOmit
+  renderJob?: Prisma.RenderJobOmit
 }
 
 /* Types for Logging */

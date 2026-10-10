@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClipsService = void 0;
 const common_1 = require("@nestjs/common");
+const clip_preset_util_1 = require("../analysis/highlights/clip-preset.util");
 const clips_repository_1 = require("./clips.repository");
 let ClipsService = class ClipsService {
     clipsRepository;
@@ -29,8 +30,24 @@ let ClipsService = class ClipsService {
                 throw new common_1.NotFoundException('Highlight candidate not found for this video');
             }
         }
-        const startMs = dto.startMs ?? candidate?.startMs;
-        const endMs = dto.endMs ?? candidate?.endMs;
+        if (dto.preset && !candidate) {
+            throw new common_1.BadRequestException('candidateId is required when preset is provided');
+        }
+        const presetName = dto.preset;
+        const storedPreset = presetName && candidate
+            ? candidate.clipVariants.find((variant) => String(variant.preset) === presetName)
+            : undefined;
+        const calculatedPreset = presetName && candidate
+            ? (0, clip_preset_util_1.buildClipPresetRange)(presetName, candidate.peakMs, video.durationMs ??
+                Math.max(candidate.endMs, candidate.peakMs, 1))
+            : undefined;
+        const presetRange = storedPreset ?? calculatedPreset;
+        const startMs = dto.startMs ??
+            presetRange?.startMs ??
+            candidate?.startMs;
+        const endMs = dto.endMs ??
+            presetRange?.endMs ??
+            candidate?.endMs;
         if (startMs === undefined || endMs === undefined) {
             throw new common_1.BadRequestException('startMs and endMs are required when candidateId is not provided');
         }
@@ -41,6 +58,14 @@ let ClipsService = class ClipsService {
             peakMs,
             durationMs: video.durationMs,
         });
+        const isCustomized = presetRange
+            ? (dto.startMs !== undefined &&
+                dto.startMs !== presetRange.startMs) ||
+                (dto.endMs !== undefined &&
+                    dto.endMs !== presetRange.endMs)
+            : dto.startMs !== undefined ||
+                dto.endMs !== undefined ||
+                !candidate;
         const candidateSnapshot = candidate
             ? {
                 id: candidate.id,
@@ -53,6 +78,7 @@ let ClipsService = class ClipsService {
                 category: candidate.category,
                 summary: candidate.summary,
                 status: candidate.status,
+                sourcePreset: dto.preset ?? null,
             }
             : undefined;
         const clip = await this.clipsRepository.create({
@@ -63,6 +89,8 @@ let ClipsService = class ClipsService {
             peakMs,
             title: dto.title,
             note: dto.note,
+            sourcePreset: dto.preset,
+            isCustomized,
             candidateSnapshot,
         });
         return this.toResponse(clip);
@@ -86,6 +114,8 @@ let ClipsService = class ClipsService {
                 title: clip.title,
                 note: clip.note,
                 status: clip.status,
+                sourcePreset: clip.sourcePreset,
+                isCustomized: clip.isCustomized,
                 candidate: clip.candidate,
                 createdAt: clip.createdAt,
                 updatedAt: clip.updatedAt,
@@ -108,6 +138,8 @@ let ClipsService = class ClipsService {
             title: clip.title,
             note: clip.note,
             status: clip.status,
+            sourcePreset: clip.sourcePreset,
+            isCustomized: clip.isCustomized,
             candidateSnapshot: clip.candidateSnapshot,
             candidate: clip.candidate,
             video: clip.video,
@@ -128,12 +160,15 @@ let ClipsService = class ClipsService {
             peakMs: clip.peakMs,
             durationMs: clip.video.durationMs,
         });
+        const rangeChanged = (dto.startMs !== undefined && dto.startMs !== clip.startMs) ||
+            (dto.endMs !== undefined && dto.endMs !== clip.endMs);
         const updated = await this.clipsRepository.update(id, {
             startMs,
             endMs,
             title: dto.title,
             note: dto.note,
             status: dto.status,
+            isCustomized: rangeChanged ? true : undefined,
         });
         return this.toResponse(updated);
     }
@@ -174,6 +209,8 @@ let ClipsService = class ClipsService {
                 peakSeconds: clip.peakMs !== null ? clip.peakMs / 1000 : null,
                 endSeconds: clip.endMs / 1000,
                 status: clip.status,
+                sourcePreset: clip.sourcePreset,
+                isCustomized: clip.isCustomized,
             },
             sourceCandidate: clip.candidate
                 ? {
@@ -195,7 +232,9 @@ let ClipsService = class ClipsService {
         if (startMs >= endMs) {
             throw new common_1.BadRequestException('startMs must be less than endMs');
         }
-        if (durationMs !== undefined && durationMs !== null && endMs > durationMs) {
+        if (durationMs !== undefined &&
+            durationMs !== null &&
+            endMs > durationMs) {
             throw new common_1.BadRequestException(`endMs exceeds video duration (${durationMs})`);
         }
         if (peakMs !== undefined &&
@@ -216,6 +255,8 @@ let ClipsService = class ClipsService {
             title: clip.title,
             note: clip.note,
             status: clip.status,
+            sourcePreset: clip.sourcePreset,
+            isCustomized: clip.isCustomized,
             createdAt: clip.createdAt,
             updatedAt: clip.updatedAt,
         };

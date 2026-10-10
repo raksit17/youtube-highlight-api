@@ -15,4 +15,6 @@ export type AnalysisTermCount = Prisma.AnalysisTermCountModel;
 export type WindowSummary = Prisma.WindowSummaryModel;
 export type HighlightCandidate = Prisma.HighlightCandidateModel;
 export type HighlightCandidateWindow = Prisma.HighlightCandidateWindowModel;
+export type HighlightClipVariant = Prisma.HighlightClipVariantModel;
 export type ClipDraft = Prisma.ClipDraftModel;
+export type RenderJob = Prisma.RenderJobModel;

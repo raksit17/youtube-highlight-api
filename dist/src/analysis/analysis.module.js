@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const analysis_orchestrator_service_1 = require("./analysis-orchestrator.service");
 const highlight_candidate_service_1 = require("./highlights/highlight-candidate.service");
 const highlight_candidates_repository_1 = require("./highlights/highlight-candidates.repository");
+const highlight_clip_variant_service_1 = require("./highlights/highlight-clip-variant.service");
 const highlight_query_service_1 = require("./highlights/highlight-query.service");
 const highlights_controller_1 = require("./highlights/highlights.controller");
 const window_summary_service_1 = require("./summaries/window-summary.service");
@@ -33,12 +34,14 @@ exports.AnalysisModule = AnalysisModule = __decorate([
             analysis_terms_repository_1.AnalysisTermsRepository,
             window_summary_service_1.WindowSummaryService,
             window_summaries_repository_1.WindowSummariesRepository,
+            highlight_clip_variant_service_1.HighlightClipVariantService,
             highlight_candidate_service_1.HighlightCandidateService,
             highlight_candidates_repository_1.HighlightCandidatesRepository,
             highlight_query_service_1.HighlightQueryService,
         ],
         exports: [
             analysis_orchestrator_service_1.AnalysisOrchestratorService,
+            highlight_clip_variant_service_1.HighlightClipVariantService,
             highlight_query_service_1.HighlightQueryService,
         ],
     })

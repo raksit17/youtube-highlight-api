@@ -19,6 +19,14 @@ export declare class HighlightQueryService {
             status: HighlightStatus;
             summary: string | null;
             rejectionReason: string | null;
+            clipPresets: {
+                [k: string]: {
+                    label: "20–45 sec" | "45–90 sec" | "2–5 min" | "5–8 min";
+                    startMs: number;
+                    endMs: number;
+                    durationMs: number;
+                };
+            };
             insights: {
                 reasonLabel: string;
                 chatIncreasePercent: number | null;
@@ -91,6 +99,14 @@ export declare class HighlightQueryService {
         status: HighlightStatus;
         summary: string | null;
         rejectionReason: string | null;
+        clipPresets: {
+            [k: string]: {
+                label: "20–45 sec" | "45–90 sec" | "2–5 min" | "5–8 min";
+                startMs: number;
+                endMs: number;
+                durationMs: number;
+            };
+        };
         insights: {
             reasonLabel: string;
             chatIncreasePercent: number | null;
@@ -104,6 +120,7 @@ export declare class HighlightQueryService {
         };
     }>;
     private toCandidateResponse;
+    private buildClipPresets;
     private reasonLabel;
     private readReviewReason;
     private clampInteger;

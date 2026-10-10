@@ -14,12 +14,15 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../database/prisma.service");
 const analysis_constants_1 = require("../analysis.constants");
 const highlight_candidates_repository_1 = require("./highlight-candidates.repository");
+const highlight_clip_variant_service_1 = require("./highlight-clip-variant.service");
 let HighlightCandidateService = class HighlightCandidateService {
     prisma;
     repository;
-    constructor(prisma, repository) {
+    clipVariantService;
+    constructor(prisma, repository, clipVariantService) {
         this.prisma = prisma;
         this.repository = repository;
+        this.clipVariantService = clipVariantService;
     }
     async rebuild(videoId) {
         const video = await this.prisma.video.findUniqueOrThrow({
@@ -115,6 +118,7 @@ let HighlightCandidateService = class HighlightCandidateService {
             rank: index + 1,
         }));
         await this.repository.replaceTop(videoId, top5);
+        await this.clipVariantService.rebuildForVideo(videoId);
         return top5;
     }
     windowScore(window) {
@@ -133,6 +137,7 @@ exports.HighlightCandidateService = HighlightCandidateService;
 exports.HighlightCandidateService = HighlightCandidateService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        highlight_candidates_repository_1.HighlightCandidatesRepository])
+        highlight_candidates_repository_1.HighlightCandidatesRepository,
+        highlight_clip_variant_service_1.HighlightClipVariantService])
 ], HighlightCandidateService);
 //# sourceMappingURL=highlight-candidate.service.js.map

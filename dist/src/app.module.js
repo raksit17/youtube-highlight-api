@@ -16,6 +16,7 @@ const clips_module_1 = require("./clips/clips.module");
 const database_module_1 = require("./database/database.module");
 const ingestion_module_1 = require("./ingestion/ingestion.module");
 const normalizers_module_1 = require("./normalizers/normalizers.module");
+const renders_module_1 = require("./renders/renders.module");
 const transcripts_module_1 = require("./transcripts/transcripts.module");
 const videos_module_1 = require("./videos/videos.module");
 let AppModule = class AppModule {
@@ -35,6 +36,7 @@ exports.AppModule = AppModule = __decorate([
             transcripts_module_1.TranscriptsModule,
             chats_module_1.ChatsModule,
             clips_module_1.ClipsModule,
+            renders_module_1.RendersModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

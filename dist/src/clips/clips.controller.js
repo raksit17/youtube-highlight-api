@@ -15,12 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClipsController = void 0;
 const common_1 = require("@nestjs/common");
 const clips_service_1 = require("./clips.service");
+const subtitle_export_service_1 = require("./subtitle-export.service");
 const create_clip_draft_dto_1 = require("./dto/create-clip-draft.dto");
 const update_clip_draft_dto_1 = require("./dto/update-clip-draft.dto");
 let ClipsController = class ClipsController {
     clipsService;
-    constructor(clipsService) {
+    subtitleExportService;
+    constructor(clipsService, subtitleExportService) {
         this.clipsService = clipsService;
+        this.subtitleExportService = subtitleExportService;
     }
     create(videoId, dto) {
         return this.clipsService.create(videoId, dto);
@@ -33,6 +36,13 @@ let ClipsController = class ClipsController {
     }
     update(id, dto) {
         return this.clipsService.update(id, dto);
+    }
+    async downloadSubtitles(id, format, language, response) {
+        const subtitle = await this.subtitleExportService.exportForClip(id, format, language);
+        response.setHeader('Content-Type', subtitle.contentType);
+        response.setHeader('Content-Disposition', `attachment; filename="${subtitle.filename}"`);
+        response.setHeader('Cache-Control', 'no-store');
+        return new common_1.StreamableFile(Buffer.from(subtitle.content, 'utf8'));
     }
     export(id) {
         return this.clipsService.export(id);
@@ -73,6 +83,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ClipsController.prototype, "update", null);
 __decorate([
+    (0, common_1.Get)('clips/:id/subtitles'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('format')),
+    __param(2, (0, common_1.Query)('language')),
+    __param(3, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ClipsController.prototype, "downloadSubtitles", null);
+__decorate([
     (0, common_1.Get)('clips/:id/export'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -88,6 +108,7 @@ __decorate([
 ], ClipsController.prototype, "remove", null);
 exports.ClipsController = ClipsController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [clips_service_1.ClipsService])
+    __metadata("design:paramtypes", [clips_service_1.ClipsService,
+        subtitle_export_service_1.SubtitleExportService])
 ], ClipsController);
 //# sourceMappingURL=clips.controller.js.map
