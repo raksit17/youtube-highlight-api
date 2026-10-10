@@ -22,8 +22,10 @@ export class RenderJobsRepository {
             id: true,
             externalId: true,
             durationMs: true,
+            title: true,
           },
         },
+        candidate: { select: { rank: true } },
       },
     });
   }
@@ -51,10 +53,16 @@ export class RenderJobsRepository {
     resolution: string;
     mode: string;
     includeSubtitles: boolean;
+    clipStartMs: number;
+    clipEndMs: number;
+    filenameStem: string;
   }) {
     return this.prisma.renderJob.create({
       data: {
         clipId: input.clipId,
+        clipStartMs: input.clipStartMs,
+        clipEndMs: input.clipEndMs,
+        filenameStem: input.filenameStem,
         format: input.format,
         resolution: input.resolution,
         mode: input.mode,
@@ -156,6 +164,7 @@ export class RenderJobsRepository {
     clipId: string,
     outputPath: string,
     outputFilename: string,
+    subtitleFilename?: string,
   ) {
     return this.prisma.$transaction(async (tx) => {
       const job = await tx.renderJob.update({
@@ -168,6 +177,7 @@ export class RenderJobsRepository {
           stage: 'COMPLETED',
           outputPath,
           outputFilename,
+          subtitleFilename,
           completedAt: new Date(),
           errorMessage: null,
         },

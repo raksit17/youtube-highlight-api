@@ -4,10 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import {
-  access,
-  stat,
-} from 'node:fs/promises';
+import { access, stat } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { buildClipFilenameStem } from '../clips/clip-filename.util';
 
 import {
   CreateRenderJobDto,
@@ -79,9 +78,23 @@ export class RendersService {
       return this.toResponse(active);
     }
 
+    const candidateSnapshot = clip.candidateSnapshot as { rank?: number } | null;
+    const filenameStem = buildClipFilenameStem({
+      title: clip.title,
+      videoTitle: clip.video.title,
+      rank: clip.candidate?.rank ?? candidateSnapshot?.rank ?? null,
+      sourcePreset: clip.sourcePreset,
+      isCustomized: clip.isCustomized,
+      startMs: clip.startMs,
+      endMs: clip.endMs,
+    });
+
     const job =
       await this.renderJobsRepository.create({
         clipId,
+        clipStartMs: clip.startMs,
+        clipEndMs: clip.endMs,
+        filenameStem,
         format: dto.format,
         resolution: dto.resolution,
         mode: dto.mode,
@@ -114,45 +127,81 @@ export class RendersService {
     return this.toResponse(job);
   }
 
-  async getDownloadForClip(
-    clipId: string,
-  ) {
-    const job =
-      await this.renderJobsRepository.findLatestCompletedForClip(
-        clipId,
-      );
 
-    if (
-      !job ||
-      !job.outputPath ||
-      !job.outputFilename
-    ) {
-      throw new NotFoundException(
-        'No completed render exists for this clip',
-      );
+  async getDownloadForClip(clipId: string) {
+    const job = await this.renderJobsRepository.findLatestCompletedForClip(clipId);
+    if (!job) throw new NotFoundException('No completed render exists for this clip');
+    return this.renderedFile(job);
+  }
+
+  async getDownloadForJob(jobId: string) {
+    const job = await this.renderJobsRepository.findById(jobId);
+    if (!job || job.status !== 'COMPLETED') {
+      throw new NotFoundException('Completed render job not found');
     }
+    return this.renderedFile(job);
+  }
 
-    try {
-      await access(job.outputPath);
-    } catch {
-      throw new NotFoundException(
-        'Rendered file is missing from storage',
-      );
+  async getSubtitleForJob(jobId: string, format = 'srt') {
+    if (format !== 'srt' && format !== 'vtt') {
+      throw new BadRequestException('format must be srt or vtt');
     }
+    const job = await this.renderJobsRepository.findById(jobId);
+    if (!job || job.status !== 'COMPLETED' || !job.outputPath ||
+      !job.subtitleFilename) {
+      throw new NotFoundException('No subtitle sidecar for this render job');
+    }
+    const filename = job.subtitleFilename.replace(/\.srt$/, '.' + format);
+    const path = join(dirname(job.outputPath), filename);
+    try { await access(path); } catch {
+      throw new NotFoundException('Rendered subtitle file is missing');
+    }
+    const info = await stat(path);
+    return {
+      path, filename, size: info.size,
+      contentType: format === 'srt'
+        ? 'application/x-subrip; charset=utf-8'
+        : 'text/vtt; charset=utf-8',
+    };
+  }
 
-    const info = await stat(
-      job.outputPath,
-    );
+  async getExportForJob(jobId: string) {
+    const job = await this.renderJobsRepository.findById(jobId);
+    if (!job || job.status !== 'COMPLETED') {
+      throw new NotFoundException('Completed render job not found');
+    }
+    return {
+      filenameStem: job.filenameStem ?? job.outputFilename?.replace(/\.[^.]+$/, ''),
+      renderJobId: job.id,
+      clipId: job.clipId,
+      startMs: job.clipStartMs,
+      endMs: job.clipEndMs,
+      durationMs: job.clipStartMs != null && job.clipEndMs != null
+        ? job.clipEndMs - job.clipStartMs : null,
+      format: job.format,
+      videoFilename: job.outputFilename,
+      subtitleFilename: job.subtitleFilename,
+      completedAt: job.completedAt,
+    };
+  }
 
+  private async renderedFile(job: {
+    outputPath: string | null;
+    outputFilename: string | null;
+    format: string;
+  }) {
+    if (!job.outputPath || !job.outputFilename) {
+      throw new NotFoundException('Rendered video file not found');
+    }
+    try { await access(job.outputPath); } catch {
+      throw new NotFoundException('Rendered file is missing from storage');
+    }
+    const info = await stat(job.outputPath);
     return {
       path: job.outputPath,
-      filename:
-        job.outputFilename,
+      filename: job.outputFilename,
       size: info.size,
-      contentType:
-        job.format === 'WEBM'
-          ? 'video/webm'
-          : 'video/mp4',
+      contentType: job.format === 'WEBM' ? 'video/webm' : 'video/mp4',
     };
   }
 
@@ -167,6 +216,10 @@ export class RendersService {
     mode: string;
     includeSubtitles: boolean;
     outputFilename: string | null;
+    filenameStem: string | null;
+    subtitleFilename: string | null;
+    clipStartMs: number | null;
+    clipEndMs: number | null;
     errorMessage: string | null;
     startedAt: Date | null;
     completedAt: Date | null;
@@ -185,8 +238,11 @@ export class RendersService {
       mode: job.mode,
       includeSubtitles:
         job.includeSubtitles,
-      outputFilename:
-        job.outputFilename,
+      outputFilename: job.outputFilename,
+      filenameStem: job.filenameStem,
+      subtitleFilename: job.subtitleFilename,
+      clipStartMs: job.clipStartMs,
+      clipEndMs: job.clipEndMs,
       downloadUrl:
         job.status ===
           'COMPLETED'

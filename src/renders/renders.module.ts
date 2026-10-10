@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { SubtitleExportService } from '../clips/subtitle-export.service';
 
 import { RenderJobsRepository } from './render-jobs.repository';
 
@@ -16,6 +17,7 @@ import { RendersService } from './renders.service';
     RendersService,
     RenderWorkerService,
     RenderJobsRepository,
+    SubtitleExportService,
   ],
   exports: [
     RendersService,

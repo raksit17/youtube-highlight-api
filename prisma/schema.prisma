@@ -604,6 +604,12 @@ model RenderJob {
   outputPath     String?
   outputFilename String?
 
+  // Immutable render-time values; nullable for legacy rows.
+  clipStartMs      Int?
+  clipEndMs        Int?
+  filenameStem     String?
+  subtitleFilename String?
+
   errorMessage String? @db.Text
 
   startedAt   DateTime?

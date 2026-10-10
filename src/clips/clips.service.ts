@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { ClipPresetName } from '../analysis/analysis.constants';
+import { buildClipFilenameStem } from './clip-filename.util';
 
 import { buildClipPresetRange } from '../analysis/highlights/clip-preset.util';
 
@@ -249,8 +250,19 @@ export class ClipsService {
       throw new NotFoundException('Clip draft not found');
     }
 
+    const candidateSnapshot = clip.candidateSnapshot as { rank?: number } | null;
+    const filenameStem = buildClipFilenameStem({
+      title: clip.title,
+      videoTitle: clip.video.title,
+      rank: clip.candidate?.rank ?? candidateSnapshot?.rank ?? null,
+      sourcePreset: clip.sourcePreset,
+      isCustomized: clip.isCustomized,
+      startMs: clip.startMs,
+      endMs: clip.endMs,
+    });
     return {
       version: 1,
+      filenameStem,
       video: {
         id: clip.video.id,
         provider: clip.video.provider,

@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import {
   access,
   mkdir,
-  unlink,
+  rm,
   writeFile,
 } from 'node:fs/promises';
 import {
@@ -12,7 +12,8 @@ import {
   resolve,
 } from 'node:path';
 
-import { PrismaService } from '../database/prisma.service';
+import { NotFoundException } from '@nestjs/common';
+import { SubtitleExportService } from '../clips/subtitle-export.service';
 
 import {
   RenderFormat,
@@ -27,7 +28,7 @@ export class RenderWorkerService {
   private readonly logger = new Logger(RenderWorkerService.name);
 
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly subtitleExportService: SubtitleExportService,
     private readonly renderJobsRepository: RenderJobsRepository,
   ) {}
 
@@ -39,6 +40,8 @@ export class RenderWorkerService {
     }
 
     let subtitlePath: string | undefined;
+    let subtitleFilename: string | undefined;
+    let outputDirectory: string | undefined;
     let outputPath: string | undefined;
 
     try {
@@ -49,9 +52,7 @@ export class RenderWorkerService {
         job.clip.video.externalId,
       );
 
-      const outputDirectory = resolve(
-        process.env.RENDER_OUTPUT_DIR ?? './storage/renders',
-      );
+      outputDirectory = join(resolve(process.env.RENDER_OUTPUT_DIR ?? './storage/renders'), job.id);
 
       await mkdir(outputDirectory, {
         recursive: true,
@@ -68,40 +69,40 @@ export class RenderWorkerService {
           ? 'webm'
           : 'mp4';
 
-      const outputFilename =
-        `clip-${job.clip.id}-${job.id}.${extension}`;
+      const clipStartMs = job.clipStartMs ?? job.clip.startMs;
+      const clipEndMs = job.clipEndMs ?? job.clip.endMs;
+      const filenameStem = job.filenameStem ?? `legacy-${job.id}`;
+      const outputFilename = `${filenameStem}.${extension}`;
 
       outputPath = join(
         outputDirectory,
         outputFilename,
       );
 
-      if (job.includeSubtitles) {
-        await this.renderJobsRepository.updateProgress(
-          job.id,
-          12,
-          'PREPARING_SUBTITLES',
+      // Keep editable SRT/VTT files with this job's immutable video range.
+      try {
+        const srt = await this.subtitleExportService.exportForRange(
+          job.clip.videoId, clipStartMs, clipEndMs, filenameStem, 'srt',
         );
-
-        subtitlePath = join(
-          outputDirectory,
-          `render-${job.id}.srt`,
+        const vtt = await this.subtitleExportService.exportForRange(
+          job.clip.videoId, clipStartMs, clipEndMs, filenameStem, 'vtt', srt.language,
         );
-
-        await this.writeSubtitleFile(
-          job.clip.videoId,
-          job.clip.startMs,
-          job.clip.endMs,
-          subtitlePath,
-        );
+        subtitleFilename = srt.filename;
+        const srtPath = join(outputDirectory, srt.filename);
+        await writeFile(srtPath, srt.content, 'utf8');
+        await writeFile(join(outputDirectory, vtt.filename), vtt.content, 'utf8');
+        if (job.includeSubtitles) subtitlePath = srtPath;
+      } catch (error) {
+        if (job.includeSubtitles || !(error instanceof NotFoundException)) throw error;
+        this.logger.log(`No subtitle sidecar available for render ${job.id}`);
       }
 
       const args = this.buildFfmpegArgs({
         sourcePath,
         outputPath,
         subtitlePath,
-        startMs: job.clip.startMs,
-        endMs: job.clip.endMs,
+        startMs: clipStartMs,
+        endMs: clipEndMs,
         format: job.format as RenderFormat,
         resolution:
           job.resolution as RenderResolution,
@@ -117,7 +118,7 @@ export class RenderWorkerService {
       await this.runFfmpeg(
         job.id,
         args,
-        job.clip.endMs - job.clip.startMs,
+        clipEndMs - clipStartMs,
       );
 
       await access(outputPath);
@@ -133,10 +134,11 @@ export class RenderWorkerService {
         job.clip.id,
         outputPath,
         outputFilename,
+        subtitleFilename,
       );
     } catch (error) {
-      if (outputPath) {
-        await unlink(outputPath).catch(() => undefined);
+      if (outputDirectory) {
+        await rm(outputDirectory, { recursive: true, force: true }).catch(() => undefined);
       }
 
       const message =
@@ -151,10 +153,6 @@ export class RenderWorkerService {
       await this.renderJobsRepository
         .markFailed(job.id, message.slice(0, 8000))
         .catch(() => undefined);
-    } finally {
-      if (subtitlePath) {
-        await unlink(subtitlePath).catch(() => undefined);
-      }
     }
   }
 
@@ -197,91 +195,6 @@ export class RenderWorkerService {
 
     throw new Error(
       `Source video not found. Put a local source file in ${sourceDirectory} using the video external ID as the filename, for example ${externalId}.mp4`,
-    );
-  }
-
-  private async writeSubtitleFile(
-    videoId: string,
-    clipStartMs: number,
-    clipEndMs: number,
-    outputPath: string,
-  ) {
-    const segments =
-      await this.prisma.transcriptSegment.findMany({
-        where: {
-          videoId,
-          startMs: {
-            lt: clipEndMs,
-          },
-          endMs: {
-            gt: clipStartMs,
-          },
-        },
-        select: {
-          startMs: true,
-          endMs: true,
-          text: true,
-        },
-        orderBy: {
-          startMs: 'asc',
-        },
-      });
-
-    if (segments.length === 0) {
-      throw new Error(
-        'Subtitles were requested but no transcript segments exist in the selected clip range',
-      );
-    }
-
-    const durationMs =
-      clipEndMs - clipStartMs;
-
-    const blocks = segments
-      .map((segment, index) => {
-        const startMs = Math.max(
-          0,
-          segment.startMs - clipStartMs,
-        );
-
-        const endMs = Math.min(
-          durationMs,
-          segment.endMs - clipStartMs,
-        );
-
-        if (endMs <= startMs) {
-          return null;
-        }
-
-        const text = segment.text
-          .replace(/\r/g, '')
-          .trim();
-
-        if (!text) {
-          return null;
-        }
-
-        return [
-          String(index + 1),
-          `${this.formatSrtTime(startMs)} --> ${this.formatSrtTime(endMs)}`,
-          text,
-          '',
-        ].join('\n');
-      })
-      .filter(
-        (block): block is string =>
-          block !== null,
-      );
-
-    if (blocks.length === 0) {
-      throw new Error(
-        'Subtitles were requested but no usable transcript text exists in the selected clip range',
-      );
-    }
-
-    await writeFile(
-      outputPath,
-      blocks.join('\n'),
-      'utf8',
     );
   }
 
@@ -601,37 +514,4 @@ export class RenderWorkerService {
     ).toFixed(3);
   }
 
-  private formatSrtTime(
-    valueMs: number,
-  ) {
-    const totalMs = Math.max(
-      0,
-      Math.trunc(valueMs),
-    );
-
-    const hours = Math.floor(
-      totalMs / 3_600_000,
-    );
-
-    const minutes = Math.floor(
-      (totalMs % 3_600_000) /
-        60_000,
-    );
-
-    const seconds = Math.floor(
-      (totalMs % 60_000) /
-        1000,
-    );
-
-    const milliseconds =
-      totalMs % 1000;
-
-    return [
-      String(hours).padStart(2, '0'),
-      String(minutes).padStart(2, '0'),
-      String(seconds).padStart(2, '0'),
-    ].join(':') +
-      ',' +
-      String(milliseconds).padStart(3, '0');
-  }
 }

@@ -13,6 +13,7 @@ import {
 
 import { ClipsService } from './clips.service';
 import { SubtitleExportService } from './subtitle-export.service';
+import { attachmentFilenameHeader } from './clip-filename.util';
 import type { Response } from 'express';
 
 import { CreateClipDraftDto } from './dto/create-clip-draft.dto';
@@ -102,7 +103,7 @@ export class ClipsController {
     response.setHeader('Content-Type', subtitle.contentType);
     response.setHeader(
       'Content-Disposition',
-      `attachment; filename="${subtitle.filename}"`,
+      attachmentFilenameHeader(subtitle.filename),
     );
     response.setHeader('Cache-Control', 'no-store');
 

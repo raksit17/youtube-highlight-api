@@ -15,6 +15,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://192.168.1.21:5173',
     ],
+    exposedHeaders: ['Content-Disposition'],
     methods: [
       'GET',
       'POST',
