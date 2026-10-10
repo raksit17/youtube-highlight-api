@@ -64,11 +64,25 @@ MADLAD_API_URL=http://localhost:8001/v1/translate
 MADLAD_TIMEOUT_MS=60000
 ```
 
-Each English cue is sent sequentially to `POST /v1/translate` with the exact
+English subtitle cues are first grouped into sentences across subtitle boundaries
+when the speaker appears to continue (punctuation and up to 1200 ms gaps).
+Sentences ending partway through a cue are separated before translation. Each
+reconstructed sentence is sent sequentially to `POST /v1/translate` with the exact
 JSON fields `{"text":"<subtitle text>","source":"en","target":"th","max_new_tokens":256,"num_beams":2}`.
 The API returns `translated`. Duplicate phrases within a clip are cached.
-The sequence and exact offsets are preserved from the original SRT; the
-bilingual track places **Thai first and English second within each cue**, like
+MADLAD translates the complete sentence rather than isolated fragments such as
+`assignment`. The Thai sentence is then divided approximately at Thai word
+boundaries, weighted by the English content in each source cue; a trailing
+`an`/`the`/`to` biases the next Thai word toward the following cue.
+
+The original cue count, order, and **exact start/end offsets** are preserved;
+this is **text-based alignment**, not a speech-level forced aligner. For exact
+Thai word-to-audio synchronization, review the output against the recording
+or add word-level speech alignment separately. Long pauses and isolated action
+captions are not merged. Cues with too little translated text may show a
+continuation ellipsis rather than duplicating or inventing a translated word.
+
+The bilingual track places **Thai first and English second within each cue**, like
 the provided `Raora_TH_EN_synced (2).srt` reference.
 
 In addition to the original `.en.srt` and `.en.vtt`, the backend creates
@@ -94,7 +108,9 @@ render jobs; start a new render after changing this configuration.
 
 The translation step can be slow: it calls the configured API once per
 unique cue using a single sequential queue so that a single-GPU MADLAD
-instance is not overloaded. FFmpeg starts once caption generation is done.
+instance is not overloaded. One translation request now covers one reconstructed
+sentence (which may span multiple subtitle cues). FFmpeg starts once caption
+generation is done.
 Translated subtitles are drafts for human review, especially screams,
 proper names and context-dependent lines. They are not embedded into the
 MP4 automatically: `includeSubtitles` keeps its original-track behavior.

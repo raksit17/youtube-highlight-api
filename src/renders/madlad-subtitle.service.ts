@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { SubtitleCue } from '../clips/subtitle-export.service';
+import { alignSentenceTranslation, groupSubtitleSentences } from './subtitle-context.util';
 
 type MadladResponse = { translated?: unknown };
 
@@ -9,31 +10,46 @@ type MadladResponse = { translated?: unknown };
  */
 @Injectable()
 export class MadladSubtitleService {
-  get enabled(): boolean {
-    return process.env.MADLAD_SUBTITLE_TRANSLATION_ENABLED !== 'false';
-  }
-
-  async translateCues(
+  get enable  async translateCues(
     englishCues: readonly SubtitleCue[],
     onProgress?: (done: number, total: number) => Promise<void>,
   ): Promise<SubtitleCue[]> {
+    if (!englishCues.length) return [];
+
+    const sentences = groupSubtitleSentences(englishCues);
     const cache = new Map<string, string>();
-    const output: SubtitleCue[] = [];
+    const perCue: string[][] = englishCues.map(() => []);
 
-    for (const [index, cue] of englishCues.entries()) {
-      // Preserve exactly one Thai line above one English line in bilingual SRT.
-      const text = cue.text.replace(/\s*\r?\n\s*/g, ' ').trim();
-      if (!text) throw new Error('Cannot translate an empty subtitle cue');
-
-      let translated = cache.get(text);
+    for (const [index, sentence] of sentences.entries()) {
+      let translated = cache.get(sentence.text);
       if (!translated) {
-        translated = await this.translateOne(text);
-        cache.set(text, translated);
+        translated = await this.translateOne(sentence.text);
+        cache.set(sentence.text, translated);
       }
 
-      output.push({ startMs: cue.startMs, endMs: cue.endMs, text: translated });
-      if (onProgress && ((index + 1) % 5 === 0 || index === englishCues.length - 1)) {
-        await onProgress(index + 1, englishCues.length);
+      const aligned = alignSentenceTranslation(translated, sentence.parts);
+      for (const [partIndex, part] of sentence.parts.entries()) {
+        perCue[part.cueIndex].push(aligned[partIndex]);
+      }
+
+      // Keep the existing render-progress contract (done/total = source cues).
+      if (onProgress && ((index + 1) % 5 === 0 || index === sentences.length - 1)) {
+        const done = Math.min(
+          englishCues.length,
+          Math.ceil(((index + 1) / sentences.length) * englishCues.length),
+        );
+        await onProgress(done, englishCues.length);
+      }
+    }
+
+    return englishCues.map((cue, index) => {
+      const text = perCue[index].join(' ').replace(/\s+/g, ' ').trim();
+      if (!text) throw new Error('Subtitle alignment produced an empty cue');
+      return { startMs: cue.startMs, endMs: cue.endMs, text };
+    });
+  }
+
+     await onProgress(index + 1, englishCues.length);
       }
     }
     return output;
