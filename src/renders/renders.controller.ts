@@ -45,9 +45,10 @@ export class RendersController {
   async downloadSubtitles(
     @Param('id') id: string,
     @Query('format') format: string | undefined,
+    @Query('language') language: string | undefined,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const file = await this.rendersService.getSubtitleForJob(id, format);
+    const file = await this.rendersService.getSubtitleForJob(id, format, language);
     return this.streamFile(response, file);
   }
 

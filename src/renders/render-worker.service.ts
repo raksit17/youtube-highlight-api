@@ -13,7 +13,8 @@ import {
 } from 'node:path';
 
 import { NotFoundException } from '@nestjs/common';
-import { SubtitleExportService } from '../clips/subtitle-export.service';
+import { SubtitleExportService, makeSubtitleFile } from '../clips/subtitle-export.service';
+import { MadladSubtitleService, pairSyncedSubtitles } from './madlad-subtitle.service';
 
 import {
   RenderFormat,
@@ -29,6 +30,7 @@ export class RenderWorkerService {
 
   constructor(
     private readonly subtitleExportService: SubtitleExportService,
+    private readonly madladSubtitleService: MadladSubtitleService,
     private readonly renderJobsRepository: RenderJobsRepository,
   ) {}
 
@@ -92,6 +94,49 @@ export class RenderWorkerService {
         await writeFile(srtPath, srt.content, 'utf8');
         await writeFile(join(outputDirectory, vtt.filename), vtt.content, 'utf8');
         if (job.includeSubtitles) subtitlePath = srtPath;
+
+        // Bilingual output mirrors Raora_TH_EN_synced: Thai above English,
+        // same cue index, same millisecond timestamps as the rendered clip.
+        if (/^en(?:-|$)/i.test(srt.language) && this.madladSubtitleService.enabled) {
+          await this.renderJobsRepository.updateProgress(job.id, 12, 'TRANSLATING_SUBTITLES');
+          try {
+            const thaiCues = await this.madladSubtitleService.translateCues(
+              srt.cues,
+              async (done, total) => {
+                await this.renderJobsRepository.updateProgress(
+                  job.id,
+                  12 + Math.floor((done / total) * 2),
+                  `TRANSLATING_SUBTITLES (${done}/${total})`,
+                );
+              },
+            );
+            const bilingualCues = pairSyncedSubtitles(srt.cues, thaiCues);
+            for (const format of ['srt', 'vtt'] as const) {
+              await writeFile(
+                join(outputDirectory, `${filenameStem}.th.${format}`),
+                makeSubtitleFile(thaiCues, format),
+                'utf8',
+              );
+              await writeFile(
+                join(outputDirectory, `${filenameStem}.th-en.${format}`),
+                makeSubtitleFile(bilingualCues, format),
+                'utf8',
+              );
+            }
+          } catch (error) {
+            // Translation is optional; never destroy the MP4 or English SRT.
+            const detail = error instanceof Error ? error.message : String(error);
+            this.logger.warn(`Render ${job.id}: MADLAD translation skipped: ${detail}`);
+            for (const filename of [
+              `${filenameStem}.th.srt`,
+              `${filenameStem}.th.vtt`,
+              `${filenameStem}.th-en.srt`,
+              `${filenameStem}.th-en.vtt`,
+            ]) {
+              await rm(join(outputDirectory, filename), { force: true }).catch(() => undefined);
+            }
+          }
+        }
       } catch (error) {
         if (job.includeSubtitles || !(error instanceof NotFoundException)) throw error;
         this.logger.log(`No subtitle sidecar available for render ${job.id}`);

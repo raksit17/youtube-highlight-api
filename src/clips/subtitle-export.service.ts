@@ -3,7 +3,7 @@ import { PrismaService } from '../database/prisma.service';
 import { buildClipFilenameStem } from './clip-filename.util';
 
 export type SubtitleFormat = 'srt' | 'vtt';
-type Caption = { startMs: number; endMs: number; text: string };
+export type SubtitleCue = { startMs: number; endMs: number; text: string };
 
 /** Shared subtitle generator for draft downloads AND immutable render-job sidecars. */
 @Injectable()
@@ -85,7 +85,7 @@ export class SubtitleExportService {
 
     // Prevent duplicate subtitles from multiple collectors/sources.
     const selectedSource = selectedRows[0].source ?? 'und';
-    const captions: Caption[] = selectedRows
+    const captions: SubtitleCue[] = selectedRows
       .filter((row) => (row.source ?? 'und') === selectedSource)
       .map((row) => ({
         startMs: Math.max(0, row.startMs - startMs),
@@ -102,12 +102,13 @@ export class SubtitleExportService {
         ? 'text/vtt; charset=utf-8'
         : 'application/x-subrip; charset=utf-8',
       language: selectedLanguage,
+      cues: captions,
       content: makeSubtitleFile(captions, format as SubtitleFormat),
     };
   }
 }
 
-export function makeSubtitleFile(captions: Caption[], format: SubtitleFormat): string {
+export function makeSubtitleFile(captions: SubtitleCue[], format: SubtitleFormat): string {
   const blocks = captions.map((caption, index) => {
     const start = formatSubtitleTime(caption.startMs, format);
     const end = formatSubtitleTime(caption.endMs, format);

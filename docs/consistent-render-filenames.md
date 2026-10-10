@@ -50,3 +50,51 @@ npm test -- --runInBand
 
 Older RenderJob records have nullable snapshot columns and have no persistent
 subtitle sidecars; re-render a clip to get paired SRT and VTT downloads.
+
+## Automatic MADLAD subtitle translation
+
+New renders translate the original English subtitle cues through
+[raksit17/madlad-api](https://github.com/raksit17/madlad-api) while the render
+job is running. MADLAD must be started separately. On a Windows host with
+NestJS and MADLAD both running locally, use these Backend `.env` settings:
+
+```dotenv
+MADLAD_SUBTITLE_TRANSLATION_ENABLED=true
+MADLAD_API_URL=http://localhost:8001/v1/translate
+MADLAD_TIMEOUT_MS=60000
+```
+
+Each English cue is sent sequentially to `POST /v1/translate` with the exact
+JSON fields `{"text":"<subtitle text>","source":"en","target":"th","max_new_tokens":256,"num_beams":2}`.
+The API returns `translated`. Duplicate phrases within a clip are cached.
+The sequence and exact offsets are preserved from the original SRT; the
+bilingual track places **Thai first and English second within each cue**, like
+the provided `Raora_TH_EN_synced (2).srt` reference.
+
+In addition to the original `.en.srt` and `.en.vtt`, the backend creates
+`.th.srt`, `.th.vtt`, `.th-en.srt`, and `.th-en.vtt`, with the
+same render job filename stem. Examples:
+
+```text
+Raora_SPAGHET_H01_STANDARD_003637-003937.en.srt
+Raora_SPAGHET_H01_STANDARD_003637-003937.th.srt
+Raora_SPAGHET_H01_STANDARD_003637-003937.th-en.srt
+```
+
+After rendering, query `GET /api/v1/render-jobs/:id` for the
+`subtitleLanguages` array (e.g. `["en","th","th-en"]`).
+Download the exact track with
+`GET /api/v1/render-jobs/:id/subtitles?format=srt&language=th-en`.
+For `language=en` the original source-language filename is preserved.
+
+If MADLAD is offline or a translation is empty/invalid, the worker logs a
+warning, omits the Thai outputs, and **still exports the video and original
+English subtitles**. Translation cannot be reconstructed for old completed
+render jobs; start a new render after changing this configuration.
+
+The translation step can be slow: it calls the configured API once per
+unique cue using a single sequential queue so that a single-GPU MADLAD
+instance is not overloaded. FFmpeg starts once caption generation is done.
+Translated subtitles are drafts for human review, especially screams,
+proper names and context-dependent lines. They are not embedded into the
+MP4 automatically: `includeSubtitles` keeps its original-track behavior.

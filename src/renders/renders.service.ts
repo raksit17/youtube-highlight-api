@@ -124,9 +124,33 @@ export class RendersService {
       );
     }
 
-    return this.toResponse(job);
+    return {
+      ...this.toResponse(job),
+      subtitleLanguages: await this.availableSubtitleLanguages(job),
+    };
   }
 
+  private async availableSubtitleLanguages(job: {
+    status: string;
+    outputPath: string | null;
+    filenameStem: string | null;
+    subtitleFilename: string | null;
+  }): Promise<string[]> {
+    if (job.status !== 'COMPLETED' || !job.outputPath || !job.subtitleFilename) return [];
+    const dir = dirname(job.outputPath);
+    const originalStem = job.filenameStem ?? job.subtitleFilename.replace(/\.[^.]+\.[^.]+$/, '');
+    const entries: Array<[string, string]> = [
+      ['en', job.subtitleFilename],
+      ['th', `${originalStem}.th.srt`],
+      ['th-en', `${originalStem}.th-en.srt`],
+    ];
+    const results: string[] = [];
+    for (const [language, filename] of entries) {
+      try { await access(join(dir, filename)); results.push(language); }
+      catch { /* Subtitles not generated for this language */ }
+    }
+    return results;
+  }
 
   async getDownloadForClip(clipId: string) {
     const job = await this.renderJobsRepository.findLatestCompletedForClip(clipId);
@@ -142,16 +166,21 @@ export class RendersService {
     return this.renderedFile(job);
   }
 
-  async getSubtitleForJob(jobId: string, format = 'srt') {
+  async getSubtitleForJob(jobId: string, format = 'srt', language = 'en') {
     if (format !== 'srt' && format !== 'vtt') {
       throw new BadRequestException('format must be srt or vtt');
+    }
+    if (!['en', 'th', 'th-en'].includes(language)) {
+      throw new BadRequestException('language must be en, th or th-en');
     }
     const job = await this.renderJobsRepository.findById(jobId);
     if (!job || job.status !== 'COMPLETED' || !job.outputPath ||
       !job.subtitleFilename) {
       throw new NotFoundException('No subtitle sidecar for this render job');
     }
-    const filename = job.subtitleFilename.replace(/\.srt$/, '.' + format);
+    const filename = language === 'en'
+      ? job.subtitleFilename.replace(/\.srt$/, '.' + format)
+      : `${job.filenameStem ?? job.subtitleFilename.replace(/\.[^.]+\.[^.]+$/, '')}.${language}.${format}`;
     const path = join(dirname(job.outputPath), filename);
     try { await access(path); } catch {
       throw new NotFoundException('Rendered subtitle file is missing');
@@ -181,6 +210,7 @@ export class RendersService {
       format: job.format,
       videoFilename: job.outputFilename,
       subtitleFilename: job.subtitleFilename,
+      subtitleLanguages: await this.availableSubtitleLanguages(job),
       completedAt: job.completedAt,
     };
   }
@@ -241,6 +271,7 @@ export class RendersService {
       outputFilename: job.outputFilename,
       filenameStem: job.filenameStem,
       subtitleFilename: job.subtitleFilename,
+      subtitleLanguages: [],
       clipStartMs: job.clipStartMs,
       clipEndMs: job.clipEndMs,
       downloadUrl:
