@@ -15,6 +15,7 @@ import {
 import { NotFoundException } from '@nestjs/common';
 import { SubtitleExportService, makeSubtitleFile } from '../clips/subtitle-export.service';
 import { MadladSubtitleService, pairSyncedSubtitles } from './madlad-subtitle.service';
+import { findSubtitleOverlaps } from './subtitle-context.util';
 
 import {
   RenderFormat,
@@ -89,6 +90,13 @@ export class RenderWorkerService {
         const vtt = await this.subtitleExportService.exportForRange(
           job.clip.videoId, clipStartMs, clipEndMs, filenameStem, 'vtt', srt.language,
         );
+        const overlaps = findSubtitleOverlaps(srt.cues);
+        if (overlaps.length) {
+          this.logger.warn(
+            `Render ${job.id}: ${overlaps.length} overlapping source subtitle cue(s) retained; ` +
+            'review against actual audio for frame-accurate timing.',
+          );
+        }
         subtitleFilename = srt.filename;
         const srtPath = join(outputDirectory, srt.filename);
         await writeFile(srtPath, srt.content, 'utf8');

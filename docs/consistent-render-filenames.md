@@ -107,10 +107,37 @@ English subtitles**. Translation cannot be reconstructed for old completed
 render jobs; start a new render after changing this configuration.
 
 The translation step can be slow: it calls the configured API once per
-unique cue using a single sequential queue so that a single-GPU MADLAD
+unique reconstructed sentence using a single sequential queue so that a single-GPU MADLAD
 instance is not overloaded. One translation request now covers one reconstructed
 sentence (which may span multiple subtitle cues). FFmpeg starts once caption
 generation is done.
 Translated subtitles are drafts for human review, especially screams,
 proper names and context-dependent lines. They are not embedded into the
 MP4 automatically: `includeSubtitles` keeps its original-track behavior.
+
+
+## Context-aware glossaries and overlapping cues
+
+The backend protects `The Divine Comedy` and `ODC` using reversible
+translation markers. If MADLAD removes a marker, untranslated names are
+inserted after individually translating the surrounding fragments rather than
+publishing a mistranslated title. In **academic context** (e.g. a clip about
+reading, a course or a book), `assignment` is protected as the Thai word
+`การบ้าน`; in other contexts it is left for normal translation.
+
+Sentence grouping still processes whole sentences, and splitting translated
+text back to source cues now avoids cutting through `การบ้าน`, `ODC` or
+`The Divine Comedy`. Cue boundaries beginning with `assignment` prefer the
+boundary **before the whole noun**. Translation of source labels `[laughter]`,
+`[music]`, `[screaming]` and `[applause]` is deterministic.
+
+**Timing caveat:** Automatic YouTube captions often overlap (even between
+adjacent source cues). The render worker logs the number of overlaps but does
+not silently shorten or move original cue start/end timestamps. All exported
+languages use the same timestamp snapshot. Correcting overlapping captions
+against the spoken audio requires an editor or word-level audio alignment.
+Improved word boundaries reduce bad Thai typography but do not guarantee
+idiomatic translations in every situation. Review the output before publishing.
+
+Unit tests include a 14-cue transcript with `assignment`, `The Divine
+Comedy`, `ODC`, sound captions and overlapping timestamps.

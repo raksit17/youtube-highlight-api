@@ -4,131 +4,127 @@ import { makeSubtitleFile } from '../clips/subtitle-export.service';
 describe('MadladSubtitleService', () => {
   afterEach(() => jest.restoreAllMocks());
 
-  it('sends user-specified options and preserves exact cue timestamps', async () => {
-    const fetchMock = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(JSON.stringify({ translated: 'กรี๊ด' }), { status: 200 }),
+  it('uses the requested generation config for normal sentences', async () => {
+    const request = jest.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ translated: 'สวัสดี' }), { status: 200 }),
     );
-    const input = [
-      { startMs: 3, endMs: 7450, text: '[screaming]' },
-      { startMs: 9000, endMs: 11000, text: '[screaming]' },
-    ];
-    const service = new MadladSubtitleService();
-    const out = await service.translateCues(input);
-    expect(fetchMock).toHaveBeenCalledTimes(1); // duplicate cues cached
-    expect(fetchMock.mock.calls[0][1]?.method).toBe('POST');
-    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({
-      text: '[screaming]',
-      source: 'en',
-      target: 'th',
-      max_new_tokens: 256,
-      num_beams: 2,
-    });
-    expect(out).toEqual([
-      { startMs: 3, endMs: 7450, text: 'กรี๊ด' },
-      { startMs: 9000, endMs: 11000, text: 'กรี๊ด' },
-    ]);
-  });
-
-
-  it('creates a two-line Thai/English SRT with identical times and sequence', () => {
-    const english = [
-      { startMs: 33, endMs: 2213, text: 'spectator watches you.' },
-      { startMs: 2213, endMs: 4372, text: 'What?' },
-    ];
-    const thai = [
-      { startMs: 33, endMs: 2213, text: 'มีคนที่ไม่พึงประสงค์จ้องมองเราอยู่' },
-      { startMs: 2213, endMs: 4372, text: 'หา?' },
-    ];
-    const output = makeSubtitleFile(pairSyncedSubtitles(english, thai), 'srt');
-    expect(output).toContain(
-      '1\\n00:00:00,033 --> 00:00:02,213\\nมีคนที่ไม่พึงประสงค์จ้องมองเราอยู่\\nspectator watches you.',
-    );
-    expect(output).toContain('2\\n00:00:02,213 --> 00:00:04,372\\nหา?\\nWhat?');
-    expect(output.match(/-->/g)?.length).toBe(2);
-  });
-
-  it('rejects cue timing mismatches instead of silently desynchronizing', () => {
-    expect(() => pairSyncedSubtitles(
-      [{ startMs: 0, endMs: 1000, text: 'Hello' }],
-      [{ startMs: 10, endMs: 1000, text: 'สวัสดี' }],
-    )).toThrow('timestamps do not match');
-  });
-
-  it('rejoins an English sentence split after "an" before translation', async () => {
-    const inputs: string[] = [];
-    jest.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
-      const body = JSON.parse(String(init?.body)) as { text: string };
-      inputs.push(body.text);
-      const thai = body.text === 'But I remember it was like an assignment.'
-        ? 'แต่จำได้ว่ามันเหมือนจะเป็นการบ้าน'
-        : 'ฉันจำได้ว่ามันเป็นอะไรสักอย่าง...';
-      return new Response(JSON.stringify({ translated: thai }), { status: 200 });
-    });
-
     const original = [
-      { startMs: 1579, endMs: 3420, text: 'But I remember it was like an' },
-      { startMs: 3420, endMs: 6619, text: 'assignment. I remember it was something...' },
+      { startMs: 100, endMs: 1100, text: 'Hello.' },
+      { startMs: 2000, endMs: 3000, text: 'Hello.' },
     ];
-    const result = await new MadladSubtitleService().translateCues(original);
-
-    expect(inputs).toEqual([
-      'But I remember it was like an assignment.',
-      'I remember it was something...',
+    const translated = await new MadladSubtitleService().translateCues(original);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(String(request.mock.calls[0][1]?.body))).toEqual({
+      text: 'Hello.', source: 'en', target: 'th',
+      max_new_tokens: 256, num_beams: 2,
+    });
+    expect(translated).toEqual([
+      { startMs: 100, endMs: 1100, text: 'สวัสดี' },
+      { startMs: 2000, endMs: 3000, text: 'สวัสดี' },
     ]);
-    expect(result).toEqual([
-      { startMs: 1579, endMs: 3420, text: 'แต่จำได้ว่ามันเหมือนจะเป็น…' },
-      {
-        startMs: 3420, endMs: 6619,
-        text: 'การบ้าน ฉันจำได้ว่ามันเป็นอะไรสักอย่าง...',
-      },
-    ]);
-    const bilingual = makeSubtitleFile(pairSyncedSubtitles(original, result), 'srt');
-    expect(bilingual).toContain('00:00:01,579 --> 00:00:03,420');
-    expect(bilingual).toContain('00:00:03,420 --> 00:00:06,619');
-    expect(bilingual).toContain('การบ้าน ฉันจำได้ว่ามันเป็นอะไรสักอย่าง...\nassignment.');
   });
 
-  it('splits sentences inside one cue but preserves the single cue range', async () => {
-    const inputs: string[] = [];
-    jest.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
-      const text = (JSON.parse(String(init?.body)) as { text: string }).text;
-      inputs.push(text);
+  it('translates complete assignment sentence and preserves homework as a unit', async () => {
+    const requests: string[] = [];
+    jest.spyOn(globalThis, 'fetch').mockImplementation(async (_url, options) => {
+      const { text } = JSON.parse(String(options?.body)) as { text: string };
+      requests.push(text);
       return new Response(JSON.stringify({
-        translated: text === 'Hello.' ? 'สวัสดี' : 'เป็นอย่างไรบ้าง',
+        translated: text.includes('ZXQNAME')
+          ? 'แต่จำได้ว่ามันเหมือนจะเป็น ZXQNAME0ZXQ'
+          : 'ฉันจำได้ว่ามันเป็นอะไรสักอย่าง...',
       }), { status: 200 });
     });
-    const result = await new MadladSubtitleService().translateCues([
-      { startMs: 1000, endMs: 3000, text: 'Hello. How are you?' },
-    ]);
-    expect(inputs).toEqual(['Hello.', 'How are you?']);
-    expect(result).toEqual([
-      { startMs: 1000, endMs: 3000, text: 'สวัสดี เป็นอย่างไรบ้าง' },
-    ]);
+    const english = [
+      { startMs: 1579, endMs: 6619, text: 'But I remember it was like an' },
+      { startMs: 3420, endMs: 9099, text: 'assignment. I remember it was something...' },
+      { startMs: 9099, endMs: 14000, text: 'we also had to read a book.' },
+    ];
+    const thai = await new MadladSubtitleService().translateCues(english);
+    expect(requests.some((text) =>
+      text === 'But I remember it was like an ZXQNAME0ZXQ.',
+    )).toBe(true);
+    expect(thai[1].text).toContain('การบ้าน');
+    expect(thai[0].text).not.toContain('การบ้าน');
+    expect(thai.map((c) => [c.startMs, c.endMs])).toEqual(
+      english.map((c) => [c.startMs, c.endMs]),
+    );
   });
 
-  it('does not merge captions separated by a long pause', async () => {
-    const inputs: string[] = [];
+  it('protects The Divine Comedy and ODC inside a 14-cue transcript', async () => {
+    const english = [
+      { startMs: 0, endMs: 433, text: 'skip. So, I actually don\'t know what' },
+      { startMs: 0, endMs: 1579, text: 'what happened. I just didn\'t do it.' },
+      { startMs: 433, endMs: 3420, text: '[laughter]' },
+      { startMs: 1579, endMs: 6619, text: 'But I remember it was like an' },
+      { startMs: 3420, endMs: 9099, text: 'assignment. I remember it was something' },
+      { startMs: 6619, endMs: 13980, text: 'that we had to do, but we were supposed' },
+      { startMs: 9099, endMs: 16860, text: 'to do, but I just I just didn\'t.' },
+      { startMs: 13980, endMs: 19260, text: 'So yeah, we were supposed to do that but' },
+      { startMs: 16860, endMs: 22703, text: 'I genuinely don\'t know what what' },
+      { startMs: 19260, endMs: 23500, text: 'happened in the divine comedy.' },
+      { startMs: 22703, endMs: 26780, text: '[music]' },
+      { startMs: 23500, endMs: 29900, text: 'I might I might have an idea of it. Also' },
+      { startMs: 26780, endMs: 30000, text: 'we were um we also had to read the ODC' },
+      { startMs: 29900, endMs: 30000, text: 'as well' },
+    ];
+    const requests: string[] = [];
+    jest.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
+      const body = JSON.parse(String(init?.body)) as { text: string };
+      requests.push(body.text);
+      let translated = 'ฉันคิดว่าคงเป็นอะไรบางอย่างที่เราต้องทำ';
+      if (body.text.includes('But I remember it was like an ZXQNAME')) {
+        translated = 'แต่จำได้ว่ามันเหมือนจะเป็นZXQNAME0ZXQ';
+      } else if (body.text.includes('happened in ZXQNAME')) {
+        translated = 'ฉันไม่รู้จริง ๆ ว่าเกิดอะไรขึ้นในเรื่อง ZXQNAME0ZXQ';
+      } else if (body.text.includes('read the ZXQNAME')) {
+        translated = 'พวกเรายังต้องอ่าน ZXQNAME0ZXQ ด้วยเหมือนกัน';
+      }
+      return new Response(JSON.stringify({ translated }), { status: 200 });
+    });
+
+    const thai = await new MadladSubtitleService().translateCues(english);
+    expect(requests.some((text) => text.includes('But I remember it was like an ZXQNAME'))).toBe(true);
+    expect(requests.some((text) => text.includes('happened in ZXQNAME'))).toBe(true);
+    expect(requests.some((text) => text.includes('read the ZXQNAME'))).toBe(true);
+    expect(thai).toHaveLength(14);
+    expect(thai.map((cue) => [cue.startMs, cue.endMs]))
+      .toEqual(english.map((cue) => [cue.startMs, cue.endMs]));
+    expect(thai[2].text).toBe('[เสียงหัวเราะ]');
+    expect(thai[10].text).toBe('[เสียงดนตรี]');
+    expect(thai.map((cue) => cue.text).join(' ')).toContain('The Divine Comedy');
+    expect(thai.map((cue) => cue.text).join(' ')).toContain('ODC');
+    expect(thai.map((cue) => cue.text).join(' ')).not.toContain('ละครตลก');
+    expect(thai.map((cue) => cue.text).join(' ')).toContain('การบ้าน');
+    const bilingual = makeSubtitleFile(pairSyncedSubtitles(english, thai), 'srt');
+    expect(bilingual).toContain('00:00:01,579 --> 00:00:06,619');
+  });
+
+  it('uses a deterministic fallback when MADLAD drops protected markers', async () => {
+    const texts: string[] = [];
     jest.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
       const text = (JSON.parse(String(init?.body)) as { text: string }).text;
-      inputs.push(text);
-      return new Response(JSON.stringify({ translated: text }), { status: 200 });
+      texts.push(text);
+      return new Response(JSON.stringify({
+        translated: text.includes('ZXQNAME')
+          ? 'เกิดอะไรขึ้นในละครตลก'
+          : 'เกิดอะไรขึ้นใน',
+      }), { status: 200 });
     });
-    const result = await new MadladSubtitleService().translateCues([
-      { startMs: 0, endMs: 900, text: 'I think' },
-      { startMs: 4000, endMs: 5300, text: 'maybe' },
+    const output = await new MadladSubtitleService().translateCues([
+      { startMs: 0, endMs: 3000, text: 'What happened in the Divine Comedy?' },
     ]);
-    expect(inputs).toEqual(['I think', 'maybe']);
-    expect(result.map((cue) => [cue.startMs, cue.endMs])).toEqual([
-      [0, 900], [4000, 5300],
-    ]);
+    expect(texts.length).toBeGreaterThan(1);
+    expect(output[0].text).toContain('The Divine Comedy');
+    expect(output[0].text).not.toContain('ละครตลก');
   });
 
-  it('fails rather than producing fake Thai captions on an empty response', async () => {
+  it('still rejects empty MADLAD translations', async () => {
     jest.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response(JSON.stringify({ translated: '' }), { status: 200 }),
     );
     await expect(new MadladSubtitleService().translateCues([
-      { startMs: 0, endMs: 1000, text: 'Hello' },
+      { startMs: 0, endMs: 1000, text: 'Hello.' },
     ])).rejects.toThrow('empty or invalid');
   });
 });

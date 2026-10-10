@@ -1,29 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import type { SubtitleCue } from '../clips/subtitle-export.service';
 import { alignSentenceTranslation, groupSubtitleSentences } from './subtitle-context.util';
+import {
+  maskProtectedTerms,
+  polishAcademicThai,
+  restoreProtectedTerms,
+  translateAroundProtectedTerms,
+} from './subtitle-glossary.util';
 
 type MadladResponse = { translated?: unknown };
 
-/**
- * Calls the user's locally hosted MADLAD API with explicit generation options.
- * The API translates text only; timestamps and cue ordering never change.
- */
 @Injectable()
 export class MadladSubtitleService {
-  get enable  async translateCues(
+  get enabled(): boolean {
+    return process.env.MADLAD_SUBTITLE_TRANSLATION_ENABLED !== 'false';
+  }
+
+  /**
+   * Translate reconstructed sentences, not isolated subtitle chunks.
+   * Never change source cue timings; translated cue boundaries are estimates.
+   */
+  async translateCues(
     englishCues: readonly SubtitleCue[],
     onProgress?: (done: number, total: number) => Promise<void>,
   ): Promise<SubtitleCue[]> {
     if (!englishCues.length) return [];
 
     const sentences = groupSubtitleSentences(englishCues);
+    const fullContext = englishCues.map((cue) => cue.text).join(' ');
     const cache = new Map<string, string>();
     const perCue: string[][] = englishCues.map(() => []);
 
     for (const [index, sentence] of sentences.entries()) {
       let translated = cache.get(sentence.text);
-      if (!translated) {
-        translated = await this.translateOne(sentence.text);
+      if (translated === undefined) {
+        translated = await this.translateWithGlossary(sentence.text, fullContext);
         cache.set(sentence.text, translated);
       }
 
@@ -32,7 +43,6 @@ export class MadladSubtitleService {
         perCue[part.cueIndex].push(aligned[partIndex]);
       }
 
-      // Keep the existing render-progress contract (done/total = source cues).
       if (onProgress && ((index + 1) % 5 === 0 || index === sentences.length - 1)) {
         const done = Math.min(
           englishCues.length,
@@ -44,20 +54,49 @@ export class MadladSubtitleService {
 
     return englishCues.map((cue, index) => {
       const text = perCue[index].join(' ').replace(/\s+/g, ' ').trim();
-      if (!text) throw new Error('Subtitle alignment produced an empty cue');
+      if (!text) throw new Error('Subtitle alignment produced an empty cue at ' + index);
       return { startMs: cue.startMs, endMs: cue.endMs, text };
     });
   }
 
-     await onProgress(index + 1, englishCues.length);
-      }
+  private async translateWithGlossary(text: string, fullContext: string): Promise<string> {
+    // Stage directions require fixed, concise translations, not literal
+    // dictionary senses such as 'boat' for the English command 'skip'.
+    const effects: Record<string, string> = {
+      '[laughter]': '[เสียงหัวเราะ]',
+      '[music]': '[เสียงดนตรี]',
+      '[screaming]': '[เสียงกรี๊ด]',
+      '[applause]': '[เสียงปรบมือ]',
+      'skip.': 'ข้ามไป',
+    };
+    const effect = effects[text.trim().toLowerCase()];
+    if (effect) return effect;
+
+    const protectedInput = maskProtectedTerms(text, fullContext);
+    let translation: string;
+
+    if (!protectedInput.terms.length) {
+      translation = await this.translateOne(text);
+    } else {
+      // Keep names and educational terms unchanged through MADLAD.
+      const response = await this.translateOne(protectedInput.masked);
+      const restored = restoreProtectedTerms(response, protectedInput.terms);
+      translation = restored ?? await translateAroundProtectedTerms(
+        text,
+        protectedInput.terms,
+        (fragment) => this.translateOne(fragment),
+      );
     }
-    return output;
+
+    const polished = polishAcademicThai(translation, text, fullContext);
+    return polished.replace(
+      /(?:ใน\s*)?(?:บทละครตลก|ละครตลก|เรื่องตลก)\s*(?=The Divine Comedy)/gu,
+      'ในเรื่อง ',
+    );
   }
 
   private async translateOne(text: string): Promise<string> {
-    const endpoint =
-      process.env.MADLAD_API_URL || 'http://localhost:8001/v1/translate';
+    const endpoint = process.env.MADLAD_API_URL || 'http://localhost:8001/v1/translate';
     const configuredTimeout = Number(process.env.MADLAD_TIMEOUT_MS ?? '60000');
     const timeoutMs = Number.isFinite(configuredTimeout)
       ? Math.max(1000, Math.min(configuredTimeout, 300000))
@@ -78,10 +117,10 @@ export class MadladSubtitleService {
 
     if (!response.ok) {
       const details = (await response.text().catch(() => '')).slice(0, 300);
-      throw new Error(`MADLAD HTTP ${response.status}: ${details}`);
+      throw new Error('MADLAD HTTP ' + response.status + ': ' + details);
     }
 
-    const result: MadladResponse = (await response.json()) as MadladResponse;
+    const result = (await response.json()) as MadladResponse;
     if (typeof result.translated !== 'string' || !result.translated.trim()) {
       throw new Error('MADLAD returned an empty or invalid translation');
     }
@@ -89,7 +128,7 @@ export class MadladSubtitleService {
   }
 }
 
-/** Like Raora_TH_EN_synced.srt: one caption, Thai line first, English below. */
+/** Thai line first, English line second; no timestamp modification. */
 export function pairSyncedSubtitles(
   english: readonly SubtitleCue[],
   thai: readonly SubtitleCue[],

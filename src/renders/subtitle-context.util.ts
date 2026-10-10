@@ -77,16 +77,55 @@ function thaiSplitBoundaries(text: string): number[] {
     indices.add(segment.index);
     indices.add(segment.index + segment.segment.length);
   }
-  // Intl word segmentation can merge the predicate and a nominalizer
-  // ("เป็นการบ้าน" -> "เป็นการ" + "บ้าน"). A break before "การ"
-  // is a useful additional grammatical candidate, not a forced split.
+  // ICU sometimes treats "เป็นการ" as one word. Add this grammatical
+  // boundary, but never split a named entity or the noun "การบ้าน".
   for (const match of text.matchAll(/เป็น(?=การ)/gu)) {
     indices.add((match.index ?? 0) + match[0].length);
   }
-  indices.delete(0);
-  indices.delete(text.length);
-  return [...indices].filter((index) => index > 0 && index < text.length)
-    .sort((left, right) => left - right);
+
+  const protectedSpans: Array<[number, number]> = [];
+  for (const match of text.matchAll(/การบ้าน|The Divine Comedy|\bODC\b/giu)) {
+    const first = match.index ?? 0;
+    protectedSpans.push([first, first + match[0].length]);
+    indices.add(first);
+    indices.add(first + match[0].length);
+  }
+
+  return [...indices].filter((index) =>
+    index > 0 && index < text.length &&
+    !protectedSpans.some(([first, last]) => index > first && index < last),
+  ).sort((left, right) => left - right);
+}
+
+function anchoredCueBoundary(
+  translation: string,
+  nextEnglish: string,
+): number | undefined {
+  // Source noun at the start of the next cue must stay whole.
+  const anchors = [
+    { source: /^assignment\b/i, thai: 'การบ้าน' },
+    { source: /^the\s+divine\s+comedy\b/i, thai: 'The Divine Comedy' },
+    { source: /^ODC\b/i, thai: 'ODC' },
+  ];
+  for (const anchor of anchors) {
+    if (!anchor.source.test(nextEnglish.trim())) continue;
+    const at = translation.indexOf(anchor.thai);
+    if (at > 0) return at;
+  }
+  return undefined;
+}
+
+export function findSubtitleOverlaps(
+  cues: readonly SubtitleCue[],
+): Array<{ first: number; second: number; overlapMs: number }> {
+  const overlapping: Array<{ first: number; second: number; overlapMs: number }> = [];
+  for (let index = 1; index < cues.length; index++) {
+    const overlapMs = cues[index - 1].endMs - cues[index].startMs;
+    if (overlapMs > 0) {
+      overlapping.push({ first: index, second: index + 1, overlapMs });
+    }
+  }
+  return overlapping;
 }
 
 /**
@@ -124,10 +163,13 @@ export function alignSentenceTranslation(
           boundary - intended <= Math.max(3, result.length * 0.2))
       : [];
     const choices = rightCandidates.length ? rightCandidates : valid;
-    const chosen = choices.length
-      ? choices.reduce((best, candidate) =>
-          Math.abs(candidate - intended) < Math.abs(best - intended) ? candidate : best)
-      : -1;
+    const anchor = anchoredCueBoundary(result, parts[index + 1].text);
+    const chosen = anchor !== undefined && valid.includes(anchor)
+      ? anchor
+      : choices.length
+        ? choices.reduce((best, candidate) =>
+            Math.abs(candidate - intended) < Math.abs(best - intended) ? candidate : best)
+        : -1;
     if (chosen < 0) {
       // Very short translations can have fewer words than source cues.
       // Do not duplicate a translated word or split it in half.

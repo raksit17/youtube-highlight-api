@@ -1,6 +1,7 @@
 import {
   alignSentenceTranslation,
   groupSubtitleSentences,
+  findSubtitleOverlaps,
 } from './subtitle-context.util';
 
 describe('context-aware subtitle grouping and alignment', () => {
@@ -42,6 +43,40 @@ describe('context-aware subtitle grouping and alignment', () => {
     expect(result.map((s) => s.text)).toEqual([
       'I think', 'maybe', '[screaming]', '[screaming]',
     ]);
+  });
+
+  it('never splits the word การบ้าน or a protected book title in Thai alignment', () => {
+    expect(alignSentenceTranslation(
+      'แต่จำได้ว่ามันเหมือนจะเป็นการบ้าน',
+      [
+        { cueIndex: 3, text: 'But I remember it was like an' },
+        { cueIndex: 4, text: 'assignment.' },
+      ],
+    )).toEqual(['แต่จำได้ว่ามันเหมือนจะเป็น…', 'การบ้าน']);
+
+    const names = alignSentenceTranslation(
+      'ฉันไม่รู้ว่าเกิดอะไรขึ้นในเรื่อง The Divine Comedy',
+      [
+        { cueIndex: 8, text: 'I genuinely do not know what' },
+        { cueIndex: 9, text: 'happened in The Divine Comedy' },
+      ],
+    );
+    expect(names.join(' ')).toContain('The Divine Comedy');
+    expect(names.every((chunk) => !chunk.includes('The Divine') ||
+      chunk.includes('The Divine Comedy'))).toBe(true);
+  });
+
+  it('detects overlapping source cues but does not mutate their times', () => {
+    const cues = [
+      { startMs: 0, endMs: 433, text: 'First' },
+      { startMs: 0, endMs: 1579, text: 'Second' },
+      { startMs: 433, endMs: 3420, text: '[laughter]' },
+    ];
+    expect(findSubtitleOverlaps(cues)).toEqual([
+      { first: 1, second: 2, overlapMs: 433 },
+      { first: 2, second: 3, overlapMs: 1146 },
+    ]);
+    expect(cues[1].startMs).toBe(0);
   });
 
   it('keeps a single translated sentence intact for one cue', () => {
