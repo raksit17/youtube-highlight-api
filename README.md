@@ -96,3 +96,23 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## Highlight-only English subtitle synchronization (optional)
+
+The render worker can compare yt-dlp English captions with audio extracted from the same local source file that FFmpeg renders. This adjusts only each render job's English SRT/VTT and MP4 subtitle track, never PostgreSQL source timestamps.
+
+On Windows, install ffsubsync using `py -m pip install ffsubsync` and check `ffs --version`. Set `FFSUBSYNC_PATH` to the full path of `ffs.exe` if the command is not available from NestJS.
+
+Enable these values in the backend's real `.env`:
+
+```env
+SUBTITLE_AUTO_SYNC_ENABLED=true
+FFSUBSYNC_PATH=ffs
+SUBTITLE_SYNC_CONTEXT_SECONDS=15
+MADLAD_SUBTITLE_TRANSLATION_ENABLED=false
+```
+
+Restart NestJS and render with **ACCURATE** mode. FAST rendering is rejected when auto-sync is enabled because keyframe seeking can change the actual output start. Sync examines only the selected highlight plus up to 15 seconds of context on both sides. It applies ffsubsync's low-quality safety gate and clips aligned cues to the exact 0-based output timeline. Missing tools or rejected alignments produce a failed render rather than silently marking untouched subtitles as synchronized.
+
+This detects a **fixed** offset, not word-level timing. Music, game audio, sparse speech or overlapping/rolling captions can reduce alignment quality; manually inspect the rendered MP4 and matching English SRT.
