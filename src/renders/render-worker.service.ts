@@ -16,6 +16,7 @@ import { NotFoundException } from '@nestjs/common';
 import { SubtitleExportService, makeSubtitleFile } from '../clips/subtitle-export.service';
 import { MadladSubtitleService, pairSyncedSubtitles } from './madlad-subtitle.service';
 import { findSubtitleOverlaps } from './subtitle-context.util';
+import { SubtitleSyncService } from './subtitle-sync.service';
 
 import {
   RenderFormat,
@@ -32,6 +33,7 @@ export class RenderWorkerService {
   constructor(
     private readonly subtitleExportService: SubtitleExportService,
     private readonly madladSubtitleService: MadladSubtitleService,
+    private readonly subtitleSyncService: SubtitleSyncService,
     private readonly renderJobsRepository: RenderJobsRepository,
   ) {}
 
@@ -87,10 +89,26 @@ export class RenderWorkerService {
         const srt = await this.subtitleExportService.exportForRange(
           job.clip.videoId, clipStartMs, clipEndMs, filenameStem, 'srt',
         );
-        const vtt = await this.subtitleExportService.exportForRange(
-          job.clip.videoId, clipStartMs, clipEndMs, filenameStem, 'vtt', srt.language,
-        );
-        const overlaps = findSubtitleOverlaps(srt.cues);
+        // Auto-sync runs ONLY for this render job; the original DB transcript is untouched.
+        // Detect a fixed offset against audio extracted from the same local source MP4.
+        let cues = srt.cues;
+        if (process.env.SUBTITLE_AUTO_SYNC_ENABLED === 'true') {
+          if (job.mode !== RenderMode.ACCURATE) {
+            throw new Error('Subtitle auto-sync requires ACCURATE render mode (FAST keyframe copying can shift the clip start)');
+          }
+          await this.renderJobsRepository.updateProgress(job.id, 11, 'SYNCING_SUBTITLES');
+          cues = await this.subtitleSyncService.syncHighlight({
+            videoId: job.clip.videoId,
+            sourcePath,
+            workDirectory: outputDirectory,
+            filenameStem,
+            language: srt.language,
+            startMs: clipStartMs,
+            endMs: clipEndMs,
+            videoDurationMs: job.clip.video.durationMs,
+          });
+        }
+        const overlaps = findSubtitleOverlaps(cues);
         if (overlaps.length) {
           this.logger.warn(
             `Render ${job.id}: ${overlaps.length} overlapping source subtitle cue(s) retained; ` +
@@ -99,8 +117,12 @@ export class RenderWorkerService {
         }
         subtitleFilename = srt.filename;
         const srtPath = join(outputDirectory, srt.filename);
-        await writeFile(srtPath, srt.content, 'utf8');
-        await writeFile(join(outputDirectory, vtt.filename), vtt.content, 'utf8');
+        await writeFile(srtPath, makeSubtitleFile(cues, 'srt'), 'utf8');
+        await writeFile(
+          join(outputDirectory, srt.filename.replace(/\.srt$/i, '.vtt')),
+          makeSubtitleFile(cues, 'vtt'),
+          'utf8',
+        );
         if (job.includeSubtitles) subtitlePath = srtPath;
 
         // Bilingual output mirrors Raora_TH_EN_synced: Thai above English,
@@ -109,7 +131,7 @@ export class RenderWorkerService {
           await this.renderJobsRepository.updateProgress(job.id, 12, 'TRANSLATING_SUBTITLES');
           try {
             const thaiCues = await this.madladSubtitleService.translateCues(
-              srt.cues,
+              cues,
               async (done, total) => {
                 await this.renderJobsRepository.updateProgress(
                   job.id,
@@ -118,7 +140,7 @@ export class RenderWorkerService {
                 );
               },
             );
-            const bilingualCues = pairSyncedSubtitles(srt.cues, thaiCues);
+            const bilingualCues = pairSyncedSubtitles(cues, thaiCues);
             for (const format of ['srt', 'vtt'] as const) {
               await writeFile(
                 join(outputDirectory, `${filenameStem}.th.${format}`),
