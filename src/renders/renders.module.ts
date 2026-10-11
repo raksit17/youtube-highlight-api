@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SubtitleExportService } from '../clips/subtitle-export.service';
 import { MadladSubtitleService } from './madlad-subtitle.service';
+import { SubtitleSyncService } from './subtitle-sync.service';
 
 import { RenderJobsRepository } from './render-jobs.repository';
 
@@ -20,6 +21,7 @@ import { RendersService } from './renders.service';
     RenderJobsRepository,
     SubtitleExportService,
     MadladSubtitleService,
+    SubtitleSyncService,
   ],
   exports: [
     RendersService,
