@@ -80,14 +80,14 @@ describe('SubtitleExportService', () => {
       { startMs: 0, endMs: 2040, text: 'Go in the distance like Hercules.' },
       { startMs: 5560, endMs: 6760, text: 'A,' },
     ]);
-    expect(srt.content).toContain('00:00:00,000 --> 00:00:02,040\\nGo in the distance like Hercules.');
+    expect(srt.content).toContain('00:00:00,000 --> 00:00:02,040\nGo in the distance like Hercules.');
     expect(srt.content).not.toContain('Thank you, my friend.');
 
     const vtt = await service.exportForRange(
       'video', 5_873_000, 5_890_000, 'test-highlight', 'vtt',
     );
     expect(vtt.cues).toEqual(srt.cues);
-    expect(vtt.content).toContain('00:00:00.000 --> 00:00:02.040\\nGo in the distance like Hercules.');
+    expect(vtt.content).toContain('00:00:00.000 --> 00:00:02.040\nGo in the distance like Hercules.');
   });
 
   it('preserves both phrases when the highlight includes both spoken ranges', async () => {
