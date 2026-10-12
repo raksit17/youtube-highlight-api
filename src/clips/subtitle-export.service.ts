@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { buildClipFilenameStem } from './clip-filename.util';
+import { normalizeRollingCaptions } from './subtitle-rolling.util';
 
 export type SubtitleFormat = 'srt' | 'vtt';
 export type SubtitleCue = { startMs: number; endMs: number; text: string };
@@ -61,7 +62,7 @@ export class SubtitleExportService {
         endMs: { gt: startMs },
       },
       select: {
-        startMs: true, endMs: true, text: true, language: true, source: true,
+        startMs: true, endMs: true, text: true, language: true, source: true, metadata: true,
       },
       orderBy: [{ startMs: 'asc' }, { sequence: 'asc' }],
     });
@@ -85,14 +86,18 @@ export class SubtitleExportService {
 
     // Prevent duplicate subtitles from multiple collectors/sources.
     const selectedSource = selectedRows[0].source ?? 'und';
-    const captions: SubtitleCue[] = selectedRows
-      .filter((row) => (row.source ?? 'und') === selectedSource)
+    // yt-dlp rolling captions can have overlapping *display* time ranges.
+    // Normalize using metadata.words before clipping, so old phrases do not
+    // mask the actual first spoken line of a highlight.
+    const captions: SubtitleCue[] = normalizeRollingCaptions(
+      selectedRows.filter((row) => (row.source ?? 'und') === selectedSource),
+    )
       .map((row) => ({
         startMs: Math.max(0, row.startMs - startMs),
         endMs: Math.min(endMs - startMs, row.endMs - startMs),
-        text: row.text.replace(/\r/g, '').trim(),
+        text: row.text,
       }))
-      .filter((row) => row.text.length > 0 && row.endMs > row.startMs);
+      .filter((row) => row.endMs > row.startMs);
     if (!captions.length) throw new NotFoundException('No usable subtitle text in clip');
 
     const safeLanguage = selectedLanguage.replace(/[^a-z0-9-]/g, '').slice(0, 20) || 'und';
