@@ -11,6 +11,7 @@ import { NormalizersModule } from './normalizers/normalizers.module';
 import { RendersModule } from './renders/renders.module';
 import { TranscriptsModule } from './transcripts/transcripts.module';
 import { VideosModule } from './videos/videos.module';
+import { YoutubeMetadataModule } from './youtube-metadata/youtube-metadata.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { VideosModule } from './videos/videos.module';
     ChatsModule,
     ClipsModule,
     RendersModule,
+    YoutubeMetadataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

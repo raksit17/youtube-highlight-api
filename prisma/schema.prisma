@@ -573,6 +573,7 @@ model ClipDraft {
   candidateSnapshot Json?
 
   renderJobs RenderJob[]
+  youtubeMetadata YoutubeMetadataDraft?
 
   exportedAt DateTime?
 
@@ -621,4 +622,33 @@ model RenderJob {
   @@index([clipId, createdAt])
   @@index([status, createdAt])
   @@map("render_jobs")
+}
+
+
+// Generated titles and descriptions for one Clip Draft. Keep this separate
+// from ClipDraft.title so the editor's original working title is unchanged.
+model YoutubeMetadataDraft {
+  id String @id @default(cuid())
+
+  clipId String @unique
+  clip ClipDraft @relation(fields: [clipId], references: [id], onDelete: Cascade)
+
+  model String
+  tone String @default("balanced")
+  promptVersion String @default("youtube-metadata-v1")
+  sourceHash String
+  sourceStartMs Int
+  sourceEndMs Int
+
+  summary String @db.Text
+  titles Json
+  selectedTitle String @db.VarChar(100)
+  description String @db.Text
+  hashtags String[] @default([])
+  tags String[] @default([])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("youtube_metadata_drafts")
 }
